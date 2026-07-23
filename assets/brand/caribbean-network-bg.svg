@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">Abstract Caribbean technology network</title>
+  <desc id="desc">Subtle island-inspired contour lines and connection points for CaribbeanSaaS background texture.</desc>
+  <defs>
+    <linearGradient id="seaReef" x1="120" x2="1060" y1="80" y2="430" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00C2D7"/>
+      <stop offset="0.58" stop-color="#2ED6A3"/>
+      <stop offset="1" stop-color="#7FE7F2"/>
+    </linearGradient>
+    <filter id="softGlow" x="-20%" y="-40%" width="140%" height="180%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="520" fill="none"/>
+  <g fill="none" stroke="url(#seaReef)" stroke-linecap="round" stroke-linejoin="round" filter="url(#softGlow)">
+    <path d="M105 304c72-42 132-48 196-22 48 20 87 16 132-12 62-38 122-44 185-18 50 21 90 20 136-2 60-29 120-25 183 12 48 28 92 36 158 21" opacity=".26" stroke-width="2.4"/>
+    <path d="M152 347c56-25 105-25 153-4 44 19 84 16 123-9 49-31 104-34 161-6 48 23 92 24 139 3 56-26 112-18 171 22" opacity=".18" stroke-width="1.6"/>
+    <path d="M240 236c38-18 73-18 104 1 28 17 55 16 86-1 41-24 83-21 128 9" opacity=".22" stroke-width="1.5"/>
+    <path d="M682 206c32-16 66-14 102 7 28 17 59 20 93 10 40-12 76-5 108 20" opacity=".24" stroke-width="1.5"/>
+    <path d="M290 282l105-52 128 34 116-58 139 58 123-29 122 51" opacity=".3" stroke-width="1.2"/>
+    <path d="M395 230l83 93 161-117 139 58 80 92" opacity=".2" stroke-width="1"/>
+  </g>
+  <g fill="#0B0F12" stroke="url(#seaReef)" stroke-width="2">
+    <circle cx="290" cy="282" r="7" opacity=".72"/>
+    <circle cx="395" cy="230" r="6" opacity=".62"/>
+    <circle cx="523" cy="264" r="7" opacity=".7"/>
+    <circle cx="639" cy="206" r="6" opacity=".64"/>
+    <circle cx="778" cy="264" r="7" opacity=".72"/>
+    <circle cx="901" cy="235" r="6" opacity=".64"/>
+    <circle cx="1023" cy="286" r="7" opacity=".72"/>
+  </g>
+  <g fill="url(#seaReef)" opacity=".34">
+    <circle cx="186" cy="333" r="2.5"/>
+    <circle cx="348" cy="343" r="2"/>
+    <circle cx="577" cy="328" r="2.5"/>
+    <circle cx="731" cy="331" r="2"/>
+    <circle cx="944" cy="352" r="2.5"/>
+    <circle cx="713" cy="196" r="2"/>
+    <circle cx="835" cy="218" r="2.5"/>
+  </g>
+</svg>

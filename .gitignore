@@ -1,0 +1,27 @@
+.DS_Store
+.playwright-mcp/
+
+# Local secrets and machine-specific connection details
+.env
+.env.*
+!.env.example
+
+# Generated public deployment bundle
+/dist/
+
+# Local operational records and design-review artifacts
+/PROJECT_BRAIN.md
+/DESIGN.md
+/design-qa.md
+/screen.png
+/docs/
+/audits/
+/tmp/
+/stitch_caribbeansaas_software_directory.zip
+/scripts/send_outreach_email.py
+
+# Local Python tooling artifacts
+__pycache__/
+.pytest_cache/
+.coverage
+coverage.xml

@@ -1,0 +1,27 @@
+# CaribbeanSaaS
+
+CaribbeanSaaS is a curated directory for discovering reviewed Caribbean-built software.
+
+Primary topics:
+- Caribbean SaaS products
+- Caribbean software directory
+- Caribbean AI tools
+- Caribbean fintech platforms
+- Caribbean cybersecurity products
+- Caribbean healthcare software
+- Caribbean tourism software
+- Caribbean developer tools
+
+Regional coverage includes Antigua and Barbuda, The Bahamas, Barbados, Belize, Curacao, the Dominican Republic, Grenada, Guyana, Jamaica, Saint Lucia, and Trinidad and Tobago.
+
+The current public pages are the homepage, `/privacy.html`, and `/terms.html`.
+CaribbeanSaaS does not publish generated product, category, or country routes.
+
+Public catalog data is available at `/data/products.json`. The website displays
+only records with `status: published`; the data file can also contain clearly
+labelled public-safe records in other statuses for research and ecosystem
+discovery.
+
+Listings are reviewed before publication. CaribbeanSaaS is not a marketplace, app store, instant listing directory, ranking system, or checkout platform.
+
+Founders and teams can get listed by emailing hello@caribbeansaas.com with the product name, website, country or Caribbean connection, category, and short summary.
