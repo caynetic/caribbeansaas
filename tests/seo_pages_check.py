@@ -15,6 +15,7 @@ GENERATOR = ROOT / "scripts" / "generate_seo_pages.py"
 GENERATED_ROUTE_DIRS = ("category", "products", "software")
 PUBLIC_SITEMAP_URLS = [
     f"{SITE_URL}/",
+    f"{SITE_URL}/curation.html",
     f"{SITE_URL}/privacy.html",
     f"{SITE_URL}/terms.html",
 ]
@@ -68,13 +69,14 @@ def main() -> None:
 
     sitemap_urls = re.findall(r"<loc>([^<]+)</loc>", sitemap_xml)
     if sitemap_urls != PUBLIC_SITEMAP_URLS:
-        raise AssertionError(f"Sitemap should contain the homepage and legal support pages: {sitemap_urls!r}")
+        raise AssertionError(f"Sitemap should contain the homepage and public support pages: {sitemap_urls!r}")
 
     for sitemap_marker in [
         f"<loc>{SITE_URL}/</loc>",
         f"<lastmod>{date.today().isoformat()}</lastmod>",
         "<changefreq>weekly</changefreq>",
         "<priority>1.0</priority>",
+        f"<loc>{SITE_URL}/curation.html</loc>",
         f"<loc>{SITE_URL}/privacy.html</loc>",
         f"<loc>{SITE_URL}/terms.html</loc>",
     ]:

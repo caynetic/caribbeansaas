@@ -16,6 +16,7 @@ ROBOTS = ROOT / "robots.txt"
 SITEMAP = ROOT / "sitemap.xml"
 LLMS = ROOT / "llms.txt"
 NOT_FOUND = ROOT / "404.html"
+CURATION = ROOT / "curation.html"
 PRIVACY = ROOT / "privacy.html"
 TERMS = ROOT / "terms.html"
 PRODUCTS_JSON = ROOT / "data" / "products.json"
@@ -29,7 +30,7 @@ if OLD_ENTRYPOINT.exists():
 if not MANIFEST.exists():
     raise AssertionError("Web app manifest should exist")
 
-for discovery_file in [ROBOTS, SITEMAP, LLMS, NOT_FOUND, PRIVACY, TERMS]:
+for discovery_file in [ROBOTS, SITEMAP, LLMS, NOT_FOUND, CURATION, PRIVACY, TERMS]:
     if not discovery_file.exists():
         raise AssertionError(f"Static discovery file should exist: {discovery_file.name}")
 
@@ -45,6 +46,7 @@ ROBOTS_TEXT = ROBOTS.read_text()
 SITEMAP_TEXT = SITEMAP.read_text()
 LLMS_TEXT = LLMS.read_text()
 NOT_FOUND_TEXT = NOT_FOUND.read_text()
+CURATION_TEXT = CURATION.read_text()
 PRIVACY_TEXT = PRIVACY.read_text()
 TERMS_TEXT = TERMS.read_text()
 PRODUCT_LOGO_URL = "https://cdn.caynetic.app/caribbeansaas/products/logos/cayneticvpn-logo.png"
@@ -392,7 +394,6 @@ def main() -> None:
         'id="directoryControls"',
         'id="productGrid"',
         'id="regionStats"',
-        'id="curation"',
         'id="submit"',
         'aria-label="Footer navigation"',
     ]
@@ -869,13 +870,20 @@ def main() -> None:
     sitemap_urls = re.findall(r"<loc>([^<]+)</loc>", SITEMAP_TEXT)
     expected_sitemap_urls = [
         "https://caribbeansaas.com/",
+        "https://caribbeansaas.com/curation.html",
         "https://caribbeansaas.com/privacy.html",
         "https://caribbeansaas.com/terms.html",
     ]
     if sitemap_urls != expected_sitemap_urls:
-        raise AssertionError(f"Sitemap should include only the homepage and legal support pages: {sitemap_urls!r}")
+        raise AssertionError(f"Sitemap should include only the homepage and public support pages: {sitemap_urls!r}")
 
     for page_name, page_text, canonical, required_markers in [
+        (
+            "curation.html",
+            CURATION_TEXT,
+            "https://caribbeansaas.com/curation.html",
+            ["How we curate", "Built for discovery. Reviewed before display.", "Caribbean connection", "Clear public evidence", "Independent review", "visibility", "listed", "unlisted", "not a rejection", "data/products.json"],
+        ),
         (
             "privacy.html",
             PRIVACY_TEXT,
@@ -893,7 +901,7 @@ def main() -> None:
             raise AssertionError(f"{page_name} is missing its canonical URL")
         for marker in required_markers:
             if marker not in page_text:
-                raise AssertionError(f"{page_name} is missing required legal marker: {marker}")
+                raise AssertionError(f"{page_name} is missing required public-page marker: {marker}")
 
     for country, flag_asset in [
         ("Bahamas", "assets/flags/bs.png"),
@@ -991,7 +999,7 @@ def main() -> None:
         raise AssertionError("Footer should use the ecosystem-focused brand line")
     for href in [
         'href="#directory"',
-        'href="#curation"',
+        'href="curation.html"',
         'href="data/products.json"',
         'href="#submit"',
         'href="privacy.html"',
@@ -1021,6 +1029,7 @@ def main() -> None:
     )
     for page_name, page_text in [
         ("homepage", HTML),
+        ("curation page", CURATION_TEXT),
         ("privacy page", PRIVACY_TEXT),
         ("terms page", TERMS_TEXT),
     ]:
@@ -1036,6 +1045,9 @@ def main() -> None:
     if "A privacy-focused VPN from Caynetic for encrypted internet access and safer browsing." not in product_grid_block:
         raise AssertionError("Product card body copy should keep Caynetic as plain text")
 
+    if 'id="curation"' in HTML or 'aria-labelledby="curationHeading"' in HTML:
+        raise AssertionError("Homepage should link to the standalone curation page instead of embedding the curation section")
+
     for curation_marker in [
         'id="curation"',
         "Built for discovery. Reviewed before display.",
@@ -1044,8 +1056,8 @@ def main() -> None:
         "listed",
         "unlisted",
     ]:
-        if curation_marker not in HTML:
-            raise AssertionError(f"Homepage is missing curation disclosure: {curation_marker}")
+        if curation_marker not in CURATION_TEXT:
+            raise AssertionError(f"Standalone curation page is missing disclosure: {curation_marker}")
 
     for trust_copy in [
         "Curated by",

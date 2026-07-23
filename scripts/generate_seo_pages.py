@@ -15,7 +15,11 @@ INDEX = ROOT / "index.html"
 SITEMAP = ROOT / "sitemap.xml"
 LASTMOD = date.today().isoformat()
 GENERATED_ROUTE_DIRS = ("category", "products", "software")
-PUBLIC_SUPPORT_PAGES = (("privacy.html", "0.3"), ("terms.html", "0.3"))
+PUBLIC_SUPPORT_PAGES = (
+    ("curation.html", "0.6"),
+    ("privacy.html", "0.3"),
+    ("terms.html", "0.3"),
+)
 LEGACY_BLOCKS = (
     ("        <!-- SEO_BROWSE_LINKS_START -->", "        <!-- SEO_BROWSE_LINKS_END -->"),
     ("            <!-- CATEGORY_LINKS_START -->", "            <!-- CATEGORY_LINKS_END -->"),
