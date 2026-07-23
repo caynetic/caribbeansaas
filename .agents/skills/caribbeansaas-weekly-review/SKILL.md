@@ -72,8 +72,13 @@ packet. Do not silently substitute a model or reasoning level.
    `workerContractsValidated: true`, the same run ID, exact worker provenance,
    coverage, resolved sources, aliases, official app-store IDs, and every
    protected run-level side-effect attestation explicitly `false`. Empty
-   successful runs still ingest `candidates: []`. Run any permitted unlisted
-   projection, then generate the final packet.
+   successful runs still ingest `candidates: []`. Every candidate uses the same
+   private `leadKey` as exactly one Auditor result; the ledger reconciles its
+   canonical name and URL, public operator against both identity observations,
+   aliases, official app-store IDs, product kind, tier, full source references,
+   evidence A/B against the Verifier's matching recommended-tier evidence,
+   recommendation, and any worker hold before it can be review-ready. Run any
+   permitted unlisted projection, then generate the final packet.
 7. Validate the ledger and catalog, call `review_ledger.py finish-run --run-id
    <run-id>` to release the lock, then return the packet location and a concise
    list of human decisions. On a handled failure, write a failure/partial

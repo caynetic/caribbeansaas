@@ -10,6 +10,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from urllib.parse import urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -141,6 +142,8 @@ def sample_worker_results(
                     "languageSlices": ["English"],
                     "sectorSlices": ["general"],
                     "candidateIds": [],
+                    "startedAt": "2026-07-23T12:00:00Z",
+                    "finishedAt": "2026-07-23T12:10:00Z",
                 },
                 "sideEffectAttestation": safe_worker_attestation(),
                 "sources": copy.deepcopy(sources) if worker_index == 2 else [],
@@ -158,7 +161,7 @@ def sample_populated_worker_results(
     provenance: dict,
 ) -> list[dict]:
     results = sample_worker_results(run_id, sources, provenance)
-    source_id = sources[0]["sourceId"]
+    source_ids = [source["sourceId"] for source in sources]
     for result in results:
         result["sources"] = copy.deepcopy(sources)
     results[0]["result"] = {
@@ -179,7 +182,7 @@ def sample_populated_worker_results(
                 "leadKey": "example-product",
                 "displayName": "Example Product",
                 "candidateUrls": ["https://new-product.example/"],
-                "sourceIds": [source_id],
+                "sourceIds": source_ids,
                 "territoryHints": ["Bahamas"],
                 "languageHints": ["English"],
                 "productKindHints": ["digital_platform"],
@@ -219,7 +222,7 @@ def sample_populated_worker_results(
                     {
                         "tier": "A",
                         "claim": "The public source connects the product to The Bahamas.",
-                        "sourceIds": [source_id],
+                        "sourceIds": source_ids,
                         "confidence": "high",
                     }
                 ],
@@ -241,7 +244,7 @@ def sample_populated_worker_results(
                         "operator": "Example Product Ltd.",
                         "productPurpose": "Browser-delivered business operations software.",
                         "productKind": "digital_platform",
-                        "sourceIds": [source_id],
+                        "sourceIds": source_ids,
                     },
                     "operations": {
                         "sampledAt": "2026-07-23T12:05:00Z",
@@ -250,14 +253,14 @@ def sample_populated_worker_results(
                         "httpsObserved": True,
                         "certificateObservation": "valid_at_sample",
                         "supportOrContactPath": "",
-                        "sourceIds": [source_id],
+                        "sourceIds": source_ids,
                     },
                     "claimConcordance": [
                         {
                             "claimType": "name",
                             "proposedClaim": "The product is named Example Product.",
                             "supported": True,
-                            "sourceIds": [source_id],
+                            "sourceIds": source_ids,
                             "note": "",
                         }
                     ],
@@ -265,21 +268,21 @@ def sample_populated_worker_results(
                         "privacyPolicy": "present",
                         "terms": "present",
                         "publicContactIdentity": "present",
-                        "sourceIds": [source_id],
+                        "sourceIds": source_ids,
                     },
                     "passivePublicPosture": {
                         "headersObserved": ["Strict-Transport-Security"],
                         "mixedContentObserved": "no",
                         "publicExposureClues": [],
                         "landingPageTrackers": [],
-                        "sourceIds": [source_id],
+                        "sourceIds": source_ids,
                     },
                     "publicUxSmoke": {
                         "desktopRender": "observed",
                         "mobileRender": "observed",
                         "obviousBrokenNavigation": "no",
                         "notes": "Public landing page rendered.",
-                        "sourceIds": [source_id],
+                        "sourceIds": source_ids,
                     },
                 },
                 "findings": [],
@@ -296,6 +299,183 @@ def sample_populated_worker_results(
             "coverageGaps": [],
             "humanDecisionsRequired": ["Decide whether to list the product."],
         },
+    }
+    return results
+
+
+def sample_worker_results_for_candidates(
+    run_id: str,
+    sources: list[dict],
+    provenance: dict,
+    candidates: list[dict],
+) -> list[dict]:
+    results = sample_worker_results(run_id, sources, provenance)
+    for result in results:
+        result["sources"] = copy.deepcopy(sources)
+        result["scope"]["candidateIds"] = [
+            candidate["leadKey"] for candidate in candidates
+        ]
+    valid_product_kinds = {
+        "api_or_developer_tool",
+        "digital_platform",
+        "marketplace",
+        "mobile_app",
+        "open_source_project",
+        "saas",
+        "software_enabled_service",
+        "web_tool",
+    }
+    scout_leads: list[dict] = []
+    verifier_entities: list[dict] = []
+    audits: list[dict] = []
+    ready_keys: list[str] = []
+    hold_keys: list[str] = []
+    for candidate in candidates:
+        lead_key = candidate["leadKey"]
+        website_url = candidate["websiteUrl"]
+        source_ids = list(candidate.get("sourceIds", []))
+        product_kind = candidate.get("productKind")
+        valid_product_kind = product_kind in valid_product_kinds
+        audited_product_kind = (
+            product_kind if valid_product_kind else "digital_platform"
+        )
+        tier = candidate.get("caribbeanEvidenceTier", "unknown")
+        if tier not in {"A", "B", "C", "D", "unknown"}:
+            tier = "unknown"
+        audit_eligible = tier in {"A", "B"}
+        scout_leads.append(
+            {
+                "leadKey": lead_key,
+                "displayName": candidate["name"],
+                "candidateUrls": [website_url],
+                "sourceIds": source_ids,
+                "territoryHints": [candidate.get("country", "Bahamas")],
+                "languageHints": ["English"],
+                "productKindHints": [product_kind] if valid_product_kind else [],
+                "sectorHints": [candidate.get("industry", "business software")],
+                "aliases": list(candidate.get("aliases", [])),
+                "whyItIsALead": "Public sources describe an online software product.",
+                "confidence": "high",
+            }
+        )
+        software_fit = {
+            "classification": "eligible_online_software",
+            "productKind": audited_product_kind,
+            "reason": "Public sources were reviewed for online-software fit.",
+        }
+        verifier_entities.append(
+            {
+                "leadKey": lead_key,
+                "resolution": "new_candidate",
+                "canonical": {
+                    "officialUrl": website_url,
+                    "finalUrl": website_url,
+                    "canonicalHost": urlsplit(website_url).hostname or "invalid.example",
+                    "officialAppStoreIds": list(
+                        candidate.get("officialAppStoreIds", [])
+                    ),
+                    "companyName": candidate.get("companyName", ""),
+                    "productName": candidate["name"],
+                    "aliases": list(candidate.get("aliases", [])),
+                },
+                "duplicateSignals": [],
+                "softwareFit": software_fit,
+                "caribbeanEvidence": (
+                    [
+                        {
+                            "tier": tier,
+                            "claim": "Public sources support the normalized Caribbean connection.",
+                            "sourceIds": source_ids,
+                            "confidence": "high",
+                        }
+                    ]
+                    if source_ids
+                    else []
+                ),
+                "recommendedCaribbeanTier": tier,
+                "auditEligibility": "eligible" if audit_eligible else "hold",
+                "auditTargets": [website_url] if audit_eligible else [],
+                "outstandingQuestions": [],
+            }
+        )
+        if not audit_eligible:
+            continue
+        recommended_outcome = (
+            "ready_for_human_review"
+            if candidate.get("recommendation") == "ready_for_human_review"
+            else "hold"
+        )
+        if recommended_outcome == "ready_for_human_review":
+            ready_keys.append(lead_key)
+        else:
+            hold_keys.append(lead_key)
+        audits.append(
+            {
+                "leadKey": lead_key,
+                "canonicalOfficialUrl": website_url,
+                "auditScope": "public_credential_free_surface_only",
+                "observed": {
+                    "identityAndFit": {
+                        "operator": candidate.get("companyName", ""),
+                        "productPurpose": candidate.get(
+                            "description",
+                            "Publicly described online software.",
+                        ),
+                        "productKind": audited_product_kind,
+                        "sourceIds": source_ids,
+                    },
+                    "operations": {
+                        "sampledAt": "2026-07-23T12:05:00Z",
+                        "rootStatus": "2xx",
+                        "finalUrl": website_url,
+                        "httpsObserved": website_url.startswith("https://"),
+                        "certificateObservation": "valid_at_sample",
+                        "supportOrContactPath": "",
+                        "sourceIds": source_ids,
+                    },
+                    "claimConcordance": [],
+                    "privacyAndTerms": {
+                        "privacyPolicy": "unknown",
+                        "terms": "unknown",
+                        "publicContactIdentity": "unknown",
+                        "sourceIds": source_ids,
+                    },
+                    "passivePublicPosture": {
+                        "headersObserved": [],
+                        "mixedContentObserved": "not_checked",
+                        "publicExposureClues": [],
+                        "landingPageTrackers": [],
+                        "sourceIds": source_ids,
+                    },
+                    "publicUxSmoke": {
+                        "desktopRender": "not_checked",
+                        "mobileRender": "not_checked",
+                        "obviousBrokenNavigation": "unknown",
+                        "notes": "",
+                        "sourceIds": source_ids,
+                    },
+                },
+                "findings": [],
+                "recommendedOutcome": recommended_outcome,
+                "holdCodes": (
+                    [] if recommended_outcome == "ready_for_human_review"
+                    else ["coordinator_hold"]
+                ),
+                "proposedPublicSafeSummary": candidate.get("description", ""),
+                "outstandingQuestions": [],
+                "limitations": ["Public credential-free observation only."],
+            }
+        )
+    results[0]["result"]["leads"] = scout_leads
+    results[1]["result"]["entities"] = verifier_entities
+    results[2]["result"]["audits"] = audits
+    results[2]["result"]["synthesis"] = {
+        "readyForHumanReviewLeadKeys": ready_keys,
+        "holdLeadKeys": hold_keys,
+        "coverageGaps": [],
+        "humanDecisionsRequired": [
+            "Decide which ready candidates should become listed."
+        ] if ready_keys else [],
     }
     return results
 
@@ -339,13 +519,27 @@ def eligible_candidate(name: str = "New Product", website_url: str = "https://ne
                 "sourceId": "official-1",
                 "url": "https://new-product.example/about",
                 "sourceClass": "official_site",
+                "capturedAt": "2026-07-23T12:00:00Z",
+                "access": "public_read_only",
+                "supports": [
+                    "identity",
+                    "operator",
+                    "product_purpose",
+                    "product_kind",
+                    "caribbean_connection",
+                ],
                 "summary": "Official product description.",
+                "confidence": "high",
             },
             {
                 "sourceId": "press-1",
                 "url": "https://regional-news.example/new-product",
                 "sourceClass": "reputable_press",
+                "capturedAt": "2026-07-23T12:00:00Z",
+                "access": "public_read_only",
+                "supports": ["identity", "caribbean_connection"],
                 "summary": "Regional corroboration.",
+                "confidence": "high",
             },
         ],
         "evidence": {
@@ -388,34 +582,45 @@ class ReviewLedgerCheck(unittest.TestCase):
         self.assertEqual(completed.returncode, expected, msg=completed.stderr)
         return json.loads(completed.stdout) if completed.stdout else {}
 
-    def ingest(self, candidates: list[dict], run_id: str = "run-test") -> dict:
-        self.ensure_run(run_id)
-        input_path = self.workspace / "input.json"
+    def build_envelope(
+        self,
+        candidates: list[dict],
+        run_id: str,
+        provenance: dict | None = None,
+    ) -> dict:
         normalised_candidates = []
         sources = []
-        for candidate in candidates:
+        for candidate_index, candidate in enumerate(candidates):
             normalised = copy.deepcopy(candidate)
             candidate_sources = normalised.pop("sources", [])
             if candidate_sources:
                 normalised["sourceIds"] = [source["sourceId"] for source in candidate_sources]
                 sources.extend(candidate_sources)
+            normalised.setdefault("leadKey", f"lead-{candidate_index + 1}")
             normalised_candidates.append(normalised)
-        provenance = sample_provenance()
-        write_json(
-            input_path,
-            {
-                "contractVersion": "1.0",
-                "runId": run_id,
-                "workerContractsValidated": True,
-                "modelProvenance": provenance,
-                "coverage": {"searchedSlices": ["Bahamas|English|fintech"]},
-                "sourceFailures": ["No access to one public directory."],
-                "sideEffectAttestation": safe_attestation(),
-                "sources": sources,
-                "workerResults": sample_worker_results(run_id, sources, provenance),
-                "candidates": normalised_candidates,
-            },
-        )
+        provenance = provenance or sample_provenance()
+        return {
+            "contractVersion": "1.0",
+            "runId": run_id,
+            "workerContractsValidated": True,
+            "modelProvenance": provenance,
+            "coverage": {"searchedSlices": ["Bahamas|English|fintech"]},
+            "sourceFailures": ["No access to one public directory."],
+            "sideEffectAttestation": safe_attestation(),
+            "sources": sources,
+            "workerResults": sample_worker_results_for_candidates(
+                run_id,
+                sources,
+                provenance,
+                normalised_candidates,
+            ),
+            "candidates": normalised_candidates,
+        }
+
+    def ingest(self, candidates: list[dict], run_id: str = "run-test") -> dict:
+        self.ensure_run(run_id)
+        input_path = self.workspace / "input.json"
+        write_json(input_path, self.build_envelope(candidates, run_id))
         return self.run_command("ingest", str(input_path))
 
     def ensure_run(self, run_id: str) -> None:
@@ -565,6 +770,29 @@ class ReviewLedgerCheck(unittest.TestCase):
         self.ingest([candidate], run_id="run-tier-a")
         self.assertEqual(self.candidate_rows()[0]["state"], "ready_for_human_review")
         self.assertEqual(self.run_command("sync-unlisted", "--run-id", "run-tier-a")["added"], 1)
+
+    def test_tier_b_accepts_bound_independent_caribbean_corroboration(self) -> None:
+        candidate = eligible_candidate(
+            "Tier B Product",
+            "https://tier-b-product.example",
+        )
+        candidate["caribbeanEvidenceTier"] = "B"
+        result = self.ingest([candidate], run_id="run-tier-b")
+        self.assertEqual(result["holds"], 0)
+        self.assertEqual(self.candidate_rows()[0]["state"], "ready_for_human_review")
+
+    def test_documented_terra_low_scout_fallback_is_accepted(self) -> None:
+        self.ensure_run("run-terra-fallback")
+        provenance = sample_provenance("gpt-5.6-terra")
+        envelope = self.build_envelope(
+            [eligible_candidate()],
+            "run-terra-fallback",
+            provenance,
+        )
+        input_path = self.workspace / "terra-fallback.json"
+        write_json(input_path, envelope)
+        result = self.run_command("ingest", str(input_path))
+        self.assertEqual(result["inserted"], 1)
 
     def test_sync_is_idempotent_and_preserves_listed_records(self) -> None:
         original_listed = copy.deepcopy(sample_catalog()["products"][0])
@@ -826,6 +1054,16 @@ class ReviewLedgerCheck(unittest.TestCase):
         self.ensure_run("run-nested-contract")
         provenance = sample_provenance()
         sources = eligible_candidate()["sources"]
+        normalized_candidate = eligible_candidate(
+            "Example Product",
+            "https://new-product.example/",
+        )
+        normalized_candidate["companyName"] = "Example Product Ltd."
+        normalized_candidate.pop("sources")
+        normalized_candidate["sourceIds"] = [
+            source["sourceId"] for source in sources
+        ]
+        normalized_candidate["leadKey"] = "example-product"
         base = {
             "contractVersion": "1.0",
             "runId": "run-nested-contract",
@@ -840,11 +1078,11 @@ class ReviewLedgerCheck(unittest.TestCase):
                 sources,
                 provenance,
             ),
-            "candidates": [],
+            "candidates": [normalized_candidate],
         }
         input_path = self.workspace / "nested-contract.json"
         write_json(input_path, base)
-        self.assertEqual(self.run_command("ingest", str(input_path))["inserted"], 0)
+        self.assertEqual(self.run_command("ingest", str(input_path))["inserted"], 1)
 
         mutations = {
             "scout query scalar": lambda payload: payload["workerResults"][0]["result"].update(
@@ -877,6 +1115,62 @@ class ReviewLedgerCheck(unittest.TestCase):
             "auditor malformed synthesis": lambda payload: payload["workerResults"][2]["result"].update(
                 {"synthesis": {"readyForHumanReviewLeadKeys": "example-product"}}
             ),
+            "worker scope missing fields": lambda payload: payload["workerResults"][0].update(
+                {"scope": {}}
+            ),
+            "worker malformed hold": lambda payload: payload["workerResults"][1].update(
+                {"holds": ["not-a-contract-hold"]}
+            ),
+            "worker missing fallback field": lambda payload: payload["workerResults"][2][
+                "worker"
+            ].pop("modelFallback"),
+            "worker unknown outer field": lambda payload: payload["workerResults"][2].update(
+                {"visibility": "listed"}
+            ),
+            "worker incomplete source": lambda payload: payload["workerResults"][0]["sources"][
+                0
+            ].pop("capturedAt"),
+            "complete worker with errors": lambda payload: payload["workerResults"][0].update(
+                {"errors": ["A complete worker cannot retain an unresolved error."]}
+            ),
+            "complete worker with run hold": lambda payload: payload["workerResults"][0].update(
+                {
+                    "holds": [
+                        {
+                            "candidateKey": "run-nested-contract",
+                            "code": "budget_cap",
+                            "severity": "high",
+                            "reason": "The configured run cap was reached.",
+                            "evidenceSourceIds": [],
+                            "safeNextHumanAction": "Review the uncovered slices.",
+                            "terminalForThisRun": True,
+                        }
+                    ]
+                }
+            ),
+            "verifier evidence tier mismatch": lambda payload: payload["workerResults"][1][
+                "result"
+            ]["entities"][0]["caribbeanEvidence"][0].update({"tier": "D"}),
+            "auditor unknown verifier lead": lambda payload: payload["workerResults"][2][
+                "result"
+            ]["audits"][0].update({"leadKey": "unknown-lead"}),
+            "auditor high risk marked ready": lambda payload: payload["workerResults"][2][
+                "result"
+            ]["audits"][0].update(
+                {
+                    "findings": [
+                        {
+                            "code": "public_risk",
+                            "severity": "high",
+                            "statement": "A high public risk requires a human hold.",
+                            "sourceIds": ["official-1"],
+                        }
+                    ]
+                }
+            ),
+            "missing normalized audit candidate": lambda payload: payload.update(
+                {"candidates": []}
+            ),
         }
         for label, mutate in mutations.items():
             with self.subTest(label=label):
@@ -884,7 +1178,175 @@ class ReviewLedgerCheck(unittest.TestCase):
                 mutate(malformed)
                 write_json(input_path, malformed)
                 self.run_command("ingest", str(input_path), expected=2)
+        self.assertEqual(len(self.candidate_rows()), 1)
+
+    def test_unaudited_normalized_candidate_is_rejected_atomically(self) -> None:
+        self.ensure_run("run-candidate-chain")
+        envelope = self.build_envelope(
+            [eligible_candidate()],
+            "run-candidate-chain",
+        )
+        envelope["workerResults"] = sample_worker_results(
+            "run-candidate-chain",
+            envelope["sources"],
+            envelope["modelProvenance"],
+        )
+        input_path = self.workspace / "candidate-chain.json"
+        write_json(input_path, envelope)
+        self.run_command("ingest", str(input_path), expected=2)
         self.assertEqual(self.candidate_rows(), [])
+        with sqlite3.connect(self.private_root / "registry.sqlite3") as connection:
+            stage, validated = connection.execute(
+                """
+                SELECT lifecycle_stage, worker_contracts_validated
+                FROM runs WHERE run_id = 'run-candidate-chain'
+                """
+            ).fetchone()
+        self.assertEqual(stage, "started")
+        self.assertEqual(validated, 0)
+
+    def test_candidate_worker_hold_and_cross_role_conflict_stay_private(self) -> None:
+        self.ensure_run("run-candidate-hold")
+        envelope = self.build_envelope(
+            [eligible_candidate()],
+            "run-candidate-hold",
+        )
+        envelope["workerResults"][2]["holds"] = [
+            {
+                "candidateKey": "lead-1",
+                "code": "public_risk",
+                "severity": "high",
+                "reason": "The public surface requires human review.",
+                "evidenceSourceIds": ["official-1"],
+                "safeNextHumanAction": "Review the cited public observation.",
+                "terminalForThisRun": True,
+            }
+        ]
+        envelope["candidates"][0]["productKind"] = "marketplace"
+        envelope["candidates"][0]["sourceIds"] = ["official-1"]
+        input_path = self.workspace / "candidate-hold.json"
+        write_json(input_path, envelope)
+        result = self.run_command("ingest", str(input_path))
+        self.assertEqual(result["holds"], 1)
+        row = self.candidate_rows()[0]
+        self.assertEqual(row["state"], "hold")
+        reasons = json.loads(row["hold_reasons_json"])
+        self.assertIn(
+            "normalized productKind conflicts with audited software fit",
+            reasons,
+        )
+        self.assertIn(
+            "worker hold requires human review: public_risk",
+            reasons,
+        )
+        self.assertIn(
+            "normalized candidate sources do not exactly match verifier and auditor references",
+            reasons,
+        )
+
+    def test_projected_identity_must_match_verifier_canonical_identity(self) -> None:
+        self.ensure_run("run-identity-reconciliation")
+        envelope = self.build_envelope(
+            [eligible_candidate()],
+            "run-identity-reconciliation",
+        )
+        candidate = envelope["candidates"][0]
+        candidate["companyName"] = "Unrelated Operator Ltd."
+        candidate["aliases"] = ["Unrelated Famous Product"]
+        candidate["officialAppStoreIds"] = ["apple:999999999"]
+        input_path = self.workspace / "identity-reconciliation.json"
+        write_json(input_path, envelope)
+        result = self.run_command("ingest", str(input_path))
+        self.assertEqual(result["holds"], 1)
+        row = self.candidate_rows()[0]
+        self.assertEqual(row["state"], "hold")
+        reasons = json.loads(row["hold_reasons_json"])
+        self.assertIn(
+            "normalized companyName conflicts with verifier identity",
+            reasons,
+        )
+        self.assertIn(
+            "normalized companyName conflicts with auditor identity",
+            reasons,
+        )
+        self.assertIn(
+            "normalized aliases conflict with verifier identity",
+            reasons,
+        )
+        self.assertIn(
+            "normalized officialAppStoreIds conflict with verifier identity",
+            reasons,
+        )
+
+    def test_projected_operator_must_match_auditor_identity(self) -> None:
+        self.ensure_run("run-auditor-operator-reconciliation")
+        envelope = self.build_envelope(
+            [eligible_candidate()],
+            "run-auditor-operator-reconciliation",
+        )
+        envelope["workerResults"][2]["result"]["audits"][0]["observed"][
+            "identityAndFit"
+        ]["operator"] = "Unrelated Audited Operator"
+        input_path = self.workspace / "auditor-operator-reconciliation.json"
+        write_json(input_path, envelope)
+        result = self.run_command("ingest", str(input_path))
+        self.assertEqual(result["holds"], 1)
+        row = self.candidate_rows()[0]
+        self.assertEqual(row["state"], "hold")
+        self.assertIn(
+            "normalized companyName conflicts with auditor identity",
+            json.loads(row["hold_reasons_json"]),
+        )
+
+    def test_candidate_evidence_must_match_verifier_tier_evidence(self) -> None:
+        self.ensure_run("run-tier-evidence-reconciliation")
+        envelope = self.build_envelope(
+            [eligible_candidate()],
+            "run-tier-evidence-reconciliation",
+        )
+        directory_source = {
+            "sourceId": "directory-1",
+            "url": "https://directory.example/new-product",
+            "sourceClass": "directory",
+            "capturedAt": "2026-07-23T12:00:00Z",
+            "access": "public_read_only",
+            "supports": ["identity"],
+            "summary": "A directory entry with no Caribbean-origin support.",
+            "confidence": "medium",
+        }
+        envelope["sources"].append(copy.deepcopy(directory_source))
+        for worker in envelope["workerResults"]:
+            worker["sources"].append(copy.deepcopy(directory_source))
+        envelope["workerResults"][1]["result"]["entities"][0][
+            "caribbeanEvidence"
+        ][0]["sourceIds"] = ["directory-1"]
+        envelope["candidates"][0]["sourceIds"].append("directory-1")
+        input_path = self.workspace / "tier-evidence-reconciliation.json"
+        write_json(input_path, envelope)
+        result = self.run_command("ingest", str(input_path))
+        self.assertEqual(result["holds"], 1)
+        row = self.candidate_rows()[0]
+        self.assertEqual(row["state"], "hold")
+        self.assertIn(
+            "normalized evidence A and B must come from the matching verifier tier evidence",
+            json.loads(row["hold_reasons_json"]),
+        )
+
+    def test_inaccessible_or_unsupported_sources_cannot_satisfy_evidence_gate(self) -> None:
+        candidate = eligible_candidate()
+        candidate["sources"][0]["supports"] = ["identity", "product_kind"]
+        candidate["sources"][1]["access"] = "restricted"
+        result = self.ingest([candidate], run_id="run-source-gate")
+        self.assertEqual(result["holds"], 1)
+        reasons = json.loads(self.candidate_rows()[0]["hold_reasons_json"])
+        self.assertIn(
+            "evidence B URL is not present in the resolved source set",
+            reasons,
+        )
+        self.assertIn(
+            "tier A evidence A must directly support the Caribbean connection",
+            reasons,
+        )
 
     def test_partial_worker_run_is_private_only(self) -> None:
         self.ensure_run("run-partial-worker")
@@ -894,6 +1356,7 @@ class ReviewLedgerCheck(unittest.TestCase):
         )
         sources = candidate.pop("sources")
         candidate["sourceIds"] = [source["sourceId"] for source in sources]
+        candidate["leadKey"] = "partial-worker-product"
         provenance = sample_provenance()
         provenance["workers"][2]["status"] = "partial"
         input_path = self.workspace / "partial-worker.json"
@@ -908,10 +1371,11 @@ class ReviewLedgerCheck(unittest.TestCase):
                 "sourceFailures": ["Auditor reached the configured source cap."],
                 "sideEffectAttestation": safe_attestation(),
                 "sources": sources,
-                "workerResults": sample_worker_results(
+                "workerResults": sample_worker_results_for_candidates(
                     "run-partial-worker",
                     sources,
                     provenance,
+                    [candidate],
                 ),
                 "candidates": [candidate],
             },

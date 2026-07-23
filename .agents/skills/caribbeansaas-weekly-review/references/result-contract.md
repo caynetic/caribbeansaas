@@ -167,6 +167,11 @@ no prose outside it. Use ISO 8601 UTC timestamps, public-source URLs only, and
 evidence-bounded wording. Omit unknown values instead of inventing them. Every
 worker sets every side-effect attestation value to `false`.
 
+The v1 object shapes below are exact: unknown or missing keys are invalid. A
+worker with non-empty `errors`, or a blocking run-level hold keyed to the run
+ID, must use `status: "partial"` or `status: "stopped"` rather than
+`"complete"`.
+
 ### Common envelope
 
 ```json
@@ -418,7 +423,9 @@ only write-shaped input the scheduled workflow sends to the ledger:
         "territorySlices": ["Bahamas"],
         "languageSlices": ["English"],
         "sectorSlices": ["business software"],
-        "candidateIds": []
+        "candidateIds": [],
+        "startedAt": "2026-07-23T00:00:00Z",
+        "finishedAt": "2026-07-23T00:10:00Z"
       },
       "sideEffectAttestation": {
         "localWrites": false,
@@ -461,15 +468,22 @@ only write-shaped input the scheduled workflow sends to the ledger:
     "url": "https://official.example/about",
     "sourceClass": "official_site",
     "capturedAt": "2026-07-23T00:00:00Z",
-    "summary": "Official product and Caribbean-origin support."
+    "access": "public_read_only",
+    "supports": ["identity", "operator", "product_purpose", "product_kind", "caribbean_connection"],
+    "summary": "Official product and Caribbean-origin support.",
+    "confidence": "high"
   }, {
     "sourceId": "src-002",
     "url": "https://independent.example/profile",
     "sourceClass": "reputable_press",
     "capturedAt": "2026-07-23T00:00:00Z",
-    "summary": "Independent identity and origin corroboration."
+    "access": "public_read_only",
+    "supports": ["identity", "caribbean_connection"],
+    "summary": "Independent identity and origin corroboration.",
+    "confidence": "high"
   }],
   "candidates": [{
+    "leadKey": "normalized-temporary-key",
     "name": "Required public product name",
     "websiteUrl": "https://official.example",
     "companyName": "Public operator",
@@ -505,7 +519,18 @@ only write-shaped input the scheduled workflow sends to the ledger:
 
 The abbreviated `workerResults` example above shows the scout envelope shape;
 the actual array must contain exactly one scout, verifier, and auditor envelope
-using the full role payloads defined earlier. The ledger rejects a
+using the full role payloads defined earlier. Every normalized candidate
+requires the same private `leadKey` as exactly one Auditor result; identity,
+canonical URL, product kind, evidence tier, source references, and
+recommendation are reconciled to the Verifier and Auditor. A mismatch becomes
+a private hold, while an unaudited candidate rejects the ingest. Identity
+reconciliation includes the public operator, normalized aliases, and official
+app-store IDs; the public operator must agree with both the Verifier and
+Auditor identity observations. Evidence A and B must resolve to top-level sources cited by the
+Verifier's matching recommended-tier evidence entry; the complete candidate
+source-ID set must also exactly reconcile to all Verifier and Auditor
+references. The
+`leadKey` never enters the public catalog. The ledger rejects a
 missing/unknown contract version, `workerContractsValidated` other than
 explicit `true`, missing or mismatched worker role/agent/model/effort/status
 provenance, malformed role payloads, candidate-local source objects, worker or
@@ -520,10 +545,13 @@ industry, Caribbean-connection wording, and one of the eight allowed
 `productKind` values. The ledger permits a record to become
 `ready_for_human_review` only when `recommendation` equals
 `ready_for_human_review`, `confidence` is at least `0.8`, Caribbean evidence is
-Tier A or B, and evidence A and B have distinct valid public URLs. Tier A
-requires an official source plus a second distinct public source. Tier B
-requires an official source plus reliable independent corroboration. Otherwise
-ingest it as a private hold. The ledger sanitizes the allowed public fields and,
+Tier A or B, and evidence A and B have distinct valid public URLs. Qualifying
+sources must be public-read-only, medium/high confidence, and explicitly state
+which claims they support. Tier A binds evidence A to an official source that
+supports the Caribbean connection and requires a second distinct supporting
+source. Tier B binds evidence A to the official source and evidence B to
+reliable independent corroboration that supports the Caribbean connection.
+Otherwise ingest it as a private hold. The ledger sanitizes the allowed public fields and,
 during the scheduled sync, appends only `visibility: "unlisted"`; it never
 projects `privateReview`, evidence, confidence, contacts, or audit data. Never
 place a secret, cookie, browser state, form input, or unnecessary PII in either

@@ -64,6 +64,7 @@ PRIVATE_FIELD_NAMES = {
     "internalnotes",
     "internalreason",
     "internalreview",
+    "leadkey",
     "limitations",
     "modelprovenance",
     "phone",
@@ -518,6 +519,7 @@ def compact_private_payload(
         "evidence",
     )
     compact = {
+        "leadKey": optional_text(payload, "leadKey"),
         "privateReview": sanitized_review if isinstance(sanitized_review, (dict, list)) else {},
         "evidence": sanitized_evidence,
         "aliases": candidate_aliases(payload, text(payload.get("name"))),
@@ -656,6 +658,12 @@ def gate_reasons(
     sources: list[dict[str, str]],
 ) -> list[str]:
     reasons: list[str] = []
+    usable_sources = [
+        source
+        for source in sources
+        if source.get("access") == "public_read_only"
+        and source.get("confidence") in {"high", "medium"}
+    ]
     if recommendation != "ready_for_human_review":
         reasons.append("recommendation is not ready_for_human_review")
     if confidence is None or confidence < 0.8:
@@ -666,27 +674,95 @@ def gate_reasons(
         reasons.append("evidence B is missing a valid URL")
     if evidence_a and evidence_b and evidence_a["url"] == evidence_b["url"]:
         reasons.append("evidence A and B must use distinct URLs")
-    source_urls = {source.get("url") for source in sources if source.get("url")}
+    source_urls = {
+        source.get("url")
+        for source in usable_sources
+        if source.get("url")
+    }
+    usable_by_url = {
+        str(source["url"]): source
+        for source in usable_sources
+        if source.get("url")
+    }
+    evidence_a_source = (
+        usable_by_url.get(evidence_a["url"])
+        if evidence_a
+        else None
+    )
+    evidence_b_source = (
+        usable_by_url.get(evidence_b["url"])
+        if evidence_b
+        else None
+    )
     if evidence_a and evidence_a["url"] not in source_urls:
         reasons.append("evidence A URL is not present in the resolved source set")
     if evidence_b and evidence_b["url"] not in source_urls:
         reasons.append("evidence B URL is not present in the resolved source set")
+    if (
+        evidence_a_source
+        and evidence_a_source.get("sourceClass") not in OFFICIAL_SOURCE_CLASSES
+    ):
+        reasons.append("evidence A must be an official public source")
     if caribbean_evidence_tier not in {"A", "B"}:
         reasons.append("Caribbean evidence tier must be A or B")
-    official_sources = [source for source in sources if source.get("sourceClass") in OFFICIAL_SOURCE_CLASSES]
-    distinct_sources = {source.get("url") for source in sources if source.get("url")}
+    official_sources = [
+        source
+        for source in usable_sources
+        if source.get("sourceClass") in OFFICIAL_SOURCE_CLASSES
+    ]
+    official_caribbean_sources = [
+        source
+        for source in official_sources
+        if "caribbean_connection" in source.get("supports", [])
+    ]
+    distinct_sources = {
+        source.get("url")
+        for source in usable_sources
+        if source.get("url")
+    }
     corroborating_sources = [
         source
-        for source in sources
+        for source in usable_sources
         if source.get("sourceClass") in CORROBORATING_SOURCE_CLASSES
+        and "caribbean_connection" in source.get("supports", [])
         and all(source["url"] != official["url"] for official in official_sources)
     ]
     if not official_sources:
         reasons.append("an official source is required")
     if caribbean_evidence_tier == "A" and len(distinct_sources) < 2:
         reasons.append("tier A requires a second distinct public source")
+    if caribbean_evidence_tier == "A" and not official_caribbean_sources:
+        reasons.append(
+            "tier A requires an official source that supports the Caribbean connection"
+        )
+    if caribbean_evidence_tier == "A" and (
+        not evidence_a_source
+        or "caribbean_connection" not in evidence_a_source.get("supports", [])
+    ):
+        reasons.append(
+            "tier A evidence A must directly support the Caribbean connection"
+        )
+    if caribbean_evidence_tier == "A" and (
+        not evidence_b_source
+        or not {
+            "identity",
+            "operator",
+            "caribbean_connection",
+        }.intersection(evidence_b_source.get("supports", []))
+    ):
+        reasons.append(
+            "tier A evidence B must provide distinct identity or Caribbean support"
+        )
     if caribbean_evidence_tier == "B" and not corroborating_sources:
         reasons.append("an independent corroborating source is required")
+    if caribbean_evidence_tier == "B" and (
+        not evidence_b_source
+        or evidence_b_source.get("sourceClass") not in CORROBORATING_SOURCE_CLASSES
+        or "caribbean_connection" not in evidence_b_source.get("supports", [])
+    ):
+        reasons.append(
+            "tier B evidence B must be independent corroboration of the Caribbean connection"
+        )
     return reasons
 
 
@@ -856,9 +932,9 @@ def ensure_private_storage(root: Path, catalog: Path, allow_dirty_catalog: bool)
         raise LedgerError("Private review storage is not Git-ignored; refusing to create local review records.")
 
 
-def normalise_sources(raw_sources: Any, source_index: dict[str, dict[str, Any]]) -> list[dict[str, str]]:
+def normalise_sources(raw_sources: Any, source_index: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
     values = raw_sources if isinstance(raw_sources, list) else []
-    sources: list[dict[str, str]] = []
+    sources: list[dict[str, Any]] = []
     seen_urls: set[str] = set()
     for value in values:
         if isinstance(value, str):
@@ -890,7 +966,7 @@ def normalise_sources(raw_sources: Any, source_index: dict[str, dict[str, Any]])
             raise LedgerError(
                 f"Referenced source {source_id!r} has unsupported sourceClass {source_class!r}."
             )
-        compact: dict[str, str] = {
+        compact: dict[str, Any] = {
             "url": source_url,
             "sourceClass": source_class,
             "sourceId": source_id,
@@ -906,6 +982,15 @@ def normalise_sources(raw_sources: Any, source_index: dict[str, dict[str, Any]])
                     if output_key == "summary"
                     else source_text
                 )
+        access = optional_text(source, "access")
+        confidence = optional_text(source, "confidence")
+        supports = source.get("supports")
+        if access:
+            compact["access"] = access
+        if confidence:
+            compact["confidence"] = confidence
+        if isinstance(supports, list):
+            compact["supports"] = list(supports)
         sources.append(compact)
     return sources
 
@@ -1058,6 +1143,130 @@ def require_utc_timestamp(value: Any, path: str) -> str:
     return value_text
 
 
+def validate_worker_scope(value: Any, path: str) -> None:
+    scope = require_exact_keys(
+        value,
+        path,
+        {
+            "territorySlices",
+            "languageSlices",
+            "sectorSlices",
+            "candidateIds",
+            "startedAt",
+            "finishedAt",
+        },
+    )
+    for field in (
+        "territorySlices",
+        "languageSlices",
+        "sectorSlices",
+        "candidateIds",
+    ):
+        require_text_list(scope[field], f"{path}.{field}")
+    started_at = require_utc_timestamp(scope["startedAt"], f"{path}.startedAt")
+    finished_at = require_utc_timestamp(scope["finishedAt"], f"{path}.finishedAt")
+    if datetime.fromisoformat(finished_at.replace("Z", "+00:00")) < datetime.fromisoformat(
+        started_at.replace("Z", "+00:00")
+    ):
+        raise LedgerError(f"{path}.finishedAt cannot precede startedAt.")
+
+
+def validate_worker_source(value: Any, path: str) -> None:
+    source = require_exact_keys(
+        value,
+        path,
+        {
+            "sourceId",
+            "url",
+            "sourceClass",
+            "capturedAt",
+            "access",
+            "supports",
+            "summary",
+            "confidence",
+        },
+    )
+    require_text(source["sourceId"], f"{path}.sourceId")
+    require_url(source["url"], f"{path}.url")
+    require_enum(source["sourceClass"], f"{path}.sourceClass", SOURCE_CLASSES)
+    require_utc_timestamp(source["capturedAt"], f"{path}.capturedAt")
+    require_enum(
+        source["access"],
+        f"{path}.access",
+        {"public_read_only", "unavailable", "access_blocked", "restricted"},
+    )
+    require_text_list(
+        source["supports"],
+        f"{path}.supports",
+        allowed={
+            "identity",
+            "operator",
+            "product_purpose",
+            "product_kind",
+            "caribbean_connection",
+            "privacy_policy",
+            "terms",
+            "availability",
+            "security_observation",
+            "ux_observation",
+        },
+    )
+    require_text(source["summary"], f"{path}.summary")
+    require_enum(
+        source["confidence"],
+        f"{path}.confidence",
+        {"low", "medium", "high"},
+    )
+
+
+def validate_worker_hold(value: Any, path: str) -> None:
+    hold = require_exact_keys(
+        value,
+        path,
+        {
+            "candidateKey",
+            "code",
+            "severity",
+            "reason",
+            "evidenceSourceIds",
+            "safeNextHumanAction",
+            "terminalForThisRun",
+        },
+    )
+    require_text(hold["candidateKey"], f"{path}.candidateKey")
+    require_enum(
+        hold["code"],
+        f"{path}.code",
+        {
+            "duplicate_known",
+            "possible_duplicate",
+            "not_eligible",
+            "official_source_unavailable",
+            "access_blocked",
+            "identity_conflict",
+            "caribbean_evidence_insufficient",
+            "public_risk",
+            "restricted_interaction_required",
+            "sensitive_domain_review",
+            "storage_safety_failure",
+            "catalog_dirty_at_start",
+            "run_locked",
+            "budget_cap",
+            "rate_limited",
+            "other",
+        },
+    )
+    require_enum(hold["severity"], f"{path}.severity", {"info", "caution", "high"})
+    require_text(hold["reason"], f"{path}.reason")
+    require_text_list(hold["evidenceSourceIds"], f"{path}.evidenceSourceIds")
+    require_text(
+        hold["safeNextHumanAction"],
+        f"{path}.safeNextHumanAction",
+        allow_empty=True,
+    )
+    require_bool(hold["terminalForThisRun"], f"{path}.terminalForThisRun")
+
+
 def validate_scout_result(value: Any, path: str) -> None:
     result = require_exact_keys(value, path, {"queries", "leads", "coverage"})
     queries = result["queries"]
@@ -1203,9 +1412,25 @@ def validate_verifier_result(value: Any, path: str) -> None:
                 "aliases",
             },
         )
-        require_url(canonical["officialUrl"], f"{canonical_path}.officialUrl")
-        require_url(canonical["finalUrl"], f"{canonical_path}.finalUrl")
-        require_text(canonical["canonicalHost"], f"{canonical_path}.canonicalHost")
+        official_url = require_url(
+            canonical["officialUrl"],
+            f"{canonical_path}.officialUrl",
+        )
+        final_url = require_url(
+            canonical["finalUrl"],
+            f"{canonical_path}.finalUrl",
+        )
+        canonical_host = require_text(
+            canonical["canonicalHost"],
+            f"{canonical_path}.canonicalHost",
+        ).casefold().removeprefix("www.").rstrip(".")
+        if canonical_host not in {
+            canonical_domain(official_url),
+            canonical_domain(final_url),
+        }:
+            raise LedgerError(
+                f"{canonical_path}.canonicalHost conflicts with the canonical URLs."
+            )
         app_store_ids = require_text_list(
             canonical["officialAppStoreIds"],
             f"{canonical_path}.officialAppStoreIds",
@@ -1287,7 +1512,11 @@ def validate_verifier_result(value: Any, path: str) -> None:
                 {"A", "B", "C", "D", "unknown"},
             )
             require_text(evidence["claim"], f"{evidence_path}.claim")
-            require_text_list(evidence["sourceIds"], f"{evidence_path}.sourceIds")
+            require_text_list(
+                evidence["sourceIds"],
+                f"{evidence_path}.sourceIds",
+                min_items=1,
+            )
             require_enum(
                 evidence["confidence"],
                 f"{evidence_path}.confidence",
@@ -1317,6 +1546,32 @@ def validate_verifier_result(value: Any, path: str) -> None:
             raise LedgerError(
                 f"{entity_path}.auditEligibility may be eligible only for a new, "
                 "eligible online-software candidate."
+            )
+        if audit_eligibility == "eligible" and (
+            recommended_tier not in {"A", "B"}
+            or not caribbean_evidence
+            or not any(
+                evidence.get("tier") == recommended_tier
+                for evidence in caribbean_evidence
+                if isinstance(evidence, dict)
+            )
+            or not entity["auditTargets"]
+        ):
+            raise LedgerError(
+                f"{entity_path}.auditEligibility requires matching Tier A/B evidence "
+                "and at least one public audit target."
+            )
+        if (
+            recommended_tier != "unknown"
+            and caribbean_evidence
+            and not any(
+                evidence.get("tier") == recommended_tier
+                for evidence in caribbean_evidence
+                if isinstance(evidence, dict)
+            )
+        ):
+            raise LedgerError(
+                f"{entity_path}.recommendedCaribbeanTier is not supported by its evidence."
             )
         if recommended_tier in {"C", "D", "unknown"} and audit_eligibility != "hold":
             raise LedgerError(
@@ -1505,6 +1760,7 @@ def validate_auditor_result(value: Any, path: str) -> None:
         findings = audit["findings"]
         if not isinstance(findings, list):
             raise LedgerError(f"{audit_path}.findings must be an array.")
+        finding_requires_hold = False
         for finding_index, raw_finding in enumerate(findings):
             finding_path = f"{audit_path}.findings[{finding_index}]"
             finding = require_exact_keys(
@@ -1512,7 +1768,7 @@ def validate_auditor_result(value: Any, path: str) -> None:
                 finding_path,
                 {"code", "severity", "statement", "sourceIds"},
             )
-            require_enum(
+            finding_code = require_enum(
                 finding["code"],
                 f"{finding_path}.code",
                 {
@@ -1524,20 +1780,41 @@ def validate_auditor_result(value: Any, path: str) -> None:
                     "other",
                 },
             )
-            require_enum(
+            finding_severity = require_enum(
                 finding["severity"],
                 f"{finding_path}.severity",
                 {"info", "caution", "high"},
             )
             require_text(finding["statement"], f"{finding_path}.statement")
-            require_text_list(finding["sourceIds"], f"{finding_path}.sourceIds")
+            require_text_list(
+                finding["sourceIds"],
+                f"{finding_path}.sourceIds",
+                min_items=1,
+            )
+            if finding_severity == "high" or finding_code in {
+                "public_risk",
+                "sensitive_domain",
+            }:
+                finding_requires_hold = True
 
-        require_enum(
+        recommended_outcome = require_enum(
             audit["recommendedOutcome"],
             f"{audit_path}.recommendedOutcome",
             {"ready_for_human_review", "hold"},
         )
-        require_text_list(audit["holdCodes"], f"{audit_path}.holdCodes")
+        hold_codes = require_text_list(audit["holdCodes"], f"{audit_path}.holdCodes")
+        if finding_requires_hold and recommended_outcome != "hold":
+            raise LedgerError(
+                f"{audit_path}.recommendedOutcome must be hold for high-risk findings."
+            )
+        if recommended_outcome == "hold" and not hold_codes:
+            raise LedgerError(
+                f"{audit_path}.holdCodes must explain a held audit."
+            )
+        if recommended_outcome == "ready_for_human_review" and hold_codes:
+            raise LedgerError(
+                f"{audit_path}.holdCodes must be empty for a ready audit."
+            )
         require_text(
             audit["proposedPublicSafeSummary"],
             f"{audit_path}.proposedPublicSafeSummary",
@@ -1547,7 +1824,11 @@ def validate_auditor_result(value: Any, path: str) -> None:
             audit["outstandingQuestions"],
             f"{audit_path}.outstandingQuestions",
         )
-        require_text_list(audit["limitations"], f"{audit_path}.limitations")
+        require_text_list(
+            audit["limitations"],
+            f"{audit_path}.limitations",
+            min_items=1,
+        )
 
     synthesis_path = f"{path}.synthesis"
     synthesis = require_exact_keys(
@@ -1580,12 +1861,295 @@ def validate_worker_role_result(role: str, value: Any, path: str) -> None:
         raise LedgerError(f"{path} has unsupported worker role {role!r}.")
 
 
+def keyed_worker_items(
+    items: list[dict[str, Any]],
+    path: str,
+) -> dict[str, dict[str, Any]]:
+    keyed: dict[str, dict[str, Any]] = {}
+    for index, item in enumerate(items):
+        lead_key = require_text(item.get("leadKey"), f"{path}[{index}].leadKey")
+        if lead_key in keyed:
+            raise LedgerError(f"{path} contains duplicate leadKey {lead_key!r}.")
+        keyed[lead_key] = item
+    return keyed
+
+
+def validate_worker_cross_role(
+    envelopes: dict[str, dict[str, Any]],
+) -> None:
+    scout = envelopes["scout"]
+    verifier = envelopes["verifier"]
+    auditor = envelopes["auditor"]
+    scout_leads = keyed_worker_items(
+        scout["result"]["leads"],
+        "workerResults[scout].result.leads",
+    )
+    verifier_entities = keyed_worker_items(
+        verifier["result"]["entities"],
+        "workerResults[verifier].result.entities",
+    )
+    unknown_verifier_leads = sorted(set(verifier_entities) - set(scout_leads))
+    if unknown_verifier_leads:
+        raise LedgerError(
+            "Verifier entities were not returned by the scout: "
+            + ", ".join(unknown_verifier_leads)
+        )
+    if verifier["status"] == "complete" and set(verifier_entities) != set(scout_leads):
+        missing = sorted(set(scout_leads) - set(verifier_entities))
+        raise LedgerError(
+            "A complete verifier result must resolve every scout lead"
+            + (": " + ", ".join(missing) if missing else ".")
+        )
+
+    eligible_entities = {
+        lead_key: entity
+        for lead_key, entity in verifier_entities.items()
+        if entity["auditEligibility"] == "eligible"
+    }
+    audits = keyed_worker_items(
+        auditor["result"]["audits"],
+        "workerResults[auditor].result.audits",
+    )
+    unknown_audits = sorted(set(audits) - set(eligible_entities))
+    if unknown_audits:
+        raise LedgerError(
+            "Auditor results were not approved as eligible by the verifier: "
+            + ", ".join(unknown_audits)
+        )
+    if auditor["status"] == "complete" and set(audits) != set(eligible_entities):
+        missing = sorted(set(eligible_entities) - set(audits))
+        raise LedgerError(
+            "A complete auditor result must cover every verifier-eligible lead"
+            + (": " + ", ".join(missing) if missing else ".")
+        )
+
+    for lead_key, audit in audits.items():
+        entity = eligible_entities[lead_key]
+        canonical = entity["canonical"]
+        audit_domain = canonical_domain(audit["canonicalOfficialUrl"])
+        verifier_domain = canonical_domain(canonical["officialUrl"])
+        if audit_domain != verifier_domain:
+            raise LedgerError(
+                f"Auditor lead {lead_key!r} does not use the verifier's canonical identity."
+            )
+        target_domains = {
+            canonical_domain(target)
+            for target in entity["auditTargets"]
+        }
+        if audit_domain not in target_domains:
+            raise LedgerError(
+                f"Auditor lead {lead_key!r} is outside the verifier-approved audit targets."
+            )
+        verifier_product_kind = entity["softwareFit"].get("productKind")
+        auditor_product_kind = audit["observed"]["identityAndFit"]["productKind"]
+        if verifier_product_kind != auditor_product_kind:
+            raise LedgerError(
+                f"Auditor lead {lead_key!r} conflicts with the verifier product kind."
+            )
+
+    synthesis = auditor["result"]["synthesis"]
+    ready_keys_list = synthesis["readyForHumanReviewLeadKeys"]
+    hold_keys_list = synthesis["holdLeadKeys"]
+    if len(ready_keys_list) != len(set(ready_keys_list)):
+        raise LedgerError("Auditor synthesis contains duplicate ready lead keys.")
+    if len(hold_keys_list) != len(set(hold_keys_list)):
+        raise LedgerError("Auditor synthesis contains duplicate hold lead keys.")
+    ready_keys = set(ready_keys_list)
+    hold_keys = set(hold_keys_list)
+    if ready_keys & hold_keys:
+        raise LedgerError("Auditor synthesis cannot mark the same lead ready and held.")
+    observed_ready = {
+        lead_key
+        for lead_key, audit in audits.items()
+        if audit["recommendedOutcome"] == "ready_for_human_review"
+    }
+    observed_holds = {
+        lead_key
+        for lead_key, audit in audits.items()
+        if audit["recommendedOutcome"] == "hold"
+    }
+    if ready_keys != observed_ready or hold_keys != observed_holds:
+        raise LedgerError(
+            "Auditor synthesis does not exactly match the validated audit outcomes."
+        )
+
+
+def validate_normalized_candidate_links(
+    raw_candidates: list[Any],
+    envelopes: dict[str, dict[str, Any]],
+    source_index: dict[str, dict[str, Any]],
+) -> dict[str, list[str]]:
+    verifier_entities = keyed_worker_items(
+        envelopes["verifier"]["result"]["entities"],
+        "workerResults[verifier].result.entities",
+    )
+    audits = keyed_worker_items(
+        envelopes["auditor"]["result"]["audits"],
+        "workerResults[auditor].result.audits",
+    )
+    candidates_by_lead: dict[str, dict[str, Any]] = {}
+    for index, raw_candidate in enumerate(raw_candidates):
+        if not isinstance(raw_candidate, dict):
+            raise LedgerError("Each ingest candidate must be a JSON object.")
+        lead_key = require_text(
+            raw_candidate.get("leadKey"),
+            f"candidates[{index}].leadKey",
+        )
+        if lead_key in candidates_by_lead:
+            raise LedgerError(
+                f"Normalized candidates contain duplicate leadKey {lead_key!r}."
+            )
+        candidates_by_lead[lead_key] = raw_candidate
+    if set(candidates_by_lead) != set(audits):
+        missing_candidates = sorted(set(audits) - set(candidates_by_lead))
+        unaudited_candidates = sorted(set(candidates_by_lead) - set(audits))
+        details: list[str] = []
+        if missing_candidates:
+            details.append("missing normalized candidates: " + ", ".join(missing_candidates))
+        if unaudited_candidates:
+            details.append("candidates without auditor results: " + ", ".join(unaudited_candidates))
+        raise LedgerError(
+            "Normalized candidates must map one-to-one to auditor results ("
+            + "; ".join(details)
+            + ")."
+        )
+
+    worker_holds: dict[str, list[dict[str, Any]]] = {}
+    for envelope in envelopes.values():
+        for hold in envelope["holds"]:
+            worker_holds.setdefault(str(hold["candidateKey"]), []).append(hold)
+
+    hold_reasons: dict[str, list[str]] = {}
+    for lead_key, candidate in candidates_by_lead.items():
+        entity = verifier_entities[lead_key]
+        audit = audits[lead_key]
+        reasons: list[str] = []
+        candidate_name = text(candidate.get("name"))
+        candidate_url = text(candidate.get("websiteUrl") or candidate.get("website_url"))
+        if not candidate_name or not candidate_url:
+            continue
+        canonical = entity["canonical"]
+        known_names = {
+            normalize_name(canonical["productName"]),
+            *{
+                normalize_name(alias)
+                for alias in canonical["aliases"]
+                if normalize_name(alias)
+            },
+        }
+        if normalize_name(candidate_name) not in known_names:
+            reasons.append("normalized name conflicts with verifier identity")
+        candidate_company = optional_text(
+            candidate,
+            "companyName",
+            "company_name",
+        ) or ""
+        if normalize_name(candidate_company) != normalize_name(canonical["companyName"]):
+            reasons.append("normalized companyName conflicts with verifier identity")
+        audited_operator = audit["observed"]["identityAndFit"]["operator"]
+        if normalize_name(candidate_company) != normalize_name(audited_operator):
+            reasons.append("normalized companyName conflicts with auditor identity")
+        candidate_alias_keys = {
+            normalize_name(alias)
+            for alias in candidate_aliases(candidate, candidate_name)
+            if normalize_name(alias)
+        }
+        canonical_alias_keys = {
+            normalize_name(alias)
+            for alias in canonical["aliases"]
+            if normalize_name(alias)
+        }
+        if candidate_alias_keys != canonical_alias_keys:
+            reasons.append("normalized aliases conflict with verifier identity")
+        candidate_app_ids = set(candidate_app_store_ids(candidate))
+        canonical_app_ids = {
+            normalized_id
+            for value in canonical["officialAppStoreIds"]
+            if (normalized_id := normalize_app_store_id(value))
+        }
+        if candidate_app_ids != canonical_app_ids:
+            reasons.append(
+                "normalized officialAppStoreIds conflict with verifier identity"
+            )
+        try:
+            if canonical_domain(candidate_url) != canonical_domain(audit["canonicalOfficialUrl"]):
+                reasons.append("normalized website conflicts with audited canonical identity")
+        except LedgerError:
+            reasons.append("normalized website is not a valid audited identity")
+        candidate_product_kind = text(
+            candidate.get("productKind") or candidate.get("product_kind")
+        )
+        audited_product_kind = audit["observed"]["identityAndFit"]["productKind"]
+        if candidate_product_kind != audited_product_kind:
+            reasons.append("normalized productKind conflicts with audited software fit")
+        normalized_tier = candidate_tier(candidate)
+        if normalized_tier != entity["recommendedCaribbeanTier"]:
+            reasons.append("normalized Caribbean tier conflicts with verifier evidence")
+        candidate_source_ids = {
+            source_id
+            for source_id in candidate.get("sourceIds", [])
+            if isinstance(source_id, str) and source_id
+        } if isinstance(candidate.get("sourceIds"), list) else set()
+        required_source_ids = collect_source_references(
+            {
+                "entity": entity,
+                "audit": audit,
+            },
+            f"candidates[{lead_key}]",
+        )
+        if required_source_ids != candidate_source_ids:
+            reasons.append(
+                "normalized candidate sources do not exactly match verifier and auditor references"
+            )
+        matching_tier_source_ids = {
+            source_id
+            for evidence in entity["caribbeanEvidence"]
+            if evidence["tier"] == entity["recommendedCaribbeanTier"]
+            for source_id in evidence["sourceIds"]
+        }
+        matching_tier_source_urls = {
+            canonicalize_url(source_index[source_id]["url"])
+            for source_id in matching_tier_source_ids
+        }
+        evidence_a, evidence_b = extract_evidence(candidate)
+        candidate_evidence_urls = {
+            evidence["url"]
+            for evidence in (evidence_a, evidence_b)
+            if evidence
+        }
+        if (
+            evidence_a is None
+            or evidence_b is None
+            or not candidate_evidence_urls.issubset(matching_tier_source_urls)
+        ):
+            reasons.append(
+                "normalized evidence A and B must come from the matching verifier tier evidence"
+            )
+        recommendation = (
+            optional_text(
+                candidate,
+                "recommendation",
+                "reviewRecommendation",
+                "review_recommendation",
+            )
+            or "hold"
+        ).casefold()
+        if recommendation != audit["recommendedOutcome"]:
+            reasons.append("normalized recommendation conflicts with auditor outcome")
+        for hold in worker_holds.get(lead_key, []):
+            if hold["terminalForThisRun"] is True or hold["severity"] == "high":
+                reasons.append(f"worker hold requires human review: {hold['code']}")
+        if reasons:
+            hold_reasons[lead_key] = list(dict.fromkeys(reasons))
+    return hold_reasons
+
+
 def validate_worker_results(
     raw_results: Any,
     run_id: str,
     provenance: dict[str, Any],
     source_index: dict[str, dict[str, Any]],
-) -> None:
+) -> dict[str, dict[str, Any]]:
     if not isinstance(raw_results, list):
         raise LedgerError("Normalized ingest requires a workerResults array.")
     provenance_workers = provenance.get("workers")
@@ -1597,21 +2161,34 @@ def validate_worker_results(
         if isinstance(worker, dict) and text(worker.get("role"))
     }
     observed_roles: set[str] = set()
+    validated_envelopes: dict[str, dict[str, Any]] = {}
     observed_source_ids: set[str] = set()
-    top_source_identity: dict[str, tuple[str, str]] = {}
+    top_source_identity: dict[str, str] = {}
     for source_id, source in source_index.items():
         normalized = normalise_sources([source], {})
         if len(normalized) != 1:
             raise LedgerError(f"Top-level source {source_id!r} did not normalize uniquely.")
-        top_source_identity[source_id] = (
-            normalized[0]["url"],
-            normalized[0]["sourceClass"],
-        )
+        top_source_identity[source_id] = stable_json(normalized[0])
 
     for index, result_envelope in enumerate(raw_results):
         path = f"workerResults[{index}]"
-        if not isinstance(result_envelope, dict):
-            raise LedgerError(f"{path} must be a JSON object.")
+        result_envelope = require_exact_keys(
+            result_envelope,
+            path,
+            {
+                "contractVersion",
+                "role",
+                "runId",
+                "worker",
+                "status",
+                "scope",
+                "sideEffectAttestation",
+                "sources",
+                "holds",
+                "errors",
+                "result",
+            },
+        )
         safety_scan_value = {
             key: value
             for key, value in result_envelope.items()
@@ -1635,9 +2212,11 @@ def validate_worker_results(
         expected = provenance_by_role.get(role)
         if not expected:
             raise LedgerError(f"{path} has no matching modelProvenance worker.")
-        worker = result_envelope.get("worker")
-        if not isinstance(worker, dict):
-            raise LedgerError(f"{path}.worker must be a JSON object.")
+        worker = require_exact_keys(
+            result_envelope.get("worker"),
+            f"{path}.worker",
+            {"agent", "model", "reasoningEffort", "modelFallback"},
+        )
         for field in ("agent", "model", "reasoningEffort", "modelFallback"):
             if worker.get(field) != expected.get(field):
                 raise LedgerError(
@@ -1646,8 +2225,7 @@ def validate_worker_results(
         status = optional_text(result_envelope, "status")
         if status != expected.get("status"):
             raise LedgerError(f"{path}.status does not match modelProvenance.")
-        if not isinstance(result_envelope.get("scope"), dict):
-            raise LedgerError(f"{path}.scope must be a JSON object.")
+        validate_worker_scope(result_envelope.get("scope"), f"{path}.scope")
         attestation = result_envelope.get("sideEffectAttestation")
         if not isinstance(attestation, dict) or set(attestation) != WORKER_ATTESTATION_FIELDS:
             raise LedgerError(
@@ -1663,10 +2241,30 @@ def validate_worker_results(
                 f"{path}.sideEffectAttestation must be all false: "
                 + ", ".join(non_false)
             )
-        if not isinstance(result_envelope.get("holds"), list):
+        raw_holds = result_envelope.get("holds")
+        if not isinstance(raw_holds, list):
             raise LedgerError(f"{path}.holds must be an array.")
-        if not isinstance(result_envelope.get("errors"), list):
+        for hold_index, raw_hold in enumerate(raw_holds):
+            validate_worker_hold(raw_hold, f"{path}.holds[{hold_index}]")
+        if status == "complete" and any(
+            hold.get("candidateKey") == run_id
+            and (
+                hold.get("terminalForThisRun") is True
+                or hold.get("severity") == "high"
+            )
+            for hold in raw_holds
+        ):
+            raise LedgerError(
+                f"{path}.status cannot be complete with a blocking run-level hold."
+            )
+        raw_errors = result_envelope.get("errors")
+        if not isinstance(raw_errors, list):
             raise LedgerError(f"{path}.errors must be an array.")
+        require_text_list(raw_errors, f"{path}.errors")
+        if status == "complete" and raw_errors:
+            raise LedgerError(
+                f"{path}.status cannot be complete while worker errors are present."
+            )
         role_result = result_envelope.get("result")
         if not isinstance(role_result, dict):
             raise LedgerError(f"{path}.result must be a JSON object.")
@@ -1675,6 +2273,11 @@ def validate_worker_results(
         raw_sources = result_envelope.get("sources")
         if not isinstance(raw_sources, list):
             raise LedgerError(f"{path}.sources must be an array.")
+        for source_index_position, raw_source in enumerate(raw_sources):
+            validate_worker_source(
+                raw_source,
+                f"{path}.sources[{source_index_position}]",
+            )
         normalized_sources = normalise_sources(raw_sources, {})
         worker_source_ids = {source["sourceId"] for source in normalized_sources}
         if len(worker_source_ids) != len(normalized_sources):
@@ -1687,7 +2290,7 @@ def validate_worker_results(
                     f"{path}.sources references sourceId {source_id!r} "
                     "that is absent from the normalized source matrix."
                 )
-            if (source["url"], source["sourceClass"]) != expected_identity:
+            if stable_json(source) != expected_identity:
                 raise LedgerError(
                     f"{path}.sources conflicts with normalized sourceId {source_id!r}."
                 )
@@ -1706,6 +2309,7 @@ def validate_worker_results(
             )
         observed_source_ids.update(worker_source_ids)
         observed_roles.add(role)
+        validated_envelopes[role] = result_envelope
 
     missing_roles = sorted(set(WORKER_REQUIREMENTS) - observed_roles)
     if missing_roles:
@@ -1718,6 +2322,8 @@ def validate_worker_results(
             "Normalized sources are not present in any validated worker result: "
             + ", ".join(missing_sources)
         )
+    validate_worker_cross_role(validated_envelopes)
+    return validated_envelopes
 
 
 class ReviewLedger:
@@ -2447,9 +3053,11 @@ class ReviewLedger:
                 + ", ".join(non_false_attestations)
             )
         source_index: dict[str, dict[str, Any]] = {}
-        for source in raw_sources:
-            if not isinstance(source, dict):
-                raise LedgerError("Every top-level source must be a JSON object.")
+        for source_position, source in enumerate(raw_sources):
+            validate_worker_source(
+                source,
+                f"sources[{source_position}]",
+            )
             source_id = optional_text(source, "sourceId", "source_id", "id")
             if not source_id:
                 raise LedgerError("Every top-level source requires a sourceId.")
@@ -2457,10 +3065,15 @@ class ReviewLedger:
             if existing_source and stable_json(existing_source) != stable_json(source):
                 raise LedgerError(f"Conflicting top-level sources share sourceId {source_id!r}.")
             source_index[source_id] = source
-        validate_worker_results(
+        validated_worker_results = validate_worker_results(
             raw_worker_results,
             run_id,
             provenance,
+            source_index,
+        )
+        cross_role_hold_reasons = validate_normalized_candidate_links(
+            raw_candidates,
+            validated_worker_results,
             source_index,
         )
         safe_provenance, _provenance_redactions = sanitize_private_value(
@@ -2485,6 +3098,7 @@ class ReviewLedger:
             },
             "workerContractsValidated": True,
             "sourceIndex": source_index,
+            "crossRoleHoldReasons": cross_role_hold_reasons,
         }
 
     @staticmethod
@@ -2547,6 +3161,9 @@ class ReviewLedger:
                         "Normalized candidates must reference top-level sources by sourceIds; "
                         "candidate-local source objects are not accepted."
                     )
+                lead_key = optional_text(raw_candidate, "leadKey")
+                if not lead_key:
+                    raise LedgerError("Each normalized ingest candidate requires a leadKey.")
                 candidate_name = text(raw_candidate.get("name"))
                 if not candidate_name:
                     raise LedgerError("Each ingest candidate requires a name.")
@@ -2595,6 +3212,9 @@ class ReviewLedger:
                 ).casefold()
                 tier = candidate_tier(raw_candidate)
                 hold_reasons = gate_reasons(recommendation, confidence, evidence_a, evidence_b, tier, sources)
+                hold_reasons.extend(
+                    context["crossRoleHoldReasons"].get(lead_key, [])
+                )
                 hold_reasons.extend(
                     f"public projection field {field} contained a contact detail and was removed"
                     for field in removed_public_contact_fields
