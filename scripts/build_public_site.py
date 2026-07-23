@@ -1,11 +1,16 @@
 from __future__ import annotations
 
+import json
 import shutil
 from pathlib import Path
+
+from generate_seo_pages import main as generate_public_pages
+from site_config import country_route_slug
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
+PRODUCTS_JSON = ROOT / "data" / "products.json"
 PUBLIC_ROOT_FILES = (
     "index.html",
     "404.html",
@@ -19,6 +24,21 @@ PUBLIC_ROOT_FILES = (
     "site.webmanifest",
 )
 PUBLIC_DIRECTORIES = ("assets", "data")
+
+
+def generated_country_files() -> tuple[str, ...]:
+    catalog = json.loads(PRODUCTS_JSON.read_text())
+    listed_countries = {
+        product.get("country")
+        for product in catalog.get("products", [])
+        if isinstance(product, dict) and product.get("visibility") == "listed"
+    }
+    if not listed_countries or None in listed_countries or "" in listed_countries:
+        raise RuntimeError("Every listed product needs a primary country")
+    return tuple(
+        f"{country_route_slug(country)}.html"
+        for country in sorted(listed_countries, key=country_route_slug)
+    )
 
 
 def require_file(relative_path: str) -> Path:
@@ -36,11 +56,13 @@ def require_directory(relative_path: str) -> Path:
 
 
 def main() -> None:
+    generate_public_pages()
+
     if DIST.exists():
         shutil.rmtree(DIST)
     DIST.mkdir()
 
-    for relative_path in PUBLIC_ROOT_FILES:
+    for relative_path in (*PUBLIC_ROOT_FILES, *generated_country_files()):
         shutil.copy2(require_file(relative_path), DIST / relative_path)
 
     for relative_path in PUBLIC_DIRECTORIES:

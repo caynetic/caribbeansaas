@@ -19,15 +19,18 @@ Build command:    python3 scripts/build_public_site.py
 Build output:     dist
 ```
 
-The build script generates `dist/` from an explicit allowlist. Pages uploads
-that generated directory only; it does not publish the repository root.
+The build script first regenerates and validates listed-only country pages and
+the sitemap, then generates `dist/` from an explicit allowlist. Pages uploads
+that generated directory only; it does not publish the repository root. A
+generation failure occurs before the previous build directory is removed.
 
 ## Public deployment contents
 
 The generated bundle contains:
 
-- Homepage and support pages (`index.html`, `404.html`, `curation.html`,
-  `open-data.html`, `privacy.html`, and `terms.html`).
+- Homepage, generated listed-only country pages such as `bahamas.html`, and
+  support pages (`404.html`, `curation.html`, `open-data.html`, `privacy.html`,
+  and `terms.html`).
 - Public assets under `assets/`.
 - The public catalog at `data/products.json`.
 - Search and discovery files such as `robots.txt`, `sitemap.xml`, `llms.txt`,
@@ -40,6 +43,11 @@ the dedicated Open Data explorer can visualize both `listed` and public-safe
 review notes, personal contact details, or unpublished research. An unlisted
 record is not an active directory listing and does not communicate a rejection,
 availability conclusion, or endorsement.
+
+Country pages are generated only for explicitly mapped primary countries with
+at least one listed record. Cloudflare Pages redirects an HTML filename to its
+extensionless counterpart, so committed `bahamas.html` is linked and indexed
+canonically as `https://caribbeansaas.com/bahamas`.
 
 ## Guarded weekly data publication
 
@@ -91,6 +99,7 @@ After a deploy succeeds, confirm these endpoints are available:
 
 ```text
 https://caribbeansaas.com/
+https://caribbeansaas.com/bahamas
 https://caribbeansaas.com/curation.html
 https://caribbeansaas.com/open-data.html
 https://caribbeansaas.com/privacy.html

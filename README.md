@@ -6,7 +6,8 @@ platforms.
 ## Public deployment
 
 Cloudflare Pages deploys the generated `dist/` directory, not the repository
-root. Build it locally with:
+root. The build refreshes generated country pages and the sitemap before
+copying the explicit public allowlist. Build it locally with:
 
 ```bash
 python3 scripts/build_public_site.py
@@ -19,6 +20,9 @@ artifacts, and credentials are deliberately excluded.
 The human-readable Open Data explorer at `open-data.html` visualizes every
 public-safe catalog record, while `data/products.json` remains the raw data
 endpoint and the homepage directory remains limited to `visibility: listed`.
+The directory and explorer show six matching records per page with shareable
+URL state. Listed primary countries also receive generated root pages such as
+`bahamas.html`, served canonically by Cloudflare Pages at `/bahamas`.
 
 For the production setup, deploy process, public-bundle boundaries, and live
 verification steps, see [HOSTING.md](HOSTING.md).

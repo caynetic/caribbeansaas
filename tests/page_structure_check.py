@@ -19,6 +19,7 @@ LLMS = ROOT / "llms.txt"
 NOT_FOUND = ROOT / "404.html"
 CURATION = ROOT / "curation.html"
 OPEN_DATA = ROOT / "open-data.html"
+BAHAMAS = ROOT / "bahamas.html"
 PRIVACY = ROOT / "privacy.html"
 TERMS = ROOT / "terms.html"
 PRODUCTS_JSON = ROOT / "data" / "products.json"
@@ -32,7 +33,7 @@ if OLD_ENTRYPOINT.exists():
 if not MANIFEST.exists():
     raise AssertionError("Web app manifest should exist")
 
-for discovery_file in [ROBOTS, SITEMAP, LLMS, NOT_FOUND, CURATION, OPEN_DATA, PRIVACY, TERMS]:
+for discovery_file in [ROBOTS, SITEMAP, LLMS, NOT_FOUND, CURATION, OPEN_DATA, BAHAMAS, PRIVACY, TERMS]:
     if not discovery_file.exists():
         raise AssertionError(f"Static discovery file should exist: {discovery_file.name}")
 
@@ -40,7 +41,7 @@ for generated_route_dir in ["category", "products", "software"]:
     stale_pages = sorted((ROOT / generated_route_dir).glob("**/index.html"))
     if stale_pages:
         formatted = ", ".join(str(path.relative_to(ROOT)) for path in stale_pages)
-        raise AssertionError(f"Root-only site should not keep generated route pages: {formatted}")
+        raise AssertionError(f"Site should not keep legacy nested route pages: {formatted}")
 
 HTML = ENTRYPOINT.read_text()
 MANIFEST_TEXT = MANIFEST.read_text()
@@ -50,6 +51,7 @@ LLMS_TEXT = LLMS.read_text()
 NOT_FOUND_TEXT = NOT_FOUND.read_text()
 CURATION_TEXT = CURATION.read_text()
 OPEN_DATA_TEXT = OPEN_DATA.read_text()
+BAHAMAS_TEXT = BAHAMAS.read_text()
 PRIVACY_TEXT = PRIVACY.read_text()
 TERMS_TEXT = TERMS.read_text()
 PRODUCT_LOGO_URL = "https://cdn.caynetic.app/caribbeansaas/products/logos/cayneticvpn-logo.png"
@@ -475,9 +477,36 @@ def assert_open_data_page(products: list[dict]) -> None:
         raise AssertionError("Open-data results should expose their loading state")
     if element_with_id(OPEN_DATA_TEXT, "p", "catalogEmpty") is None:
         raise AssertionError("Open-data page should expose a no-results state")
-    for control in [search_input, element_with_id(OPEN_DATA_TEXT, "select", "visibilityFilter")]:
+    for control in [
+        search_input,
+        element_with_id(OPEN_DATA_TEXT, "select", "visibilityFilter"),
+        element_with_id(OPEN_DATA_TEXT, "select", "categoryFilter"),
+    ]:
         if control is None or attribute_value(control, "aria-controls") != "catalogResults":
-            raise AssertionError("Open-data search and visibility controls should target #catalogResults")
+            raise AssertionError("Open-data search, visibility, and category controls should target #catalogResults")
+
+    for marker in [
+        'id="catalogPagination"',
+        'aria-label="Catalog result pages"',
+        'id="previousCatalogPage"',
+        'id="nextCatalogPage"',
+        'id="catalogPageStatus"',
+        'aria-controls="catalogResults"',
+        "const PAGE_SIZE = 6;",
+        "new URLSearchParams(window.location.search)",
+        'setUrlParameter(url, "q", query, "")',
+        'setUrlParameter(url, "visibility", visibilityFilter.value, "all")',
+        'setUrlParameter(url, "category", categoryFilter.value, "all")',
+        'setUrlParameter(url, "page", String(currentPage), "1")',
+        '"pushState" : "replaceState"',
+        'window.addEventListener("popstate"',
+        "const pageProducts = matching.slice(pageStart, pageEnd);",
+        "pageProducts.forEach((product) => catalogGrid.append(makeProductCard(product)));",
+        "Showing ${pageStart + 1}–${pageEnd} of ${matching.length} public records",
+        "searchInput.focus({ preventScroll: true });",
+    ]:
+        if marker not in OPEN_DATA_TEXT:
+            raise AssertionError(f"Open-data pagination or URL state is missing: {marker}")
 
     catalog_ids = {product["id"] for product in products}
     static_ids = catalog_ids & set(re.findall(r'data-product-id="([^"]+)"', OPEN_DATA_TEXT))
@@ -689,6 +718,8 @@ def main() -> None:
         'id="hero"',
         'id="directoryControls"',
         'id="productGrid"',
+        'id="directoryStatus"',
+        'id="directoryPagination"',
         'id="regionStats"',
         'id="submit"',
         'aria-label="Footer navigation"',
@@ -905,6 +936,36 @@ def main() -> None:
     if HTML.count('"@type": "SoftwareApplication"') != len(LISTED_PRODUCT_IDS):
         raise AssertionError("Structured data should expose one SoftwareApplication per listed product")
 
+    structured_match = re.search(
+        r'<script id="structured-data" type="application/ld\+json">\s*(.*?)\s*</script>',
+        HTML,
+        re.DOTALL,
+    )
+    if structured_match is None:
+        raise AssertionError("Homepage structured data should be parseable")
+    structured_data = json.loads(structured_match.group(1))
+    homepage_item_lists = [
+        node
+        for node in structured_data.get("@graph", [])
+        if node.get("@id") == "https://caribbeansaas.com/#listed-digital-products"
+    ]
+    if len(homepage_item_lists) != 1:
+        raise AssertionError("Homepage should expose one listed-product ItemList")
+    structured_ids = [
+        entry.get("item", {}).get("@id", "").rsplit("#", 1)[-1]
+        for entry in homepage_item_lists[0].get("itemListElement", [])
+    ]
+    structured_positions = [
+        entry.get("position")
+        for entry in homepage_item_lists[0].get("itemListElement", [])
+    ]
+    if structured_ids != LISTED_PRODUCT_IDS:
+        raise AssertionError(
+            f"Homepage structured-data order should match the listed catalog: {structured_ids!r}"
+        )
+    if structured_positions != list(range(1, len(LISTED_PRODUCT_IDS) + 1)):
+        raise AssertionError("Homepage structured-data positions should be contiguous")
+
     if '"@type": "Product"' in HTML:
         raise AssertionError("Mock listings should not be exposed as Product schema")
 
@@ -1001,12 +1062,17 @@ def main() -> None:
     region_stats_block = HTML[
         marker_position('id="regionStats"') : marker_position('id="submit"')
     ]
-    if region_stats_block.count('class="region-stat spectral-overlay"') != len(country_counts):
+    if region_stats_block.count('class="region-stat spectral-overlay focus-ring"') != len(country_counts):
         raise AssertionError("Apps by region stats should include one compact row for each listed region")
 
     for country, count in country_counts.items():
-        if f'aria-label="{country}, {count} {"app" if count == 1 else "apps"}"' not in region_stats_block:
-            raise AssertionError(f"Apps by region count is missing or stale for {country}")
+        route_display_name = "the Bahamas" if country == "Bahamas" else country
+        expected_label = (
+            f'aria-label="Browse {count} {"app" if count == 1 else "apps"} '
+            f'from {route_display_name}"'
+        )
+        if expected_label not in region_stats_block:
+            raise AssertionError(f"Apps by region route link is missing or stale for {country}")
 
     for country, flag_asset in [
         ("Bahamas", "assets/flags/bs.png"),
@@ -1017,6 +1083,14 @@ def main() -> None:
     product_grid_block = HTML[
         marker_position('id="productGrid"') : marker_position('id="emptyState"')
     ]
+    homepage_card_ids = re.findall(
+        r'<article class="product-card\b[^>]*data-product-id="([^"]+)"',
+        product_grid_block,
+    )
+    if homepage_card_ids != LISTED_PRODUCT_IDS:
+        raise AssertionError(
+            f"Homepage card order should match the listed catalog: {homepage_card_ids!r}"
+        )
 
     if "country-flag" in product_grid_block:
         raise AssertionError("Product cards should not use the old country-flag class")
@@ -1032,6 +1106,38 @@ def main() -> None:
 
     if HTML.count('class="product-tags"') != len(LISTED_PRODUCT_IDS):
         raise AssertionError("Expected each product card to have a boxed tag group")
+
+    for marker in [
+        'id="productGrid" class="focus-ring',
+        'tabindex="-1" aria-label="Directory results"',
+        'id="directoryStatus"',
+        'role="status" aria-live="polite" aria-atomic="true"',
+        'id="directoryPagination"',
+        'aria-label="Directory pagination"',
+        'id="directoryPrevious"',
+        'id="directoryNext"',
+        'aria-controls="productGrid"',
+        'id="directoryPageLabel"',
+        "const PAGE_SIZE = 6;",
+        'const ROUTE_REGION = document.body.dataset.routeRegion || "";',
+        "new URLSearchParams(window.location.search)",
+        'params.getAll("category")',
+        'params.getAll("region")',
+        'url.searchParams.set("q", query)',
+        'url.searchParams.set("page", String(currentPage))',
+        "window.history.pushState",
+        "window.history.replaceState",
+        'window.addEventListener("popstate"',
+        "matchingCards.slice(pageStart, pageStart + PAGE_SIZE)",
+        "Showing ${firstVisible}–${lastVisible} of ${matchingCards.length} products",
+        "function preferredScrollBehavior()",
+        '"(prefers-reduced-motion: reduce)"',
+        'if (!/^[1-9]\\d*$/.test(pageValue))',
+        "categorySummaryControl.focus({ preventScroll: true });",
+        "regionSummaryControl.focus({ preventScroll: true });",
+    ]:
+        if marker not in HTML:
+            raise AssertionError(f"Homepage pagination or URL state is missing: {marker}")
 
     if HTML.count('class="product-tag"') != len(LISTED_PRODUCT_IDS) * 2 or HTML.count('class="product-tag product-tag-category"') != len(LISTED_PRODUCT_IDS):
         raise AssertionError("Expected each product card to show three boxed tag chips")
@@ -1167,13 +1273,38 @@ def main() -> None:
     sitemap_urls = re.findall(r"<loc>([^<]+)</loc>", SITEMAP_TEXT)
     expected_sitemap_urls = [
         "https://caribbeansaas.com/",
+        "https://caribbeansaas.com/bahamas",
         "https://caribbeansaas.com/curation.html",
         "https://caribbeansaas.com/open-data.html",
         "https://caribbeansaas.com/privacy.html",
         "https://caribbeansaas.com/terms.html",
     ]
     if sitemap_urls != expected_sitemap_urls:
-        raise AssertionError(f"Sitemap should include only the homepage and public support pages: {sitemap_urls!r}")
+        raise AssertionError(
+            f"Sitemap should include the homepage, country pages, and public support pages: {sitemap_urls!r}"
+        )
+
+    bahamas_ids = re.findall(
+        r'<article class="product-card\b[^>]*data-product-id="([^"]+)"',
+        BAHAMAS_TEXT,
+    )
+    if bahamas_ids != LISTED_PRODUCT_IDS:
+        raise AssertionError(
+            f"Bahamas route should contain the matching listed cards in catalog order: {bahamas_ids!r}"
+        )
+    for marker in [
+        '<link rel="canonical" href="https://caribbeansaas.com/bahamas"/>',
+        '<meta property="og:url" content="https://caribbeansaas.com/bahamas"/>',
+        'data-route-region="Bahamas"',
+        'data-route-slug="bahamas"',
+        'aria-label="Region fixed to Bahamas" aria-disabled="true"',
+        'aria-label="Discover software from the Bahamas"',
+        '"@id": "https://caribbeansaas.com/bahamas#directory"',
+        '"@id": "https://caribbeansaas.com/bahamas#listed-digital-products"',
+        '"numberOfItems": 10',
+    ]:
+        if marker not in BAHAMAS_TEXT:
+            raise AssertionError(f"Bahamas route is missing generated page marker: {marker}")
 
     for page_name, page_text, canonical, required_markers in [
         (

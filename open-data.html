@@ -194,11 +194,23 @@
     }
 
     .catalog-card[hidden],
+    #catalogPagination[hidden],
     #catalogEmpty[hidden],
     #errorState[hidden],
     #loadingState[hidden],
     #clearCatalogFilters[hidden] {
         display: none;
+    }
+
+    .pagination-button {
+        min-height: 2.75rem;
+        min-width: 2.75rem;
+    }
+
+    .pagination-button:disabled {
+        cursor: not-allowed;
+        border-color: rgba(255, 255, 255, 0.08);
+        color: rgba(244, 247, 248, 0.25);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -295,7 +307,7 @@
         </form>
 
         <div class="mt-6 flex flex-wrap items-center justify-between gap-3">
-            <p id="catalogStatus" class="text-xs font-semibold uppercase tracking-[0.15em] text-white/48" role="status" aria-live="polite" aria-atomic="true">Loading catalog…</p>
+            <p id="catalogStatus" class="focus-ring text-xs font-semibold uppercase tracking-[0.15em] text-white/48" role="status" aria-live="polite" aria-atomic="true" tabindex="-1">Loading catalog…</p>
             <p class="text-[10px] uppercase tracking-[0.18em] text-white/32">Public-safe fields only</p>
         </div>
 
@@ -304,6 +316,12 @@
             <p id="errorState" class="col-span-full border border-[#FF7A59]/40 bg-[#FF7A59]/[0.04] p-8 text-center text-sm leading-7 text-white/65" role="alert" hidden>We could not load the visual explorer. The <a class="focus-ring text-[#00C2D7] underline underline-offset-4 hover:text-white" href="data/products.json" target="_blank" rel="noopener noreferrer">raw JSON remains available here</a>.</p>
             <p id="catalogEmpty" class="col-span-full border border-white/10 p-8 text-center text-sm text-white/45" hidden>No public records match those filters.</p>
         </div>
+
+        <nav id="catalogPagination" class="mt-8 flex flex-wrap items-center justify-center gap-3" aria-label="Catalog result pages" hidden>
+            <button id="previousCatalogPage" class="pagination-button focus-ring inline-flex items-center justify-center border border-white/15 px-4 py-2 text-[9px] font-bold uppercase tracking-[0.18em] text-white/65 transition-colors hover:border-[#00C2D7] hover:text-white disabled:hover:border-white/[0.08] disabled:hover:text-white/25" type="button" aria-controls="catalogResults">Previous</button>
+            <span id="catalogPageStatus" class="inline-flex min-h-11 min-w-[8rem] items-center justify-center px-3 text-center text-[10px] font-bold uppercase tracking-[0.16em] text-white/48" aria-current="page">Page 1 of 1</span>
+            <button id="nextCatalogPage" class="pagination-button focus-ring inline-flex items-center justify-center border border-white/15 px-4 py-2 text-[9px] font-bold uppercase tracking-[0.18em] text-white/65 transition-colors hover:border-[#00C2D7] hover:text-white disabled:hover:border-white/[0.08] disabled:hover:text-white/25" type="button" aria-controls="catalogResults">Next</button>
+        </nav>
 
         <noscript>
             <p class="mt-6 border border-white/10 p-6 text-sm leading-7 text-white/55">JavaScript is required for the visual explorer. You can still <a class="focus-ring text-[#00C2D7] underline underline-offset-4 hover:text-white" href="data/products.json">open the raw JSON catalog</a>.</p>
@@ -330,6 +348,7 @@
 
 <script>
     const PRODUCT_DATA_URL = "data/products.json";
+    const PAGE_SIZE = 6;
     const catalogGrid = document.querySelector("#catalogResults");
     const loadingState = document.querySelector("#loadingState");
     const errorState = document.querySelector("#errorState");
@@ -344,7 +363,13 @@
     const unlistedCount = document.querySelector("#unlistedCount");
     const regionCount = document.querySelector("#regionCount");
     const schemaVersion = document.querySelector("#schemaVersion");
+    const pagination = document.querySelector("#catalogPagination");
+    const previousPageButton = document.querySelector("#previousCatalogPage");
+    const nextPageButton = document.querySelector("#nextCatalogPage");
+    const pageStatus = document.querySelector("#catalogPageStatus");
     let products = [];
+    let currentPage = 1;
+    let catalogLoaded = false;
 
     function normalize(value) {
         return String(value || "").toLowerCase().trim();
@@ -488,7 +513,64 @@
         ].join(" "));
     }
 
-    function updateResults() {
+    function setUrlParameter(url, name, value, defaultValue) {
+        if (!value || value === defaultValue) {
+            url.searchParams.delete(name);
+            return;
+        }
+        url.searchParams.set(name, value);
+    }
+
+    function updateUrl(mode) {
+        const url = new URL(window.location.href);
+        const query = searchInput.value.trim();
+        setUrlParameter(url, "q", query, "");
+        setUrlParameter(url, "visibility", visibilityFilter.value, "all");
+        setUrlParameter(url, "category", categoryFilter.value, "all");
+        setUrlParameter(url, "page", String(currentPage), "1");
+        history[mode === "push" ? "pushState" : "replaceState"]({}, "", url);
+    }
+
+    function restoreControlsFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        const requestedQuery = params.get("q");
+        const requestedVisibility = params.get("visibility") || "all";
+        const requestedCategory = params.get("category") || "all";
+        const requestedPageValue = params.get("page");
+        const requestedPage = requestedPageValue && /^[1-9]\d*$/.test(requestedPageValue)
+            ? Number(requestedPageValue)
+            : 1;
+        const validCategories = new Set([...categoryFilter.options].map((option) => option.value));
+
+        searchInput.value = (requestedQuery || "").trim();
+        visibilityFilter.value = ["all", "listed", "unlisted"].includes(requestedVisibility)
+            ? requestedVisibility
+            : "all";
+        categoryFilter.value = validCategories.has(requestedCategory) ? requestedCategory : "all";
+        currentPage = Number.isSafeInteger(requestedPage) ? requestedPage : 1;
+
+        return (
+            requestedVisibility !== visibilityFilter.value
+            || requestedCategory !== categoryFilter.value
+            || (requestedPageValue !== null && requestedPageValue !== String(currentPage))
+            || (requestedQuery !== null && requestedQuery !== searchInput.value)
+            || params.get("visibility") === "all"
+            || params.get("category") === "all"
+            || requestedPageValue === "1"
+            || requestedQuery === ""
+        );
+    }
+
+    function focusCurrentResults() {
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        resultSummary.focus({ preventScroll: true });
+        resultSummary.scrollIntoView({
+            behavior: reducedMotion ? "auto" : "smooth",
+            block: "start"
+        });
+    }
+
+    function updateResults({ historyMode = "none", focusResults = false } = {}) {
         const query = normalize(searchInput.value);
         const visibility = visibilityFilter.value;
         const category = categoryFilter.value;
@@ -498,13 +580,36 @@
             const matchesCategory = category === "all" || product.category === category;
             return matchesQuery && matchesVisibility && matchesCategory;
         });
+        const totalPages = Math.max(1, Math.ceil(matching.length / PAGE_SIZE));
+        const requestedPage = currentPage;
+        currentPage = Math.min(Math.max(currentPage, 1), totalPages);
+        const pageStart = (currentPage - 1) * PAGE_SIZE;
+        const pageEnd = Math.min(pageStart + PAGE_SIZE, matching.length);
+        const pageProducts = matching.slice(pageStart, pageEnd);
 
         catalogGrid.querySelectorAll(".catalog-card").forEach((card) => card.remove());
-        matching.forEach((product) => catalogGrid.append(makeProductCard(product)));
+        pageProducts.forEach((product) => catalogGrid.append(makeProductCard(product)));
 
         emptyState.hidden = matching.length !== 0;
-        resultSummary.textContent = `${matching.length} of ${products.length} public records`;
+        pagination.hidden = matching.length === 0;
+        previousPageButton.disabled = currentPage === 1;
+        nextPageButton.disabled = currentPage === totalPages;
+        pageStatus.textContent = `Page ${currentPage} of ${totalPages}`;
+        const totalContext = matching.length === products.length ? "" : ` · ${products.length} total in catalog`;
+        resultSummary.textContent = matching.length
+            ? `Showing ${pageStart + 1}–${pageEnd} of ${matching.length} public records${totalContext}`
+            : `Showing 0–0 of 0 public records${totalContext}`;
         clearFiltersButton.hidden = !query && visibility === "all" && category === "all";
+
+        if (historyMode === "push") {
+            updateUrl("push");
+        } else if (historyMode === "replace" || requestedPage !== currentPage) {
+            updateUrl("replace");
+        }
+
+        if (focusResults) {
+            window.requestAnimationFrame(focusCurrentResults);
+        }
     }
 
     function populateCategories() {
@@ -551,8 +656,10 @@
             errorState.hidden = true;
             populateCategories();
             updateSummary(catalog);
-            updateResults();
+            const urlNeedsNormalization = restoreControlsFromUrl();
+            updateResults({ historyMode: urlNeedsNormalization ? "replace" : "none" });
             catalogGrid.setAttribute("aria-busy", "false");
+            catalogLoaded = true;
         } catch (error) {
             console.error("Unable to load CaribbeanSaaS catalog", error);
             loadingState.hidden = true;
@@ -562,16 +669,43 @@
         }
     }
 
-    searchInput.addEventListener("input", updateResults);
-    visibilityFilter.addEventListener("change", updateResults);
-    categoryFilter.addEventListener("change", updateResults);
+    function applyFilterChange() {
+        currentPage = 1;
+        updateResults({ historyMode: "replace" });
+    }
+
+    searchInput.addEventListener("input", applyFilterChange);
+    visibilityFilter.addEventListener("change", applyFilterChange);
+    categoryFilter.addEventListener("change", applyFilterChange);
     document.querySelector("#catalogFilters").addEventListener("submit", (event) => event.preventDefault());
     clearFiltersButton.addEventListener("click", () => {
         searchInput.value = "";
         visibilityFilter.value = "all";
         categoryFilter.value = "all";
-        updateResults();
-        searchInput.focus();
+        currentPage = 1;
+        updateResults({ historyMode: "replace" });
+        searchInput.focus({ preventScroll: true });
+    });
+    previousPageButton.addEventListener("click", () => {
+        if (currentPage <= 1) {
+            return;
+        }
+        currentPage -= 1;
+        updateResults({ historyMode: "push", focusResults: true });
+    });
+    nextPageButton.addEventListener("click", () => {
+        if (nextPageButton.disabled) {
+            return;
+        }
+        currentPage += 1;
+        updateResults({ historyMode: "push", focusResults: true });
+    });
+    window.addEventListener("popstate", () => {
+        if (!catalogLoaded) {
+            return;
+        }
+        const urlNeedsNormalization = restoreControlsFromUrl();
+        updateResults({ historyMode: urlNeedsNormalization ? "replace" : "none" });
     });
 
     loadCatalog();
