@@ -26,8 +26,8 @@ that generated directory only; it does not publish the repository root.
 
 The generated bundle contains:
 
-- Homepage and support pages (`index.html`, `404.html`, `privacy.html`, and
-  `terms.html`).
+- Homepage and support pages (`index.html`, `404.html`, `curation.html`,
+  `privacy.html`, and `terms.html`).
 - Public assets under `assets/`.
 - The public catalog at `data/products.json`.
 - Search and discovery files such as `robots.txt`, `sitemap.xml`, `llms.txt`,
@@ -70,6 +70,7 @@ After a deploy succeeds, confirm these endpoints are available:
 
 ```text
 https://caribbeansaas.com/
+https://caribbeansaas.com/curation.html
 https://caribbeansaas.com/privacy.html
 https://caribbeansaas.com/terms.html
 https://caribbeansaas.com/data/products.json

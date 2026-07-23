@@ -9,6 +9,7 @@ DIST = ROOT / "dist"
 PUBLIC_ROOT_FILES = (
     "index.html",
     "404.html",
+    "curation.html",
     "privacy.html",
     "terms.html",
     "robots.txt",

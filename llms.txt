@@ -14,7 +14,7 @@ Primary topics:
 
 Regional coverage includes Antigua and Barbuda, The Bahamas, Barbados, Belize, Curacao, the Dominican Republic, Grenada, Guyana, Jamaica, Saint Lucia, and Trinidad and Tobago.
 
-The current public pages are the homepage, `/privacy.html`, and `/terms.html`.
+The current public pages are the homepage, `/curation.html`, `/privacy.html`, and `/terms.html`.
 CaribbeanSaaS does not publish generated product, category, or country routes.
 
 Public catalog data is available at `/data/products.json`. The website displays
