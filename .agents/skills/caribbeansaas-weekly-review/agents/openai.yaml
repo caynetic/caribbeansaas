@@ -1,0 +1,4 @@
+interface:
+  display_name: "CaribbeanSaaS Weekly Review"
+  short_description: "Safely research Caribbean software"
+  default_prompt: "Use $caribbeansaas-weekly-review to prepare a private, evidence-backed weekly candidate review packet without publishing or contacting anyone."

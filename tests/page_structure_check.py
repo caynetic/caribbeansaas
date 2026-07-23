@@ -52,7 +52,46 @@ PRODUCT_LOGO_CDN_PREFIX = "https://cdn.caynetic.app/caribbeansaas/products/logos
 PUBLIC_EMAIL = "hello@caribbeansaas.com"
 OLD_PUBLIC_EMAIL = "submissions" + "@caribbeansaas.com"
 CAYNETIC_URL = "https://caynetic.ltd"
-PUBLISHED_PRODUCT_IDS = [
+CATALOG_SCHEMA_VERSION = 2
+CATALOG_VISIBILITIES = {"listed", "unlisted"}
+PRODUCT_KINDS = {
+    "saas",
+    "mobile_app",
+    "digital_platform",
+    "marketplace",
+    "api_or_developer_tool",
+    "web_tool",
+    "software_enabled_service",
+    "open_source_project",
+}
+PUBLIC_PRODUCT_FIELDS = {
+    "id",
+    "slug",
+    "name",
+    "tagline",
+    "description",
+    "productKind",
+    "websiteUrl",
+    "country",
+    "countries",
+    "category",
+    "industry",
+    "tags",
+    "aliases",
+    "officialAppStoreIds",
+    "logoUrl",
+    "logoAlt",
+    "logoWidth",
+    "logoHeight",
+    "screenshotUrls",
+    "companyName",
+    "founderNames",
+    "caribbeanConnection",
+    "visibility",
+    "publishedAt",
+    "updatedAt",
+}
+LISTED_PRODUCT_IDS = [
     "caribtrends",
     "cay-declarations",
     "cayneticvpn",
@@ -257,18 +296,63 @@ def main() -> None:
         raise AssertionError("Product data should exist at data/products.json")
 
     products_data = json.loads(PRODUCTS_JSON.read_text())
+    if products_data.get("schemaVersion") != CATALOG_SCHEMA_VERSION:
+        raise AssertionError(
+            f"Catalog schema version should be {CATALOG_SCHEMA_VERSION}: "
+            f"{products_data.get('schemaVersion')!r}"
+        )
+
     products = products_data.get("products")
     if not isinstance(products, list):
         raise AssertionError("Product data should expose a products list")
 
+    product_ids = []
     for product in products:
         if not isinstance(product, dict):
-            continue
+            raise AssertionError("Every product catalog entry should be an object")
 
         product_id = product.get("id", "unknown")
-        logo_url = product.get("logoUrl", "")
-        if not logo_url.startswith(PRODUCT_LOGO_CDN_PREFIX):
-            raise AssertionError(f"Product logo should use the Caynetic CDN for {product_id}: {logo_url}")
+        if not isinstance(product_id, str) or not product_id:
+            raise AssertionError("Every product catalog entry should have a stable id")
+        product_ids.append(product_id)
+
+        unexpected_fields = sorted(set(product) - PUBLIC_PRODUCT_FIELDS)
+        if unexpected_fields:
+            raise AssertionError(
+                f"Catalog entry {product_id} has fields outside the public schema: "
+                f"{unexpected_fields!r}"
+            )
+
+        if "status" in product:
+            raise AssertionError(f"Catalog entry {product_id} should not retain legacy status")
+
+        visibility = product.get("visibility")
+        if visibility not in CATALOG_VISIBILITIES:
+            raise AssertionError(
+                f"Catalog entry {product_id} has invalid visibility: {visibility!r}"
+            )
+
+        product_kind = product.get("productKind")
+        if product_kind not in PRODUCT_KINDS:
+            raise AssertionError(
+                f"Catalog entry {product_id} has invalid productKind: {product_kind!r}"
+            )
+
+        logo_url = product.get("logoUrl")
+        if visibility == "listed":
+            if not isinstance(logo_url, str) or not logo_url.startswith(PRODUCT_LOGO_CDN_PREFIX):
+                raise AssertionError(
+                    f"Listed product logo should use the Caynetic CDN for {product_id}: {logo_url}"
+                )
+        elif logo_url not in (None, "") and (
+            not isinstance(logo_url, str) or not logo_url.startswith(PRODUCT_LOGO_CDN_PREFIX)
+        ):
+            raise AssertionError(
+                f"Unlisted product logo must be blank or use the Caynetic CDN for {product_id}: {logo_url}"
+            )
+
+    if len(product_ids) != len(set(product_ids)):
+        raise AssertionError("Product catalog ids should be unique")
 
     product_by_id = {
         product.get("id"): product
@@ -279,18 +363,19 @@ def main() -> None:
     if cayneticvpn is None:
         raise AssertionError("Product data should include CayneticVPN by id")
 
-    published_products = [
+    listed_products = [
         product
         for product in products
-        if isinstance(product, dict) and product.get("status") == "published"
+        if product.get("visibility") == "listed"
     ]
-    published_ids = [product.get("id") for product in published_products]
-    if published_ids != PUBLISHED_PRODUCT_IDS:
-        raise AssertionError(f"Published product ids are stale or misordered: {published_ids!r}")
+    listed_ids = [product.get("id") for product in listed_products]
+    if listed_ids != LISTED_PRODUCT_IDS:
+        raise AssertionError(f"Listed product ids are stale or misordered: {listed_ids!r}")
 
     for key, expected in {
         "name": "CayneticVPN",
-        "status": "published",
+        "visibility": "listed",
+        "productKind": "digital_platform",
         "country": "Bahamas",
         "category": "Cybersecurity",
         "logoUrl": PRODUCT_LOGO_URL,
@@ -422,7 +507,7 @@ def main() -> None:
         "Caribbean SaaS products",
         "Caribbean software directory",
         "Caribbean AI tools",
-        "Listings are reviewed before publication.",
+        "Listings are reviewed before display.",
         "Founders and teams can get listed",
     ]:
         if llms_marker not in LLMS_TEXT:
@@ -500,7 +585,8 @@ def main() -> None:
         '"@type": "CollectionPage"',
         '"@type": "SoftwareApplication"',
         '"name": "Caribbean SaaS and Software Directory"',
-        '"name": "Published CaribbeanSaaS software listings"',
+        '"@id": "https://caribbeansaas.com/#listed-digital-products"',
+        '"name": "Listed CaribbeanSaaS digital products"',
         '"name": "Caribbean SaaS"',
         '"name": "Caribbean software directory"',
         '"name": "Caribbean AI tools"',
@@ -518,8 +604,8 @@ def main() -> None:
         if seo_marker not in HTML:
             raise AssertionError(f"Missing SEO or structured-data marker: {seo_marker}")
 
-    if HTML.count('"@type": "SoftwareApplication"') != len(PUBLISHED_PRODUCT_IDS):
-        raise AssertionError("Structured data should expose one SoftwareApplication per published listing")
+    if HTML.count('"@type": "SoftwareApplication"') != len(LISTED_PRODUCT_IDS):
+        raise AssertionError("Structured data should expose one SoftwareApplication per listed product")
 
     if '"@type": "Product"' in HTML:
         raise AssertionError("Mock listings should not be exposed as Product schema")
@@ -544,8 +630,8 @@ def main() -> None:
         if removed_accent in HTML:
             raise AssertionError(f"Old coral highlight should not appear in active HTML: {removed_accent}")
 
-    if HTML.count('class="product-card') != len(PUBLISHED_PRODUCT_IDS):
-        raise AssertionError("Expected one visible product card for each published product")
+    if HTML.count('class="product-card') != len(LISTED_PRODUCT_IDS):
+        raise AssertionError("Expected one visible product card for each listed product")
 
     for real_listing_marker in [
         'data-product-id="cayneticvpn"',
@@ -565,11 +651,27 @@ def main() -> None:
         if real_listing_marker not in HTML:
             raise AssertionError(f"Missing CayneticVPN listing marker: {real_listing_marker}")
 
-    for product_id in PUBLISHED_PRODUCT_IDS:
+    for product_id in LISTED_PRODUCT_IDS:
         if f'data-product-id="{product_id}"' not in HTML:
             raise AssertionError(f"Missing visible product card for {product_id}")
         if f'data-product-logo="{product_id}"' not in HTML:
             raise AssertionError(f"Missing JSON-backed product logo hook for {product_id}")
+        if f'"@id": "https://caribbeansaas.com/#{product_id}"' not in HTML:
+            raise AssertionError(f"Missing structured-data entry for listed product {product_id}")
+
+    card_ids = set(re.findall(r'data-product-id="([^"]+)"', HTML))
+    if card_ids != set(LISTED_PRODUCT_IDS):
+        raise AssertionError(f"Visible cards should match listed catalog records: {card_ids!r}")
+
+    for product in products:
+        if product["visibility"] != "unlisted":
+            continue
+
+        product_id = product["id"]
+        if f'data-product-id="{product_id}"' in HTML:
+            raise AssertionError(f"Unlisted product {product_id} should not render a visible card")
+        if f'"@id": "https://caribbeansaas.com/#{product_id}"' in HTML:
+            raise AssertionError(f"Unlisted product {product_id} should not appear in structured data")
 
     for mock_listing in [
         "HarborPOS Cloud",
@@ -626,16 +728,16 @@ def main() -> None:
     if "product-logo product-logo-image" not in HTML:
         raise AssertionError("Product card should use a real image logo")
 
-    if HTML.count('class="product-region"') != len(PUBLISHED_PRODUCT_IDS):
+    if HTML.count('class="product-region"') != len(LISTED_PRODUCT_IDS):
         raise AssertionError("Expected each product card to show a lower region row")
 
-    if HTML.count('class="product-tags"') != len(PUBLISHED_PRODUCT_IDS):
+    if HTML.count('class="product-tags"') != len(LISTED_PRODUCT_IDS):
         raise AssertionError("Expected each product card to have a boxed tag group")
 
-    if HTML.count('class="product-tag"') != len(PUBLISHED_PRODUCT_IDS) * 2 or HTML.count('class="product-tag product-tag-category"') != len(PUBLISHED_PRODUCT_IDS):
+    if HTML.count('class="product-tag"') != len(LISTED_PRODUCT_IDS) * 2 or HTML.count('class="product-tag product-tag-category"') != len(LISTED_PRODUCT_IDS):
         raise AssertionError("Expected each product card to show three boxed tag chips")
 
-    for product in published_products:
+    for product in listed_products:
         product_id = product["id"]
         product_match = re.search(
             rf'<article class="product-card[^"]*"[^>]*data-product-id="{re.escape(product_id)}".*?</article>',
@@ -735,7 +837,7 @@ def main() -> None:
         raise AssertionError("Submission section should use Get listed language")
 
     all_categories = sorted({product["category"] for product in products if isinstance(product, dict) and product.get("category")})
-    for category in sorted({product["category"] for product in published_products}):
+    for category in sorted({product["category"] for product in listed_products}):
         if f'data-category="{category}" value="{category}"' not in HTML:
             raise AssertionError(f"Missing multi-category checkbox value for {category}")
 
@@ -783,7 +885,7 @@ def main() -> None:
             "terms.html",
             TERMS_TEXT,
             "https://caribbeansaas.com/terms.html",
-            ["Terms of Use", "data/products.json", "published", "needs clarification"],
+            ["Terms of Use", "data/products.json", "visibility", "unlisted", "not a rejection"],
         ),
     ]:
         if f'<link rel="canonical" href="{canonical}"/>' not in page_text:
@@ -874,7 +976,7 @@ def main() -> None:
             raise AssertionError(f"Footer should not expose generated crawl-link block: {removed_marker}")
 
     footer_pollution_terms = set()
-    for product in published_products:
+    for product in listed_products:
         footer_pollution_terms.add(product["name"])
         footer_pollution_terms.add(product["category"])
         footer_pollution_terms.add(product["country"])
@@ -921,8 +1023,9 @@ def main() -> None:
         'id="curation"',
         "Built for discovery. Reviewed before display.",
         "Open catalog data (JSON)",
-        "needs clarification",
-        "archived",
+        "visibility",
+        "listed",
+        "unlisted",
     ]:
         if curation_marker not in HTML:
             raise AssertionError(f"Homepage is missing curation disclosure: {curation_marker}")
@@ -938,7 +1041,7 @@ def main() -> None:
     for expanded_copy in [
         'id="headerTrust"',
         "Independent regional technology curation, not automated scraping.",
-        "Every public listing should pass manual review before publication.",
+        "Every public listing should pass manual review before display.",
         "The goal is discovery and credibility, not checkout or ranking.",
     ]:
         if expanded_copy in header_block:

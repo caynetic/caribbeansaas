@@ -34,9 +34,10 @@ The generated bundle contains:
   and `site.webmanifest`.
 
 `data/products.json` is intentionally public. The directory displays only
-records whose publication state is approved, but the JSON is a public-safe,
-open catalog endpoint and must never contain internal review notes, personal
-contact details, or unpublished research.
+records whose `visibility` is `listed`; the JSON can retain public-safe
+`unlisted` records, but must never contain internal review notes, personal
+contact details, or unpublished research. An unlisted record is not displayed
+and does not communicate a rejection, availability conclusion, or endorsement.
 
 ## Deploying a change
 
