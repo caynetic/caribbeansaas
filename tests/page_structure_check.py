@@ -52,6 +52,7 @@ PRODUCT_LOGO_CDN_PREFIX = "https://cdn.caynetic.app/caribbeansaas/products/logos
 PUBLIC_EMAIL = "hello@caribbeansaas.com"
 OLD_PUBLIC_EMAIL = "submissions" + "@caribbeansaas.com"
 CAYNETIC_URL = "https://caynetic.ltd"
+GITHUB_URL = "https://github.com/caynetic/caribbeansaas"
 CATALOG_SCHEMA_VERSION = 2
 CATALOG_VISIBILITIES = {"listed", "unlisted"}
 PRODUCT_KINDS = {
@@ -1014,6 +1015,22 @@ def main() -> None:
         raise AssertionError("Footer Caynetic curator mention should link to caynetic.ltd")
     if HTML.count(f'href="{CAYNETIC_URL}"') != 2:
         raise AssertionError("Only header and footer Caynetic attribution should link to caynetic.ltd")
+    github_link_marker = (
+        f'href="{GITHUB_URL}" target="_blank" rel="noopener noreferrer" '
+        'aria-label="Follow CaribbeanSaaS on GitHub" title="Follow on GitHub"'
+    )
+    for page_name, page_text in [
+        ("homepage", HTML),
+        ("privacy page", PRIVACY_TEXT),
+        ("terms page", TERMS_TEXT),
+    ]:
+        page_footer = page_text[page_text.find("<footer") : page_text.find("</footer>") + len("</footer>")]
+        if github_link_marker not in page_footer:
+            raise AssertionError(f"{page_name} footer should include the accessible GitHub icon link")
+        if page_footer.count(GITHUB_URL) != 1:
+            raise AssertionError(f"{page_name} footer should include exactly one GitHub repository link")
+        if 'viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"' not in page_footer:
+            raise AssertionError(f"{page_name} GitHub icon should be decorative and inherit text color")
     if CAYNETIC_URL in product_grid_block:
         raise AssertionError("Product card body copy should not link standalone Caynetic mentions")
     if "A privacy-focused VPN from Caynetic for encrypted internet access and safer browsing." not in product_grid_block:
