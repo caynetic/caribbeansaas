@@ -18,10 +18,11 @@ The current public pages are the homepage, `/privacy.html`, and `/terms.html`.
 CaribbeanSaaS does not publish generated product, category, or country routes.
 
 Public catalog data is available at `/data/products.json`. The website displays
-only records with `status: published`; the data file can also contain clearly
-labelled public-safe records in other statuses for research and ecosystem
-discovery.
+only records with `visibility: listed`; the data file can also contain clearly
+labelled public-safe `visibility: unlisted` records for research and ecosystem
+discovery. Unlisted means not currently displayed, not a rejection, product
+availability statement, or endorsement signal.
 
-Listings are reviewed before publication. CaribbeanSaaS is not a marketplace, app store, instant listing directory, ranking system, or checkout platform.
+Listings are reviewed before display. CaribbeanSaaS is not a marketplace, app store, instant listing directory, ranking system, or checkout platform.
 
 Founders and teams can get listed by emailing hello@caribbeansaas.com with the product name, website, country or Caribbean connection, category, and short summary.

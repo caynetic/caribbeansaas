@@ -31,8 +31,8 @@ def catalog_products() -> list[dict]:
     ]
 
 
-def published_products(products: list[dict]) -> list[dict]:
-    return [product for product in products if product.get("status") == "published"]
+def listed_products(products: list[dict]) -> list[dict]:
+    return [product for product in products if product.get("visibility") == "listed"]
 
 
 def remove_generated_route_pages() -> None:
@@ -75,9 +75,9 @@ def write_sitemap(urls: Iterable[tuple[str, str]]) -> None:
 
 
 def main() -> None:
-    products = published_products(catalog_products())
+    products = listed_products(catalog_products())
     if not products:
-        raise RuntimeError("Published products are required for the root directory page")
+        raise RuntimeError("Listed products are required for the root directory page")
 
     remove_generated_route_pages()
     remove_legacy_index_blocks()

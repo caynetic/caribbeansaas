@@ -27,13 +27,13 @@ def main() -> None:
         for product in data.get("products", [])
         if isinstance(product, dict)
     ]
-    published_products = [
+    listed_products = [
         product
         for product in products
-        if product.get("status") == "published"
+        if product.get("visibility") == "listed"
     ]
-    if not published_products:
-        raise AssertionError("Published products are required for the root directory page")
+    if not listed_products:
+        raise AssertionError("Listed products are required for the root directory page")
 
     index_html = INDEX.read_text()
     sitemap_xml = SITEMAP.read_text()
