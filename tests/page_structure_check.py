@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from html import unescape
 import json
 import re
 import struct
@@ -17,6 +18,7 @@ SITEMAP = ROOT / "sitemap.xml"
 LLMS = ROOT / "llms.txt"
 NOT_FOUND = ROOT / "404.html"
 CURATION = ROOT / "curation.html"
+OPEN_DATA = ROOT / "open-data.html"
 PRIVACY = ROOT / "privacy.html"
 TERMS = ROOT / "terms.html"
 PRODUCTS_JSON = ROOT / "data" / "products.json"
@@ -30,7 +32,7 @@ if OLD_ENTRYPOINT.exists():
 if not MANIFEST.exists():
     raise AssertionError("Web app manifest should exist")
 
-for discovery_file in [ROBOTS, SITEMAP, LLMS, NOT_FOUND, CURATION, PRIVACY, TERMS]:
+for discovery_file in [ROBOTS, SITEMAP, LLMS, NOT_FOUND, CURATION, OPEN_DATA, PRIVACY, TERMS]:
     if not discovery_file.exists():
         raise AssertionError(f"Static discovery file should exist: {discovery_file.name}")
 
@@ -47,6 +49,7 @@ SITEMAP_TEXT = SITEMAP.read_text()
 LLMS_TEXT = LLMS.read_text()
 NOT_FOUND_TEXT = NOT_FOUND.read_text()
 CURATION_TEXT = CURATION.read_text()
+OPEN_DATA_TEXT = OPEN_DATA.read_text()
 PRIVACY_TEXT = PRIVACY.read_text()
 TERMS_TEXT = TERMS.read_text()
 PRODUCT_LOGO_URL = "https://cdn.caynetic.app/caribbeansaas/products/logos/cayneticvpn-logo.png"
@@ -294,6 +297,297 @@ def category_slug(category: str) -> str:
     return CATEGORY_SLUG_OVERRIDES.get(category, slugify(category))
 
 
+def element_blocks(page_text: str, tag_name: str) -> list[str]:
+    return re.findall(
+        rf"<{tag_name}\b[^>]*>.*?</{tag_name}>",
+        page_text,
+        re.IGNORECASE | re.DOTALL,
+    )
+
+
+def opening_tags(page_text: str, tag_name: str) -> list[str]:
+    return re.findall(rf"<{tag_name}\b[^>]*>", page_text, re.IGNORECASE)
+
+
+def attribute_value(tag_text: str, attribute: str) -> str | None:
+    match = re.search(
+        rf"\b{re.escape(attribute)}\s*=\s*([\"'])(.*?)\1",
+        tag_text,
+        re.IGNORECASE | re.DOTALL,
+    )
+    return unescape(match.group(2)) if match else None
+
+
+def visible_text(fragment: str) -> str:
+    text = re.sub(r"<[^>]+>", " ", fragment)
+    return " ".join(unescape(text).split())
+
+
+def element_with_id(page_text: str, tag_name: str, element_id: str) -> str | None:
+    for tag_text in opening_tags(page_text, tag_name):
+        if attribute_value(tag_text, "id") == element_id:
+            return tag_text
+    return None
+
+
+def block_with_id(page_text: str, tag_name: str, element_id: str) -> str | None:
+    for block in element_blocks(page_text, tag_name):
+        opening_tag = block[: block.find(">") + 1]
+        if attribute_value(opening_tag, "id") == element_id:
+            return block
+    return None
+
+
+def assert_labeled_control(page_text: str, tag_name: str, control_id: str) -> str:
+    control = element_with_id(page_text, tag_name, control_id)
+    if control is None:
+        raise AssertionError(f"Open-data page is missing {tag_name}#{control_id}")
+
+    label = None
+    for block in element_blocks(page_text, "label"):
+        opening_tag = block[: block.find(">") + 1]
+        labels_by_id = attribute_value(opening_tag, "for") == control_id
+        wraps_control = any(
+            attribute_value(nested_control, "id") == control_id
+            for nested_control in opening_tags(block, tag_name)
+        )
+        if labels_by_id or wraps_control:
+            label = block
+            break
+
+    if label is None or not visible_text(label):
+        raise AssertionError(f"Open-data control #{control_id} should have a visible associated label")
+
+    return control
+
+
+def assert_open_data_shell_links(page_name: str, page_text: str, required_regions: tuple[str, ...]) -> None:
+    for region_name in required_regions:
+        regions = element_blocks(page_text, region_name)
+        if not regions:
+            raise AssertionError(f"{page_name} is missing its {region_name}")
+
+        open_data_hrefs = []
+        for region in regions:
+            for anchor in element_blocks(region, "a"):
+                if visible_text(anchor).casefold() != "open data":
+                    continue
+                opening_tag = anchor[: anchor.find(">") + 1]
+                open_data_hrefs.append(attribute_value(opening_tag, "href"))
+
+        if not open_data_hrefs:
+            raise AssertionError(f"{page_name} {region_name} should retain its Open data link")
+        if any(href != "open-data.html" for href in open_data_hrefs):
+            raise AssertionError(
+                f"{page_name} {region_name} Open data links should target open-data.html: "
+                f"{open_data_hrefs!r}"
+            )
+
+
+def assert_open_data_page(products: list[dict]) -> None:
+    for marker in [
+        "<title>",
+        '<link rel="canonical" href="https://caribbeansaas.com/open-data.html"/>',
+        "Open Data",
+        "Listed",
+        "Unlisted",
+    ]:
+        if marker not in OPEN_DATA_TEXT:
+            raise AssertionError(f"Open-data page is missing required visible marker: {marker}")
+
+    section = next(
+        (
+            tag_text
+            for tag_text in opening_tags(OPEN_DATA_TEXT, "section")
+            if attribute_value(tag_text, "aria-labelledby") == "openDataHeading"
+        ),
+        None,
+    )
+    if section is None:
+        raise AssertionError("Open-data content should be a section labelled by openDataHeading")
+
+    heading = element_with_id(OPEN_DATA_TEXT, "h1", "openDataHeading")
+    if heading is None:
+        raise AssertionError("Open-data page should expose h1#openDataHeading")
+
+    raw_json_link = next(
+        (
+            block
+            for block in element_blocks(OPEN_DATA_TEXT, "a")
+            if attribute_value(block[: block.find(">") + 1], "id") == "rawJsonLink"
+        ),
+        None,
+    )
+    if raw_json_link is None:
+        raise AssertionError("Open-data page should keep an always-visible #rawJsonLink")
+    raw_json_opening_tag = raw_json_link[: raw_json_link.find(">") + 1]
+    if attribute_value(raw_json_opening_tag, "href") != "data/products.json":
+        raise AssertionError("Open-data raw JSON link should target data/products.json directly")
+    if "json" not in visible_text(raw_json_link).casefold():
+        raise AssertionError("Open-data raw JSON link should visibly identify its JSON format")
+
+    filter_form = element_with_id(OPEN_DATA_TEXT, "form", "catalogFilters")
+    if filter_form is None or attribute_value(filter_form, "role") != "search":
+        raise AssertionError("Open-data filters should use form#catalogFilters with role=search")
+
+    search_input = assert_labeled_control(OPEN_DATA_TEXT, "input", "catalogSearch")
+    if attribute_value(search_input, "type") != "search":
+        raise AssertionError("Open-data search control should use input type=search")
+
+    assert_labeled_control(OPEN_DATA_TEXT, "select", "visibilityFilter")
+    visibility_select = block_with_id(OPEN_DATA_TEXT, "select", "visibilityFilter")
+    if visibility_select is None:
+        raise AssertionError("Open-data page is missing the visibility filter options")
+    option_values = [
+        attribute_value(option[: option.find(">") + 1], "value")
+        for option in element_blocks(visibility_select, "option")
+    ]
+    if option_values != ["all", "listed", "unlisted"]:
+        raise AssertionError(
+            "Open-data visibility filter should offer All, listed, and unlisted in that order: "
+            f"{option_values!r}"
+        )
+
+    status = element_with_id(OPEN_DATA_TEXT, "p", "catalogStatus")
+    if status is None:
+        raise AssertionError("Open-data page should expose p#catalogStatus")
+    if (
+        attribute_value(status, "role") != "status"
+        or attribute_value(status, "aria-live") != "polite"
+        or attribute_value(status, "aria-atomic") != "true"
+    ):
+        raise AssertionError("Open-data catalog status should be an atomic polite live status")
+
+    counts = element_with_id(OPEN_DATA_TEXT, "dl", "catalogCounts")
+    if counts is None:
+        raise AssertionError("Open-data page should expose semantic total/listed/unlisted counts")
+
+    results = next(
+        (
+            tag_text
+            for tag_text in opening_tags(OPEN_DATA_TEXT, "ul")
+            + opening_tags(OPEN_DATA_TEXT, "div")
+            if attribute_value(tag_text, "id") == "catalogResults"
+        ),
+        None,
+    )
+    if results is None or attribute_value(results, "aria-busy") is None:
+        raise AssertionError("Open-data results should expose their loading state")
+    if element_with_id(OPEN_DATA_TEXT, "p", "catalogEmpty") is None:
+        raise AssertionError("Open-data page should expose a no-results state")
+    for control in [search_input, element_with_id(OPEN_DATA_TEXT, "select", "visibilityFilter")]:
+        if control is None or attribute_value(control, "aria-controls") != "catalogResults":
+            raise AssertionError("Open-data search and visibility controls should target #catalogResults")
+
+    catalog_ids = {product["id"] for product in products}
+    static_ids = catalog_ids & set(re.findall(r'data-product-id="([^"]+)"', OPEN_DATA_TEXT))
+    if static_ids:
+        if static_ids != catalog_ids:
+            missing_ids = sorted(catalog_ids - static_ids)
+            raise AssertionError(
+                f"Open-data static results should include every public catalog record: {missing_ids!r}"
+            )
+    else:
+        all_products_match = re.search(
+            r"(?:const|let)\s+([A-Za-z_$][\w$]*)\s*=\s*"
+            r"Array\.isArray\(data\.products\)\s*\?\s*data\.products\s*:\s*\[\s*\]",
+            OPEN_DATA_TEXT,
+        )
+        if all_products_match is not None:
+            all_products_variable = all_products_match.group(1)
+        else:
+            all_products_assignment = re.search(
+                r"\b([A-Za-z_$][\w$]*)\s*=\s*([A-Za-z_$][\w$]*)\.products"
+                r"\s*\.slice\(\)",
+                OPEN_DATA_TEXT,
+            )
+            if all_products_assignment is None:
+                raise AssertionError(
+                    "Open-data renderer should retain the complete catalog products array before filtering"
+                )
+            all_products_variable, catalog_variable = all_products_assignment.groups()
+            if f"Array.isArray({catalog_variable}.products)" not in OPEN_DATA_TEXT:
+                raise AssertionError("Open-data renderer should validate the complete products array")
+
+        if not re.search(
+            rf"\b{re.escape(all_products_variable)}\s*\.(?:forEach|map|filter)\s*\(",
+            OPEN_DATA_TEXT,
+        ):
+            raise AssertionError(
+                "Open-data renderer should pass every catalog record into its card rendering path"
+            )
+
+        if "makeProductCard" not in OPEN_DATA_TEXT or not re.search(
+            r"\b[A-Za-z_$][\w$]*\.forEach\s*\([\s\S]{0,240}?makeProductCard",
+            OPEN_DATA_TEXT,
+        ):
+            raise AssertionError(
+                "Open-data renderer should visibly create one card for each matching record"
+            )
+
+    for marker_group, description in [
+        (("catalog-card",), "catalog card"),
+        (("dataset.productId", "data-product-id"), "product-id hook"),
+        (("dataset.visibility", "data-visibility"), "visibility hook"),
+        (("visibility-badge",), "visible visibility badge"),
+        (('value="all"',), "default all-record visibility filter"),
+        (
+            (
+                'visibility === "all" || product.visibility === visibility',
+                "visibility === 'all' || product.visibility === visibility",
+            ),
+            "all-record default filter behavior",
+        ),
+        (('visibility === "listed"', "visibility === 'listed'"), "listed count/filter path"),
+        (('visibility === "unlisted"', "visibility === 'unlisted'"), "unlisted count/filter path"),
+        (("catch (", "catch("), "catalog load failure state"),
+    ]:
+        if not any(marker in OPEN_DATA_TEXT for marker in marker_group):
+            raise AssertionError(f"Open-data page is missing its {description}")
+
+    if not any(
+        re.search(pattern, OPEN_DATA_TEXT, re.DOTALL)
+        for pattern in [
+            r"appendText\([^;]{0,500}?visibility-badge[^;]{0,500}?"
+            r"(?:humanize\()?product\.visibility",
+            r"\.textContent\s*=\s*(?:humanize\()?product\.visibility",
+            r"product\.visibility\s*===\s*[\"']listed[\"'][^;]{0,300}?"
+            r"[\"']Listed[\"'][^;]{0,300}?[\"']Unlisted[\"']",
+        ]
+    ):
+        raise AssertionError(
+            "Open-data cards should visibly label each record from its listed/unlisted visibility"
+        )
+
+    status_variable = next(
+        (
+            match.group(1)
+            for match in re.finditer(
+                r"\b(?:const|let)\s+([A-Za-z_$][\w$]*)\s*=\s*"
+                r'document\.querySelector\("#catalogStatus"\)',
+                OPEN_DATA_TEXT,
+            )
+        ),
+        None,
+    )
+    if status_variable is None or f"{status_variable}.textContent" not in OPEN_DATA_TEXT:
+        raise AssertionError("Open-data page should update its live result-count/loading/error state")
+
+    empty_variable = next(
+        (
+            match.group(1)
+            for match in re.finditer(
+                r"\b(?:const|let)\s+([A-Za-z_$][\w$]*)\s*=\s*"
+                r'document\.querySelector\("#catalogEmpty"\)',
+                OPEN_DATA_TEXT,
+            )
+        ),
+        None,
+    )
+    if empty_variable is None or f"{empty_variable}.hidden" not in OPEN_DATA_TEXT:
+        raise AssertionError("Open-data page should update its no-results state")
+
+
 def main() -> None:
     if not PRODUCTS_JSON.exists():
         raise AssertionError("Product data should exist at data/products.json")
@@ -371,6 +665,8 @@ def main() -> None:
         for product in products
         if product.get("visibility") == "listed"
     ]
+    assert_open_data_page(products)
+
     listed_ids = [product.get("id") for product in listed_products]
     if listed_ids != LISTED_PRODUCT_IDS:
         raise AssertionError(f"Listed product ids are stale or misordered: {listed_ids!r}")
@@ -662,7 +958,8 @@ def main() -> None:
             raise AssertionError(f"Missing structured-data entry for listed product {product_id}")
 
     card_ids = set(re.findall(r'data-product-id="([^"]+)"', HTML))
-    if card_ids != set(LISTED_PRODUCT_IDS):
+    catalog_listed_ids = {product["id"] for product in listed_products}
+    if card_ids != catalog_listed_ids:
         raise AssertionError(f"Visible cards should match listed catalog records: {card_ids!r}")
 
     for product in products:
@@ -871,6 +1168,7 @@ def main() -> None:
     expected_sitemap_urls = [
         "https://caribbeansaas.com/",
         "https://caribbeansaas.com/curation.html",
+        "https://caribbeansaas.com/open-data.html",
         "https://caribbeansaas.com/privacy.html",
         "https://caribbeansaas.com/terms.html",
     ]
@@ -882,13 +1180,19 @@ def main() -> None:
             "curation.html",
             CURATION_TEXT,
             "https://caribbeansaas.com/curation.html",
-            ["How we curate", "Built for discovery. Reviewed before display.", "Caribbean connection", "Clear public evidence", "Independent review", "visibility", "listed", "unlisted", "not a rejection", "data/products.json"],
+            ["How we curate", "Built for discovery. Reviewed before display.", "Caribbean connection", "Clear public evidence", "Independent review", "visibility", "listed", "unlisted", "not a rejection", "open-data.html"],
+        ),
+        (
+            "open-data.html",
+            OPEN_DATA_TEXT,
+            "https://caribbeansaas.com/open-data.html",
+            ["Open Data Explorer", "data/products.json", "Listed", "Unlisted", "catalogStatus"],
         ),
         (
             "privacy.html",
             PRIVACY_TEXT,
             "https://caribbeansaas.com/privacy.html",
-            ["Privacy Policy", "does not load advertising or analytics scripts", "data/products.json", "hello@caribbeansaas.com"],
+            ["Privacy Policy", "does not load advertising or analytics scripts", "open-data.html", "hello@caribbeansaas.com"],
         ),
         (
             "terms.html",
@@ -958,6 +1262,14 @@ def main() -> None:
     header_block = HTML[
         marker_position("<header") : marker_position("</header>") + len("</header>")
     ]
+    for page_name, page_text, required_regions in [
+        ("homepage", HTML, ("footer",)),
+        ("curation page", CURATION_TEXT, ("header", "footer")),
+        ("privacy page", PRIVACY_TEXT, ("header", "footer")),
+        ("terms page", TERMS_TEXT, ("header", "footer")),
+    ]:
+        assert_open_data_shell_links(page_name, page_text, required_regions)
+
     for href in ['href="#directory"', 'href="#categories"', 'href="#submit"']:
         if href not in header_block:
             raise AssertionError(f"Header is missing navigation link {href}")
@@ -1000,7 +1312,7 @@ def main() -> None:
     for href in [
         'href="#directory"',
         'href="curation.html"',
-        'href="data/products.json"',
+        'href="open-data.html"',
         'href="#submit"',
         'href="privacy.html"',
         'href="terms.html"',
@@ -1030,6 +1342,7 @@ def main() -> None:
     for page_name, page_text in [
         ("homepage", HTML),
         ("curation page", CURATION_TEXT),
+        ("open-data page", OPEN_DATA_TEXT),
         ("privacy page", PRIVACY_TEXT),
         ("terms page", TERMS_TEXT),
     ]:

@@ -563,6 +563,22 @@ class ReviewLedgerCheck(unittest.TestCase):
         self.temporary.cleanup()
 
     def run_command(self, command: str, *extra: str, expected: int = 0) -> dict:
+        return self.run_command_for(
+            self.private_root,
+            self.catalog,
+            command,
+            *extra,
+            expected=expected,
+        )
+
+    def run_command_for(
+        self,
+        private_root: Path,
+        catalog: Path,
+        command: str,
+        *extra: str,
+        expected: int = 0,
+    ) -> dict:
         completed = subprocess.run(
             [
                 sys.executable,
@@ -570,9 +586,9 @@ class ReviewLedgerCheck(unittest.TestCase):
                 command,
                 *extra,
                 "--root",
-                str(self.private_root),
+                str(private_root),
                 "--catalog",
-                str(self.catalog),
+                str(catalog),
                 "--allow-dirty-catalog",
             ],
             check=False,
@@ -581,6 +597,94 @@ class ReviewLedgerCheck(unittest.TestCase):
         )
         self.assertEqual(completed.returncode, expected, msg=completed.stderr)
         return json.loads(completed.stdout) if completed.stdout else {}
+
+    def git(self, repository: Path, *arguments: str) -> str:
+        completed = subprocess.run(
+            ["git", *arguments],
+            cwd=repository,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(
+            completed.returncode,
+            0,
+            msg=f"git {' '.join(arguments)} failed: {completed.stderr}",
+        )
+        return completed.stdout.strip()
+
+    def publication_fixture(
+        self,
+        label: str,
+        candidates: list[dict],
+        catalog_payload: dict | None = None,
+    ) -> dict[str, object]:
+        repository = self.workspace / f"publication-{label}"
+        catalog = repository / "data" / "products.json"
+        private_root = self.workspace / f"publication-private-{label}"
+        catalog.parent.mkdir(parents=True)
+        write_json(catalog, catalog_payload or sample_catalog())
+        self.git(repository, "init")
+        self.git(repository, "config", "user.name", "Ledger Test")
+        self.git(repository, "config", "user.email", "ledger-test@example.test")
+        self.git(repository, "add", "data/products.json")
+        self.git(repository, "commit", "-m", "Initial catalog")
+        self.git(repository, "branch", "-M", "main")
+        self.git(repository, "remote", "add", "origin", ".")
+        self.git(repository, "update-ref", "refs/remotes/origin/main", "HEAD")
+        self.git(repository, "branch", "--set-upstream-to=origin/main", "main")
+
+        run_id = f"run-publication-{label}"
+        self.run_command_for(private_root, catalog, "init")
+        begin = self.run_command_for(
+            private_root,
+            catalog,
+            "begin-run",
+            "--run-id",
+            run_id,
+            "--publish-unlisted",
+        )
+        input_path = self.workspace / f"publication-input-{label}.json"
+        write_json(input_path, self.build_envelope(candidates, run_id))
+        self.run_command_for(private_root, catalog, "ingest", str(input_path))
+        return {
+            "repository": repository,
+            "catalog": catalog,
+            "privateRoot": private_root,
+            "runId": run_id,
+            "begin": begin,
+        }
+
+    def ready_publication_fixture(
+        self,
+        label: str,
+        candidates: list[dict],
+        catalog_payload: dict | None = None,
+    ) -> dict[str, object]:
+        fixture = self.publication_fixture(label, candidates, catalog_payload)
+        private_root = fixture["privateRoot"]
+        catalog = fixture["catalog"]
+        run_id = fixture["runId"]
+        self.assertIsInstance(private_root, Path)
+        self.assertIsInstance(catalog, Path)
+        self.assertIsInstance(run_id, str)
+        sync = self.run_command_for(
+            private_root,
+            catalog,
+            "sync-unlisted",
+            "--run-id",
+            run_id,
+        )
+        self.run_command_for(
+            private_root,
+            catalog,
+            "queue",
+            "--run-id",
+            run_id,
+        )
+        self.run_command_for(private_root, catalog, "validate")
+        fixture["sync"] = sync
+        return fixture
 
     def build_envelope(
         self,
@@ -1507,6 +1611,516 @@ class ReviewLedgerCheck(unittest.TestCase):
             fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
             self.run_command("inventory", expected=2)
             fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+    def test_guarded_publication_prepares_finishes_and_records_live_result_idempotently(self) -> None:
+        fixture = self.ready_publication_fixture(
+            "success",
+            [eligible_candidate()],
+        )
+        private_root = fixture["privateRoot"]
+        catalog = fixture["catalog"]
+        run_id = fixture["runId"]
+        self.assertIsInstance(private_root, Path)
+        self.assertIsInstance(catalog, Path)
+        self.assertIsInstance(run_id, str)
+        self.assertTrue(fixture["begin"]["publicationPreflight"]["eligible"])
+        self.assertEqual(fixture["sync"]["added"], 1)
+
+        prepared = self.run_command_for(
+            private_root,
+            catalog,
+            "prepare-publication",
+            "--run-id",
+            run_id,
+            "--attempt-id",
+            "weekly-success",
+        )
+        self.assertEqual(prepared["status"], "prepared")
+        self.assertTrue(prepared["publicationAllowed"])
+        self.assertEqual(prepared["addedIds"], ["new-product"])
+        self.assertEqual(prepared["blockingReasons"], [])
+        receipt = Path(prepared["receipt"])
+        self.assertTrue(receipt.is_file())
+        self.assertEqual(receipt.stat().st_mode & 0o777, 0o600)
+
+        replay = self.run_command_for(
+            private_root,
+            catalog,
+            "prepare-publication",
+            "--run-id",
+            run_id,
+            "--attempt-id",
+            "weekly-success",
+        )
+        self.assertTrue(replay["idempotentReplay"])
+        events = [
+            json.loads(line)
+            for line in (private_root / "events.jsonl").read_text(encoding="utf-8").splitlines()
+            if line
+        ]
+        self.assertEqual(
+            sum(
+                event.get("eventKey")
+                == f"publication_prepared:{run_id}:weekly-success"
+                for event in events
+            ),
+            1,
+        )
+
+        packet_path = private_root / "review-packets" / f"review-{run_id}.json"
+        packet = json.loads(packet_path.read_text(encoding="utf-8"))
+        publication = packet["publication"]
+        self.assertEqual(publication["status"], "prepared")
+        self.assertEqual(publication["attempts"][0]["addedIds"], ["new-product"])
+        self.assertNotIn("sources", json.dumps(publication).casefold())
+
+        self.run_command_for(
+            private_root,
+            catalog,
+            "record-publication",
+            "--run-id",
+            run_id,
+            "--attempt-id",
+            "weekly-success",
+            "--status",
+            "tests_failed",
+            "--failure-code",
+            "premature-record",
+            expected=2,
+        )
+        self.run_command_for(
+            private_root,
+            catalog,
+            "finish-run",
+            "--run-id",
+            run_id,
+        )
+        repository = fixture["repository"]
+        self.assertIsInstance(repository, Path)
+        self.git(repository, "add", "data/products.json")
+        self.git(repository, "commit", "-m", "Publish guarded catalog projection")
+        commit_sha = self.git(repository, "rev-parse", "HEAD")
+        self.git(repository, "update-ref", "refs/remotes/origin/main", "HEAD")
+        live_catalog_sha256 = prepared["catalogSha256Prepared"]
+        recorded = self.run_command_for(
+            private_root,
+            catalog,
+            "record-publication",
+            "--run-id",
+            run_id,
+            "--attempt-id",
+            "weekly-success",
+            "--status",
+            "live_verified",
+            "--commit-sha",
+            commit_sha,
+            "--deployment-commit-sha",
+            commit_sha,
+            "--deployment-url",
+            "https://caribbeansaas.com/data/products.json",
+            "--live-catalog-sha256",
+            live_catalog_sha256,
+            "--live-verified",
+        )
+        self.assertEqual(recorded["status"], "live_verified")
+        self.assertTrue(recorded["liveVerified"])
+        stale_packet = json.loads(packet_path.read_text(encoding="utf-8"))
+        stale_packet["publication"]["status"] = "prepared"
+        write_json(packet_path, stale_packet)
+        recorded_replay = self.run_command_for(
+            private_root,
+            catalog,
+            "record-publication",
+            "--run-id",
+            run_id,
+            "--attempt-id",
+            "weekly-success",
+            "--status",
+            "live_verified",
+            "--commit-sha",
+            commit_sha,
+            "--deployment-commit-sha",
+            commit_sha,
+            "--deployment-url",
+            "https://caribbeansaas.com/data/products.json",
+            "--live-catalog-sha256",
+            live_catalog_sha256,
+            "--live-verified",
+        )
+        self.assertTrue(recorded_replay["idempotentReplay"])
+        repaired_packet = json.loads(packet_path.read_text(encoding="utf-8"))
+        self.assertEqual(repaired_packet["publication"]["status"], "live_verified")
+        self.run_command_for(
+            private_root,
+            catalog,
+            "record-publication",
+            "--run-id",
+            run_id,
+            "--attempt-id",
+            "weekly-success",
+            "--status",
+            "deployment_failed",
+            "--commit-sha",
+            commit_sha,
+            expected=2,
+        )
+        packet = json.loads(packet_path.read_text(encoding="utf-8"))
+        self.assertEqual(packet["publication"]["status"], "live_verified")
+        self.assertTrue(packet["publication"]["attempts"][0]["liveVerified"])
+
+    def test_publication_enabled_finish_requires_a_resolved_attempt_and_zero_additions_skip(self) -> None:
+        fixture = self.ready_publication_fixture("zero", [])
+        private_root = fixture["privateRoot"]
+        catalog = fixture["catalog"]
+        run_id = fixture["runId"]
+        self.assertIsInstance(private_root, Path)
+        self.assertIsInstance(catalog, Path)
+        self.assertIsInstance(run_id, str)
+        self.assertEqual(fixture["sync"]["added"], 0)
+        self.run_command_for(
+            private_root,
+            catalog,
+            "finish-run",
+            "--run-id",
+            run_id,
+            expected=2,
+        )
+        prepared = self.run_command_for(
+            private_root,
+            catalog,
+            "prepare-publication",
+            "--run-id",
+            run_id,
+        )
+        self.assertEqual(prepared["status"], "not_applicable")
+        self.assertFalse(prepared["publicationAllowed"])
+        self.assertEqual(prepared["additionsCount"], 0)
+        finished = self.run_command_for(
+            private_root,
+            catalog,
+            "finish-run",
+            "--run-id",
+            run_id,
+        )
+        self.assertTrue(finished["lockReleased"])
+        self.assertEqual(finished["publicationStatus"], "not_applicable")
+
+    def test_only_the_current_publication_attempt_can_be_recorded(self) -> None:
+        fixture = self.ready_publication_fixture(
+            "current-attempt",
+            [eligible_candidate()],
+        )
+        private_root = fixture["privateRoot"]
+        catalog = fixture["catalog"]
+        run_id = fixture["runId"]
+        repository = fixture["repository"]
+        self.assertIsInstance(private_root, Path)
+        self.assertIsInstance(catalog, Path)
+        self.assertIsInstance(run_id, str)
+        self.assertIsInstance(repository, Path)
+        first = self.run_command_for(
+            private_root,
+            catalog,
+            "prepare-publication",
+            "--run-id",
+            run_id,
+            "--attempt-id",
+            "attempt-a",
+        )
+        self.assertEqual(first["status"], "prepared")
+        unexpected = repository / "unexpected.txt"
+        unexpected.write_text("block the replacement attempt\n", encoding="utf-8")
+        second = self.run_command_for(
+            private_root,
+            catalog,
+            "prepare-publication",
+            "--run-id",
+            run_id,
+            "--attempt-id",
+            "attempt-b",
+        )
+        self.assertEqual(second["status"], "blocked")
+        unexpected.unlink()
+        self.run_command_for(
+            private_root,
+            catalog,
+            "finish-run",
+            "--run-id",
+            run_id,
+        )
+        self.run_command_for(
+            private_root,
+            catalog,
+            "record-publication",
+            "--run-id",
+            run_id,
+            "--attempt-id",
+            "attempt-a",
+            "--status",
+            "tests_failed",
+            "--failure-code",
+            "stale-attempt",
+            expected=2,
+        )
+
+    def test_publication_enabled_finish_rechecks_the_prepared_catalog_and_repository(self) -> None:
+        fixture = self.ready_publication_fixture(
+            "finish-drift",
+            [eligible_candidate()],
+        )
+        private_root = fixture["privateRoot"]
+        catalog = fixture["catalog"]
+        run_id = fixture["runId"]
+        self.assertIsInstance(private_root, Path)
+        self.assertIsInstance(catalog, Path)
+        self.assertIsInstance(run_id, str)
+        prepared = self.run_command_for(
+            private_root,
+            catalog,
+            "prepare-publication",
+            "--run-id",
+            run_id,
+        )
+        self.assertEqual(prepared["status"], "prepared")
+
+        payload = json.loads(catalog.read_text(encoding="utf-8"))
+        payload["products"][-1]["tagline"] = "Changed after the publication plan"
+        write_json(catalog, payload)
+        self.run_command_for(
+            private_root,
+            catalog,
+            "finish-run",
+            "--run-id",
+            run_id,
+            expected=2,
+        )
+        self.assertTrue((private_root / "run.lock").is_file())
+
+    def test_publication_append_only_and_run_ownership_gates_fail_closed(self) -> None:
+        mutations = {
+            "modified": (
+                lambda payload: payload["products"][0].update(
+                    {"name": "Changed Existing App"}
+                ),
+                "modified or reordered",
+            ),
+            "listed": (
+                lambda payload: payload["products"][-1].update(
+                    {"visibility": "listed"}
+                ),
+                "must remain visibility=unlisted",
+            ),
+            "extra": (
+                lambda payload: payload["products"].append(
+                    {
+                        **copy.deepcopy(payload["products"][-1]),
+                        "id": "manual-extra",
+                        "slug": "manual-extra",
+                        "name": "Manual Extra",
+                    }
+                ),
+                "do not exactly match candidates synced by this run",
+            ),
+            "content": (
+                lambda payload: payload["products"][-1].update(
+                    {
+                        "tagline": "Changed after validation",
+                        "websiteUrl": "https://different.example",
+                    }
+                ),
+                "content or order differs",
+            ),
+        }
+        for label, (mutate, expected_reason) in mutations.items():
+            with self.subTest(label=label):
+                fixture = self.ready_publication_fixture(
+                    f"append-{label}",
+                    [eligible_candidate()],
+                )
+                private_root = fixture["privateRoot"]
+                catalog = fixture["catalog"]
+                run_id = fixture["runId"]
+                self.assertIsInstance(private_root, Path)
+                self.assertIsInstance(catalog, Path)
+                self.assertIsInstance(run_id, str)
+                payload = json.loads(catalog.read_text(encoding="utf-8"))
+                mutate(payload)
+                write_json(catalog, payload)
+                prepared = self.run_command_for(
+                    private_root,
+                    catalog,
+                    "prepare-publication",
+                    "--run-id",
+                    run_id,
+                )
+                self.assertEqual(prepared["status"], "blocked")
+                self.assertFalse(prepared["publicationAllowed"])
+                self.assertTrue(
+                    any(
+                        expected_reason in reason
+                        for reason in prepared["blockingReasons"]
+                    ),
+                    prepared["blockingReasons"],
+                )
+
+        reordered_catalog = sample_catalog()
+        reordered_catalog["products"].append(
+            {
+                "id": "second-existing",
+                "slug": "second-existing",
+                "name": "Second Existing",
+                "websiteUrl": "https://second-existing.example",
+                "productKind": "web_tool",
+                "visibility": "listed",
+                "description": "A second existing public record.",
+            }
+        )
+        fixture = self.ready_publication_fixture(
+            "append-reordered",
+            [eligible_candidate()],
+            reordered_catalog,
+        )
+        private_root = fixture["privateRoot"]
+        catalog = fixture["catalog"]
+        run_id = fixture["runId"]
+        self.assertIsInstance(private_root, Path)
+        self.assertIsInstance(catalog, Path)
+        self.assertIsInstance(run_id, str)
+        payload = json.loads(catalog.read_text(encoding="utf-8"))
+        payload["products"][0], payload["products"][1] = (
+            payload["products"][1],
+            payload["products"][0],
+        )
+        write_json(catalog, payload)
+        prepared = self.run_command_for(
+            private_root,
+            catalog,
+            "prepare-publication",
+            "--run-id",
+            run_id,
+        )
+        self.assertEqual(prepared["status"], "blocked")
+        self.assertTrue(
+            any(
+                "modified or reordered" in reason
+                for reason in prepared["blockingReasons"]
+            )
+        )
+
+    def test_publication_git_dirty_branch_and_base_gates_fail_closed(self) -> None:
+        def add_untracked(fixture: dict[str, object]) -> None:
+            repository = fixture["repository"]
+            self.assertIsInstance(repository, Path)
+            (repository / "unexpected.txt").write_text("unexpected\n", encoding="utf-8")
+
+        def switch_branch(fixture: dict[str, object]) -> None:
+            repository = fixture["repository"]
+            self.assertIsInstance(repository, Path)
+            self.git(repository, "switch", "-c", "feature")
+
+        def advance_head(fixture: dict[str, object]) -> None:
+            repository = fixture["repository"]
+            self.assertIsInstance(repository, Path)
+            self.git(repository, "commit", "--allow-empty", "-m", "Advance HEAD")
+
+        def stage_catalog(fixture: dict[str, object]) -> None:
+            repository = fixture["repository"]
+            self.assertIsInstance(repository, Path)
+            self.git(repository, "add", "data/products.json")
+
+        cases = {
+            "dirty": (add_untracked, "forbids untracked files"),
+            "branch": (switch_branch, "requires the main branch"),
+            "base": (advance_head, "Git HEAD changed after run start"),
+            "staged": (stage_catalog, "requires an empty Git index"),
+        }
+        for label, (mutate_repository, expected_reason) in cases.items():
+            with self.subTest(label=label):
+                fixture = self.ready_publication_fixture(
+                    f"git-{label}",
+                    [eligible_candidate()],
+                )
+                private_root = fixture["privateRoot"]
+                catalog = fixture["catalog"]
+                run_id = fixture["runId"]
+                self.assertIsInstance(private_root, Path)
+                self.assertIsInstance(catalog, Path)
+                self.assertIsInstance(run_id, str)
+                mutate_repository(fixture)
+                prepared = self.run_command_for(
+                    private_root,
+                    catalog,
+                    "prepare-publication",
+                    "--run-id",
+                    run_id,
+                    "--attempt-id",
+                    f"attempt-{label}",
+                )
+                self.assertEqual(prepared["status"], "blocked")
+                self.assertTrue(
+                    any(
+                        expected_reason in reason
+                        for reason in prepared["blockingReasons"]
+                    ),
+                    prepared["blockingReasons"],
+                )
+                replay = self.run_command_for(
+                    private_root,
+                    catalog,
+                    "prepare-publication",
+                    "--run-id",
+                    run_id,
+                    "--attempt-id",
+                    f"attempt-{label}",
+                )
+                self.assertTrue(replay["idempotentReplay"])
+                self.assertEqual(
+                    replay["blockingReasons"],
+                    prepared["blockingReasons"],
+                )
+
+    def test_dirty_run_start_disables_public_projection_in_publication_mode(self) -> None:
+        repository = self.workspace / "publication-dirty-start"
+        catalog = repository / "data" / "products.json"
+        private_root = self.workspace / "publication-private-dirty-start"
+        catalog.parent.mkdir(parents=True)
+        write_json(catalog, sample_catalog())
+        self.git(repository, "init")
+        self.git(repository, "config", "user.name", "Ledger Test")
+        self.git(repository, "config", "user.email", "ledger-test@example.test")
+        self.git(repository, "add", "data/products.json")
+        self.git(repository, "commit", "-m", "Initial catalog")
+        self.git(repository, "branch", "-M", "main")
+        self.git(repository, "remote", "add", "origin", ".")
+        self.git(repository, "update-ref", "refs/remotes/origin/main", "HEAD")
+        self.git(repository, "branch", "--set-upstream-to=origin/main", "main")
+        (repository / "unexpected.txt").write_text("dirty\n", encoding="utf-8")
+        run_id = "run-publication-dirty-start"
+        self.run_command_for(private_root, catalog, "init")
+        begin = self.run_command_for(
+            private_root,
+            catalog,
+            "begin-run",
+            "--run-id",
+            run_id,
+            "--publish-unlisted",
+        )
+        self.assertFalse(begin["publicationPreflight"]["eligible"])
+        input_path = self.workspace / "publication-dirty-start-input.json"
+        write_json(input_path, self.build_envelope([eligible_candidate()], run_id))
+        self.run_command_for(private_root, catalog, "ingest", str(input_path))
+        self.run_command_for(
+            private_root,
+            catalog,
+            "sync-unlisted",
+            "--run-id",
+            run_id,
+            expected=2,
+        )
+        self.assertEqual(
+            json.loads(catalog.read_text(encoding="utf-8"))["products"],
+            sample_catalog()["products"],
+        )
 
     def test_exact_app_store_id_prevents_rediscovery_across_name_and_domain_changes(self) -> None:
         first = eligible_candidate("Island Mobile", "https://island-mobile.example")

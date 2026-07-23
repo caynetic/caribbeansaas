@@ -39,7 +39,7 @@ REPO_ROOT = next(
 )
 DEFAULT_PRIVATE_ROOT = REPO_ROOT / "private" / "reviews"
 DEFAULT_CATALOG = REPO_ROOT / "data" / "products.json"
-SCHEMA_VERSION = 4
+SCHEMA_VERSION = 5
 TRACKING_QUERY_KEYS = {"fbclid", "gclid", "mc_cid", "mc_eid"}
 PRIVATE_FIELD_NAMES = {
     "audit",
@@ -247,6 +247,18 @@ WORKER_ATTESTATION_FIELDS = {
     "repositoryActions",
 }
 SOURCE_REFERENCE_FIELDS = {"sourceIds", "evidenceSourceIds"}
+PUBLICATION_MODE_DISABLED = "disabled"
+PUBLICATION_MODE_UNLISTED = "publish_unlisted"
+PUBLICATION_PREPARE_STATUSES = {"prepared", "not_applicable", "blocked"}
+PUBLICATION_RESULT_STATUSES = {
+    "tests_failed",
+    "commit_failed",
+    "push_conflict",
+    "push_failed",
+    "pushed_not_verified",
+    "deployment_failed",
+    "live_verified",
+}
 
 
 class LedgerError(RuntimeError):
@@ -828,6 +840,192 @@ def ensure_clean_real_catalog(catalog: Path, allow_dirty_catalog: bool) -> None:
             "Refusing to use a dirty real data/products.json. Commit or stash its changes first, "
             "or use --allow-dirty-catalog only for an isolated test fixture."
         )
+
+
+def git_text(repository: Path, *arguments: str) -> tuple[bool, str]:
+    result = subprocess.run(
+        ["git", *arguments],
+        cwd=repository,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    return result.returncode == 0, result.stdout.strip()
+
+
+def git_paths(repository: Path, *arguments: str) -> tuple[bool, list[str]]:
+    result = subprocess.run(
+        ["git", *arguments, "-z"],
+        cwd=repository,
+        check=False,
+        capture_output=True,
+    )
+    if result.returncode != 0:
+        return False, []
+    return True, sorted(
+        part.decode("utf-8", errors="surrogateescape")
+        for part in result.stdout.split(b"\0")
+        if part
+    )
+
+
+def repository_preflight(catalog: Path) -> dict[str, Any]:
+    """Capture local-only Git facts used by the coordinator publication gate."""
+    captured_at = utc_now()
+    probe = subprocess.run(
+        ["git", "-C", str(catalog.parent), "rev-parse", "--show-toplevel"],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if probe.returncode != 0 or not probe.stdout.strip():
+        return {
+            "capturedAt": captured_at,
+            "repositoryDetected": False,
+            "eligible": False,
+            "errors": ["catalog is not inside a Git worktree"],
+        }
+
+    repository = Path(probe.stdout.strip()).resolve()
+    errors: list[str] = []
+    try:
+        catalog_path = catalog.resolve().relative_to(repository).as_posix()
+    except ValueError:
+        return {
+            "capturedAt": captured_at,
+            "repositoryDetected": True,
+            "eligible": False,
+            "errors": ["catalog is outside its detected Git worktree"],
+        }
+
+    branch_ok, branch = git_text(repository, "symbolic-ref", "--quiet", "--short", "HEAD")
+    head_ok, head_sha = git_text(repository, "rev-parse", "--verify", "HEAD")
+    upstream_ref_ok, upstream_ref = git_text(
+        repository,
+        "rev-parse",
+        "--abbrev-ref",
+        "--symbolic-full-name",
+        "@{upstream}",
+    )
+    upstream_sha_ok, upstream_sha = git_text(
+        repository,
+        "rev-parse",
+        "--verify",
+        "@{upstream}",
+    )
+    tracked_ok, _tracked_path = git_text(
+        repository,
+        "ls-files",
+        "--error-unmatch",
+        "--",
+        catalog_path,
+    )
+    staged_ok, staged_paths = git_paths(
+        repository,
+        "diff",
+        "--cached",
+        "--name-only",
+        "--no-renames",
+    )
+    unstaged_ok, unstaged_paths = git_paths(
+        repository,
+        "diff",
+        "--name-only",
+        "--no-renames",
+    )
+    untracked_ok, untracked_paths = git_paths(
+        repository,
+        "ls-files",
+        "--others",
+        "--exclude-standard",
+    )
+
+    ahead = None
+    behind = None
+    if head_ok and upstream_sha_ok:
+        counts_ok, counts = git_text(
+            repository,
+            "rev-list",
+            "--left-right",
+            "--count",
+            "HEAD...@{upstream}",
+        )
+        if counts_ok:
+            parts = counts.split()
+            if len(parts) == 2 and all(part.isdigit() for part in parts):
+                ahead, behind = (int(parts[0]), int(parts[1]))
+            else:
+                errors.append("could not parse local upstream divergence")
+        else:
+            errors.append("could not inspect local upstream divergence")
+
+    for succeeded, message in (
+        (branch_ok, "could not identify the current Git branch"),
+        (head_ok, "could not identify the current Git HEAD"),
+        (upstream_ref_ok, "current branch has no locally resolvable upstream"),
+        (upstream_sha_ok, "could not identify the local upstream commit"),
+        (tracked_ok, "catalog is not tracked by Git"),
+        (staged_ok, "could not inspect staged paths"),
+        (unstaged_ok, "could not inspect unstaged paths"),
+        (untracked_ok, "could not inspect untracked paths"),
+    ):
+        if not succeeded:
+            errors.append(message)
+
+    clean = bool(
+        staged_ok
+        and unstaged_ok
+        and untracked_ok
+        and not staged_paths
+        and not unstaged_paths
+        and not untracked_paths
+    )
+    aligned = bool(
+        head_ok
+        and upstream_sha_ok
+        and head_sha == upstream_sha
+        and ahead == 0
+        and behind == 0
+    )
+    eligible = bool(
+        not errors
+        and catalog_path == "data/products.json"
+        and branch == "main"
+        and upstream_ref == "origin/main"
+        and clean
+        and aligned
+    )
+    if catalog_path != "data/products.json":
+        errors.append("publication catalog path must be data/products.json")
+    if branch_ok and branch != "main":
+        errors.append("publication requires the main branch")
+    if upstream_ref_ok and upstream_ref != "origin/main":
+        errors.append("publication requires main to track origin/main")
+    if not clean:
+        errors.append("publication requires a clean whole worktree at run start")
+    if not aligned:
+        errors.append("HEAD must match the locally resolved upstream commit")
+
+    return {
+        "capturedAt": captured_at,
+        "repositoryDetected": True,
+        "repositoryRoot": str(repository),
+        "catalogPath": catalog_path,
+        "catalogTracked": tracked_ok,
+        "branch": branch if branch_ok else None,
+        "headSha": head_sha if head_ok else None,
+        "upstreamRef": upstream_ref if upstream_ref_ok else None,
+        "upstreamSha": upstream_sha if upstream_sha_ok else None,
+        "ahead": ahead,
+        "behind": behind,
+        "stagedPaths": staged_paths,
+        "unstagedPaths": unstaged_paths,
+        "untrackedPaths": untracked_paths,
+        "clean": clean,
+        "aligned": aligned,
+        "eligible": eligible,
+        "errors": list(dict.fromkeys(errors)),
+    }
 
 
 def load_catalog(catalog: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
@@ -2333,6 +2531,7 @@ class ReviewLedger:
         self.events_path = self.root / "events.jsonl"
         self.snapshots_path = self.root / "snapshots"
         self.queue_path = self.root / "review-packets"
+        self.publication_receipts_path = self.root / "publication-receipts"
         self.ledger_lock_path = self.root / "ledger.lock"
         self.lock_path = self.root / "run.lock"
 
@@ -2361,6 +2560,7 @@ class ReviewLedger:
         self.root.mkdir(parents=True, exist_ok=True)
         self.snapshots_path.mkdir(parents=True, exist_ok=True)
         self.queue_path.mkdir(parents=True, exist_ok=True)
+        self.publication_receipts_path.mkdir(parents=True, exist_ok=True)
         self.events_path.touch(exist_ok=True)
         with self.connect() as connection:
             connection.executescript(
@@ -2396,6 +2596,7 @@ class ReviewLedger:
                     catalog_match_id TEXT,
                     source_digest TEXT NOT NULL,
                     synced_catalog_id TEXT,
+                    synced_public_record_json TEXT NOT NULL DEFAULT '{}',
                     created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
                 );
@@ -2409,8 +2610,22 @@ class ReviewLedger:
                     lifecycle_stage TEXT NOT NULL DEFAULT 'started',
                     catalog_clean_at_start INTEGER NOT NULL DEFAULT 0,
                     catalog_sha256_at_start TEXT NOT NULL DEFAULT '',
+                    publication_mode TEXT NOT NULL DEFAULT 'disabled',
+                    publication_status TEXT NOT NULL DEFAULT 'disabled',
+                    publication_attempt_id TEXT,
+                    repository_preflight_json TEXT NOT NULL DEFAULT '{}',
                     finished_at TEXT,
                     created_at TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS publication_attempts (
+                    attempt_id TEXT PRIMARY KEY,
+                    run_id TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    plan_json TEXT NOT NULL DEFAULT '{}',
+                    result_json TEXT NOT NULL DEFAULT '{}',
+                    prepared_at TEXT NOT NULL,
+                    recorded_at TEXT,
+                    FOREIGN KEY(run_id) REFERENCES runs(run_id)
                 );
                 CREATE TABLE IF NOT EXISTS observations (
                     event_key TEXT PRIMARY KEY,
@@ -2425,6 +2640,8 @@ class ReviewLedger:
                 CREATE INDEX IF NOT EXISTS candidate_name_index ON candidates(normalized_name);
                 CREATE INDEX IF NOT EXISTS candidate_state_index ON candidates(state);
                 CREATE INDEX IF NOT EXISTS observation_run_index ON observations(run_id);
+                CREATE INDEX IF NOT EXISTS publication_attempt_run_index
+                    ON publication_attempts(run_id);
                 """
             )
             self.ensure_column(connection, "candidates", "automated_review_json", "TEXT NOT NULL DEFAULT '{}'")
@@ -2435,8 +2652,33 @@ class ReviewLedger:
             self.ensure_column(connection, "candidates", "app_store_ids_json", "TEXT NOT NULL DEFAULT '[]'")
             self.ensure_column(connection, "candidates", "aliases_json", "TEXT NOT NULL DEFAULT '[]'")
             self.ensure_column(connection, "candidates", "run_id", "TEXT NOT NULL DEFAULT ''")
+            self.ensure_column(
+                connection,
+                "candidates",
+                "synced_public_record_json",
+                "TEXT NOT NULL DEFAULT '{}'",
+            )
             self.ensure_column(connection, "runs", "catalog_clean_at_start", "INTEGER NOT NULL DEFAULT 0")
             self.ensure_column(connection, "runs", "catalog_sha256_at_start", "TEXT NOT NULL DEFAULT ''")
+            self.ensure_column(
+                connection,
+                "runs",
+                "publication_mode",
+                "TEXT NOT NULL DEFAULT 'disabled'",
+            )
+            self.ensure_column(
+                connection,
+                "runs",
+                "publication_status",
+                "TEXT NOT NULL DEFAULT 'disabled'",
+            )
+            self.ensure_column(connection, "runs", "publication_attempt_id", "TEXT")
+            self.ensure_column(
+                connection,
+                "runs",
+                "repository_preflight_json",
+                "TEXT NOT NULL DEFAULT '{}'",
+            )
             self.ensure_column(connection, "runs", "finished_at", "TEXT")
             self.ensure_column(connection, "runs", "attestation_json", "TEXT NOT NULL DEFAULT '{}'")
             self.ensure_column(
@@ -2485,6 +2727,16 @@ class ReviewLedger:
                 UPDATE runs
                 SET finished_at = created_at
                 WHERE finished_at IS NULL AND catalog_sha256_at_start = ''
+                """
+            )
+            connection.execute(
+                """
+                UPDATE runs
+                SET publication_mode = 'disabled',
+                    publication_status = 'disabled',
+                    repository_preflight_json = '{}'
+                WHERE publication_mode IS NULL
+                   OR publication_mode NOT IN ('disabled', 'publish_unlisted')
                 """
             )
             for row in connection.execute(
@@ -2640,7 +2892,13 @@ class ReviewLedger:
             finally:
                 handle.close()
 
-    def begin_run(self, catalog: Path, run_id: str, allow_dirty_catalog: bool) -> dict[str, Any]:
+    def begin_run(
+        self,
+        catalog: Path,
+        run_id: str,
+        allow_dirty_catalog: bool,
+        publish_unlisted: bool = False,
+    ) -> dict[str, Any]:
         cleaned_run_id = text(run_id)
         if not cleaned_run_id:
             raise LedgerError("begin-run requires a non-empty run ID.")
@@ -2658,12 +2916,20 @@ class ReviewLedger:
         read_json(catalog)
         catalog_digest = hashlib.sha256(catalog_bytes).hexdigest()
         clean_at_start = catalog_is_clean(catalog, allow_dirty_catalog)
+        publication_mode = (
+            PUBLICATION_MODE_UNLISTED
+            if publish_unlisted
+            else PUBLICATION_MODE_DISABLED
+        )
+        preflight = repository_preflight(catalog) if publish_unlisted else {}
+        publication_status = "pending" if publish_unlisted else "disabled"
         started_at = utc_now()
         lock_payload = {
             "runId": cleaned_run_id,
             "startedAt": started_at,
             "catalogCleanAtStart": clean_at_start,
             "catalogSha256AtStart": catalog_digest,
+            "publicationMode": publication_mode,
         }
         descriptor: int | None = None
         lock_created = False
@@ -2679,10 +2945,20 @@ class ReviewLedger:
                     INSERT INTO runs (
                         run_id, provenance_json, coverage_json, source_failures_json,
                         attestation_json, worker_contracts_validated,
-                        catalog_clean_at_start, catalog_sha256_at_start, finished_at, created_at
-                    ) VALUES (?, '{}', '{}', '[]', '{}', 0, ?, ?, NULL, ?)
+                        catalog_clean_at_start, catalog_sha256_at_start,
+                        publication_mode, publication_status, repository_preflight_json,
+                        finished_at, created_at
+                    ) VALUES (?, '{}', '{}', '[]', '{}', 0, ?, ?, ?, ?, ?, NULL, ?)
                     """,
-                    (cleaned_run_id, int(clean_at_start), catalog_digest, started_at),
+                    (
+                        cleaned_run_id,
+                        int(clean_at_start),
+                        catalog_digest,
+                        publication_mode,
+                        publication_status,
+                        stable_json(preflight),
+                        started_at,
+                    ),
                 )
             snapshot = self.snapshot(catalog)
             self.append_event(
@@ -2710,6 +2986,7 @@ class ReviewLedger:
             **lock_payload,
             "lock": str(self.lock_path),
             "snapshot": snapshot["snapshot"],
+            "publicationPreflight": self.publication_preflight_summary(preflight),
         }
 
     def finish_run(self, catalog: Path, run_id: str) -> dict[str, Any]:
@@ -2724,6 +3001,78 @@ class ReviewLedger:
                 f"Run {run_id!r} is at lifecycle stage {run['lifecycle_stage']!r}; "
                 "generate its packet and complete successful validation before finishing."
             )
+        if run["publication_mode"] == PUBLICATION_MODE_UNLISTED:
+            attempt_id = text(run["publication_attempt_id"])
+            if not attempt_id:
+                raise LedgerError(
+                    f"Run {run_id!r} enabled guarded publication but has no resolved "
+                    "publication attempt; call prepare-publication before finishing."
+                )
+            with self.connect() as connection:
+                publication_attempt = connection.execute(
+                    """
+                    SELECT status, plan_json FROM publication_attempts
+                    WHERE run_id = ? AND attempt_id = ?
+                    """,
+                    (run_id, attempt_id),
+                ).fetchone()
+            if (
+                not publication_attempt
+                or publication_attempt["status"] not in PUBLICATION_PREPARE_STATUSES
+            ):
+                raise LedgerError(
+                    f"Run {run_id!r} has not resolved its guarded publication gate; "
+                    "the private lock remains in place."
+                )
+            if publication_attempt["status"] == "prepared":
+                try:
+                    plan = json.loads(publication_attempt["plan_json"] or "{}")
+                    start_preflight = json.loads(
+                        run["repository_preflight_json"] or "{}"
+                    )
+                except json.JSONDecodeError as error:
+                    raise LedgerError(
+                        f"Run {run_id!r} has malformed publication proof data; "
+                        "the private lock remains in place."
+                    ) from error
+                current_catalog_digest = hashlib.sha256(catalog.read_bytes()).hexdigest()
+                if current_catalog_digest != plan.get("catalogSha256Prepared"):
+                    raise LedgerError(
+                        f"Run {run_id!r} catalog changed after publication preparation; "
+                        "the private lock remains in place."
+                    )
+                current_preflight = repository_preflight(catalog)
+                expected_catalog_path = str(
+                    start_preflight.get("catalogPath") or "data/products.json"
+                )
+                unresolved_preflight_errors = [
+                    error
+                    for error in current_preflight.get("errors") or []
+                    if error
+                    != "publication requires a clean whole worktree at run start"
+                ]
+                repository_still_prepared = bool(
+                    not unresolved_preflight_errors
+                    and current_preflight.get("repositoryRoot")
+                    == start_preflight.get("repositoryRoot")
+                    and current_preflight.get("catalogPath") == expected_catalog_path
+                    and current_preflight.get("branch") == "main"
+                    and current_preflight.get("headSha")
+                    == start_preflight.get("headSha")
+                    and current_preflight.get("upstreamRef") == "origin/main"
+                    and current_preflight.get("upstreamSha")
+                    == start_preflight.get("upstreamSha")
+                    and current_preflight.get("aligned")
+                    and not current_preflight.get("stagedPaths")
+                    and not current_preflight.get("untrackedPaths")
+                    and current_preflight.get("unstagedPaths")
+                    == [expected_catalog_path]
+                )
+                if not repository_still_prepared:
+                    raise LedgerError(
+                        f"Run {run_id!r} repository changed after publication preparation; "
+                        "the private lock remains in place."
+                    )
         queue_file, queue_json = self.packet_paths(run_id)
         if not queue_file.is_file() or not queue_json.is_file():
             raise LedgerError(
@@ -2743,6 +3092,18 @@ class ReviewLedger:
         ):
             raise LedgerError(
                 f"Run {run_id!r} has a packet that does not match its validated ingest."
+            )
+        packet_publication = packet.get("publication")
+        if (
+            not isinstance(packet_publication, dict)
+            or packet_publication.get("mode") != run["publication_mode"]
+            or packet_publication.get("status") != run["publication_status"]
+            or packet_publication.get("currentAttemptId")
+            != run["publication_attempt_id"]
+        ):
+            raise LedgerError(
+                f"Run {run_id!r} has a stale publication summary in its private packet; "
+                "replay the current publication command before finishing."
             )
         validation = self.validate(catalog)
         if not validation["valid"]:
@@ -2775,6 +3136,8 @@ class ReviewLedger:
             "catalogCleanAtStart": bool(run["catalog_clean_at_start"]),
             "lifecycleStage": "finished",
             "lockReleased": True,
+            "publicationStatus": run["publication_status"],
+            "publicationAttemptId": run["publication_attempt_id"],
         }
 
     @staticmethod
@@ -2830,6 +3193,796 @@ class ReviewLedger:
             "created": created,
             "catalogSha256": digest,
             "snapshot": str(snapshot_path),
+        }
+
+    @staticmethod
+    def publication_preflight_summary(preflight: dict[str, Any]) -> dict[str, Any]:
+        if not preflight:
+            return {}
+        return {
+            "capturedAt": preflight.get("capturedAt"),
+            "repositoryDetected": bool(preflight.get("repositoryDetected")),
+            "catalogPath": preflight.get("catalogPath"),
+            "catalogTracked": bool(preflight.get("catalogTracked")),
+            "branch": preflight.get("branch"),
+            "headSha": preflight.get("headSha"),
+            "upstreamRef": preflight.get("upstreamRef"),
+            "upstreamSha": preflight.get("upstreamSha"),
+            "ahead": preflight.get("ahead"),
+            "behind": preflight.get("behind"),
+            "clean": bool(preflight.get("clean")),
+            "aligned": bool(preflight.get("aligned")),
+            "eligible": bool(preflight.get("eligible")),
+            "stagedPathCount": len(preflight.get("stagedPaths") or []),
+            "unstagedPathCount": len(preflight.get("unstagedPaths") or []),
+            "untrackedPathCount": len(preflight.get("untrackedPaths") or []),
+            "errors": list(preflight.get("errors") or []),
+        }
+
+    @staticmethod
+    def publication_attempt_id(run_id: str, attempt_id: str | None) -> str:
+        cleaned = text(attempt_id) or f"{run_id}-publication"
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", cleaned):
+            raise LedgerError(
+                "Publication attempt IDs must be 1-128 letters, digits, dots, underscores, or hyphens."
+            )
+        return cleaned
+
+    def publication_receipt_path(self, run_id: str, attempt_id: str) -> Path:
+        safe_run = re.sub(r"[^A-Za-z0-9._-]+", "-", run_id).strip("-") or "run"
+        safe_attempt = re.sub(r"[^A-Za-z0-9._-]+", "-", attempt_id).strip("-") or "attempt"
+        return self.publication_receipts_path / f"{safe_run}--{safe_attempt}.json"
+
+    def write_publication_receipt(
+        self,
+        run_id: str,
+        attempt_id: str,
+        plan: dict[str, Any],
+        result: dict[str, Any],
+    ) -> Path:
+        receipt_path = self.publication_receipt_path(run_id, attempt_id)
+        atomic_write_json(
+            receipt_path,
+            {
+                "schemaVersion": 1,
+                "runId": run_id,
+                "attemptId": attempt_id,
+                "plan": plan,
+                "result": result,
+            },
+        )
+        os.chmod(receipt_path, 0o600)
+        return receipt_path
+
+    def publication_summary(self, run_id: str) -> dict[str, Any]:
+        with self.connect() as connection:
+            run = connection.execute(
+                """
+                SELECT publication_mode, publication_status, publication_attempt_id,
+                       repository_preflight_json
+                FROM runs WHERE run_id = ?
+                """,
+                (run_id,),
+            ).fetchone()
+            if not run:
+                raise LedgerError(f"Unknown private review run: {run_id}")
+            attempts = connection.execute(
+                """
+                SELECT attempt_id, status, plan_json, result_json, prepared_at, recorded_at
+                FROM publication_attempts
+                WHERE run_id = ?
+                ORDER BY prepared_at ASC, attempt_id ASC
+                """,
+                (run_id,),
+            ).fetchall()
+        try:
+            preflight = json.loads(run["repository_preflight_json"] or "{}")
+        except json.JSONDecodeError:
+            preflight = {}
+        attempt_summaries: list[dict[str, Any]] = []
+        for attempt in attempts:
+            try:
+                plan = json.loads(attempt["plan_json"] or "{}")
+                result = json.loads(attempt["result_json"] or "{}")
+            except json.JSONDecodeError:
+                plan, result = {}, {}
+            attempt_summaries.append(
+                {
+                    "attemptId": attempt["attempt_id"],
+                    "status": attempt["status"],
+                    "preparedAt": attempt["prepared_at"],
+                    "recordedAt": attempt["recorded_at"],
+                    "publicationAllowed": bool(plan.get("publicationAllowed")),
+                    "additionsCount": int(plan.get("additionsCount") or 0),
+                    "addedIds": list(plan.get("addedIds") or []),
+                    "blockingReasons": list(plan.get("blockingReasons") or []),
+                    "commitSha": result.get("commitSha"),
+                    "deploymentCommitSha": result.get("deploymentCommitSha"),
+                    "deploymentUrl": result.get("deploymentUrl"),
+                    "liveCatalogSha256": result.get("liveCatalogSha256"),
+                    "failureCode": result.get("failureCode"),
+                    "liveVerified": bool(result.get("liveVerified")),
+                }
+            )
+        return {
+            "mode": run["publication_mode"],
+            "status": run["publication_status"],
+            "currentAttemptId": run["publication_attempt_id"],
+            "preflight": self.publication_preflight_summary(
+                preflight if isinstance(preflight, dict) else {}
+            ),
+            "attempts": attempt_summaries,
+        }
+
+    def prepare_publication(
+        self,
+        catalog: Path,
+        run_id: str,
+        attempt_id: str | None = None,
+    ) -> dict[str, Any]:
+        run = self.require_active_run(run_id)
+        if run["publication_mode"] != PUBLICATION_MODE_UNLISTED:
+            raise LedgerError(
+                f"Run {run_id!r} did not enable guarded publication at begin-run."
+            )
+        if run["lifecycle_stage"] != "validated":
+            raise LedgerError(
+                f"Run {run_id!r} is at lifecycle stage {run['lifecycle_stage']!r}; "
+                "prepare-publication requires successful packet and catalog validation."
+            )
+        cleaned_attempt_id = self.publication_attempt_id(run_id, attempt_id)
+        with self.connect() as connection:
+            existing = connection.execute(
+                "SELECT * FROM publication_attempts WHERE attempt_id = ?",
+                (cleaned_attempt_id,),
+            ).fetchone()
+        if existing:
+            if existing["run_id"] != run_id:
+                raise LedgerError(
+                    f"Publication attempt ID {cleaned_attempt_id!r} belongs to another run."
+                )
+            try:
+                plan = json.loads(existing["plan_json"])
+                result = json.loads(existing["result_json"] or "{}")
+            except json.JSONDecodeError as error:
+                raise LedgerError(
+                    f"Publication attempt {cleaned_attempt_id!r} contains malformed private JSON."
+                ) from error
+            receipt_path = self.write_publication_receipt(
+                run_id,
+                cleaned_attempt_id,
+                plan,
+                result,
+            )
+            self.append_event(
+                {
+                    "event": "publication_prepared",
+                    "eventKey": (
+                        f"publication_prepared:{run_id}:{cleaned_attempt_id}"
+                    ),
+                    "runId": run_id,
+                    "attemptId": cleaned_attempt_id,
+                    "status": existing["status"],
+                    "publicationAllowed": bool(plan.get("publicationAllowed")),
+                    "addedIds": list(plan.get("addedIds") or []),
+                    "blockingReasons": list(plan.get("blockingReasons") or []),
+                }
+            )
+            self.queue(run_id)
+            return {
+                **plan,
+                "idempotentReplay": True,
+                "receipt": str(receipt_path),
+            }
+
+        blocking_reasons: list[str] = []
+        try:
+            start_preflight = json.loads(run["repository_preflight_json"] or "{}")
+        except json.JSONDecodeError:
+            start_preflight = {}
+            blocking_reasons.append("run-start repository preflight is malformed")
+        if not isinstance(start_preflight, dict):
+            start_preflight = {}
+            blocking_reasons.append("run-start repository preflight is invalid")
+        if not bool(start_preflight.get("eligible")):
+            blocking_reasons.append(
+                "run-start repository preflight was not clean, main, tracked, and upstream-aligned"
+            )
+
+        snapshot_path = self.snapshots_path / f"products-{run['catalog_sha256_at_start']}.json"
+        try:
+            snapshot_bytes = snapshot_path.read_bytes()
+        except FileNotFoundError:
+            snapshot_bytes = b""
+            blocking_reasons.append("run-start catalog snapshot is missing")
+        if snapshot_bytes and hashlib.sha256(snapshot_bytes).hexdigest() != run["catalog_sha256_at_start"]:
+            blocking_reasons.append("run-start catalog snapshot digest does not match the run")
+
+        start_payload: dict[str, Any] = {}
+        start_products: list[dict[str, Any]] = []
+        if snapshot_bytes:
+            try:
+                parsed_start = json.loads(snapshot_bytes)
+                if (
+                    isinstance(parsed_start, dict)
+                    and isinstance(parsed_start.get("products"), list)
+                    and all(isinstance(item, dict) for item in parsed_start["products"])
+                ):
+                    start_payload = parsed_start
+                    start_products = parsed_start["products"]
+                else:
+                    blocking_reasons.append("run-start catalog snapshot has an invalid shape")
+            except json.JSONDecodeError:
+                blocking_reasons.append("run-start catalog snapshot is invalid JSON")
+
+        try:
+            current_payload, current_products = load_catalog(catalog)
+        except LedgerError as error:
+            current_payload, current_products = {}, []
+            blocking_reasons.append(str(error))
+
+        if start_payload and current_payload:
+            start_metadata = {key: value for key, value in start_payload.items() if key != "products"}
+            current_metadata = {key: value for key, value in current_payload.items() if key != "products"}
+            if current_metadata != start_metadata:
+                blocking_reasons.append("catalog top-level metadata changed after run start")
+            if len(current_products) < len(start_products):
+                blocking_reasons.append("catalog records were deleted after run start")
+            elif current_products[: len(start_products)] != start_products:
+                blocking_reasons.append(
+                    "run-start catalog records were modified or reordered"
+                )
+
+        additions = (
+            current_products[len(start_products) :]
+            if start_payload
+            and len(current_products) >= len(start_products)
+            and current_products[: len(start_products)] == start_products
+            else []
+        )
+        added_ids = [text(record.get("id")) for record in additions]
+        if any(identifier is None for identifier in added_ids):
+            blocking_reasons.append("every appended catalog record requires a public ID")
+        if len({identifier for identifier in added_ids if identifier}) != len(added_ids):
+            blocking_reasons.append("appended catalog record IDs must be unique")
+
+        with self.connect() as connection:
+            owned_rows = connection.execute(
+                """
+                SELECT candidate_id, synced_catalog_id, synced_public_record_json
+                FROM candidates
+                WHERE run_id = ?
+                  AND state = 'synced_unlisted'
+                  AND synced_catalog_id IS NOT NULL
+                ORDER BY created_at ASC, candidate_id ASC
+                """,
+                (run_id,),
+            ).fetchall()
+        expected_records: list[dict[str, Any]] = []
+        for row in owned_rows:
+            try:
+                synced_record = json.loads(row["synced_public_record_json"] or "{}")
+            except json.JSONDecodeError:
+                synced_record = {}
+            if (
+                not isinstance(synced_record, dict)
+                or not synced_record
+                or synced_record.get("id") != row["synced_catalog_id"]
+            ):
+                blocking_reasons.append(
+                    f"{row['candidate_id']}: stored synced public projection is missing or invalid"
+                )
+                continue
+            expected_records.append(synced_record)
+        expected_ids = sorted(str(row["synced_catalog_id"]) for row in owned_rows)
+        actual_ids = sorted(identifier for identifier in added_ids if identifier)
+        if actual_ids != expected_ids:
+            blocking_reasons.append(
+                "catalog additions do not exactly match candidates synced by this run"
+            )
+        if additions != expected_records:
+            blocking_reasons.append(
+                "catalog addition content or order differs from this run's stored public projection"
+            )
+
+        for record in additions:
+            identifier = text(record.get("id")) or "<missing-id>"
+            if record.get("visibility") != "unlisted":
+                blocking_reasons.append(
+                    f"{identifier}: publication additions must remain visibility=unlisted"
+                )
+            leaked = catalog_has_private_fields(record)
+            if leaked:
+                blocking_reasons.append(
+                    f"{identifier}: private fields present ({', '.join(leaked)})"
+                )
+            unexpected_fields = sorted(set(record) - PUBLIC_RECORD_FIELDS)
+            if unexpected_fields:
+                blocking_reasons.append(
+                    f"{identifier}: fields outside the public schema "
+                    f"({', '.join(unexpected_fields)})"
+                )
+            contact_fields = sorted(
+                field
+                for field in PUBLIC_CONTACT_SCAN_FIELDS
+                if field in record and contains_contact_detail(record[field])
+            )
+            if contact_fields:
+                blocking_reasons.append(
+                    f"{identifier}: contact details found in public fields "
+                    f"({', '.join(contact_fields)})"
+                )
+            if record.get("productKind") not in PRODUCT_KINDS:
+                blocking_reasons.append(
+                    f"{identifier}: invalid productKind {record.get('productKind')!r}"
+                )
+
+        current_preflight = repository_preflight(catalog)
+        catalog_path = str(start_preflight.get("catalogPath") or "data/products.json")
+        if not bool(current_preflight.get("repositoryDetected")):
+            blocking_reasons.append("catalog is no longer inside its Git worktree")
+        if current_preflight.get("repositoryRoot") != start_preflight.get("repositoryRoot"):
+            blocking_reasons.append("catalog Git worktree changed after run start")
+        if current_preflight.get("catalogPath") != catalog_path:
+            blocking_reasons.append("catalog Git path changed after run start")
+        if not bool(current_preflight.get("catalogTracked")):
+            blocking_reasons.append("catalog is no longer tracked by Git")
+        if current_preflight.get("branch") != "main":
+            blocking_reasons.append("publication preparation requires the main branch")
+        if current_preflight.get("headSha") != start_preflight.get("headSha"):
+            blocking_reasons.append("Git HEAD changed after run start")
+        if current_preflight.get("upstreamRef") != start_preflight.get("upstreamRef"):
+            blocking_reasons.append("Git upstream changed after run start")
+        if current_preflight.get("upstreamSha") != start_preflight.get("upstreamSha"):
+            blocking_reasons.append("local upstream commit changed after run start")
+        if not bool(current_preflight.get("aligned")):
+            blocking_reasons.append("Git HEAD no longer matches the local upstream commit")
+        if current_preflight.get("stagedPaths"):
+            blocking_reasons.append("publication preparation requires an empty Git index")
+        if current_preflight.get("untrackedPaths"):
+            blocking_reasons.append("publication preparation forbids untracked files")
+        expected_unstaged = [catalog_path] if additions else []
+        if current_preflight.get("unstagedPaths") != expected_unstaged:
+            blocking_reasons.append(
+                "worktree changes must be exactly one unstaged data/products.json change"
+                if additions
+                else "zero-addition publication preparation requires a clean worktree"
+            )
+        permitted_current_errors = (
+            {"publication requires a clean whole worktree at run start"}
+            if additions
+            else set()
+        )
+        current_probe_errors = [
+            error
+            for error in current_preflight.get("errors") or []
+            if error not in permitted_current_errors
+        ]
+        if current_probe_errors:
+            blocking_reasons.append(
+                "current Git preflight reported unresolved errors: "
+                + "; ".join(current_probe_errors)
+            )
+
+        blocking_reasons = list(dict.fromkeys(blocking_reasons))
+        if blocking_reasons:
+            status = "blocked"
+        elif additions:
+            status = "prepared"
+        else:
+            status = "not_applicable"
+        prepared_at = utc_now()
+        current_catalog_digest = (
+            hashlib.sha256(catalog.read_bytes()).hexdigest()
+            if catalog.is_file()
+            else None
+        )
+        manifest = {
+            "runId": run_id,
+            "attemptId": cleaned_attempt_id,
+            "baseHeadSha": start_preflight.get("headSha"),
+            "catalogSha256AtStart": run["catalog_sha256_at_start"],
+            "catalogSha256Prepared": current_catalog_digest,
+            "addedIds": [identifier for identifier in added_ids if identifier],
+        }
+        plan = {
+            "contractVersion": "1.0",
+            "runId": run_id,
+            "attemptId": cleaned_attempt_id,
+            "status": status,
+            "preparedAt": prepared_at,
+            "publicationAllowed": status == "prepared",
+            "catalogSha256AtStart": run["catalog_sha256_at_start"],
+            "catalogSha256Prepared": current_catalog_digest,
+            "additionsCount": len(additions),
+            "addedIds": [identifier for identifier in added_ids if identifier],
+            "manifestSha256": sha256_text(stable_json(manifest)),
+            "blockingReasons": blocking_reasons,
+            "repositoryAtStart": self.publication_preflight_summary(start_preflight),
+            "repositoryAtPreparation": self.publication_preflight_summary(
+                current_preflight
+            ),
+        }
+        with self.connect() as connection:
+            connection.execute(
+                """
+                INSERT INTO publication_attempts (
+                    attempt_id, run_id, status, plan_json, result_json,
+                    prepared_at, recorded_at
+                ) VALUES (?, ?, ?, ?, '{}', ?, NULL)
+                """,
+                (
+                    cleaned_attempt_id,
+                    run_id,
+                    status,
+                    stable_json(plan),
+                    prepared_at,
+                ),
+            )
+            connection.execute(
+                """
+                UPDATE runs
+                SET publication_status = ?, publication_attempt_id = ?
+                WHERE run_id = ?
+                """,
+                (status, cleaned_attempt_id, run_id),
+            )
+        receipt_path = self.write_publication_receipt(
+            run_id,
+            cleaned_attempt_id,
+            plan,
+            {},
+        )
+        self.append_event(
+            {
+                "event": "publication_prepared",
+                "eventKey": f"publication_prepared:{run_id}:{cleaned_attempt_id}",
+                "runId": run_id,
+                "attemptId": cleaned_attempt_id,
+                "status": status,
+                "publicationAllowed": status == "prepared",
+                "addedIds": plan["addedIds"],
+                "blockingReasons": blocking_reasons,
+            }
+        )
+        self.queue(run_id)
+        return {
+            **plan,
+            "idempotentReplay": False,
+            "receipt": str(receipt_path),
+        }
+
+    @staticmethod
+    def verify_local_publication_commit(
+        plan: dict[str, Any],
+        start_preflight: dict[str, Any],
+        commit_sha: str,
+        require_pushed: bool,
+    ) -> str:
+        repository_value = start_preflight.get("repositoryRoot")
+        if not isinstance(repository_value, str) or not repository_value:
+            raise LedgerError("Publication run is missing its private repository root.")
+        repository = Path(repository_value).resolve()
+        commit_ok, resolved_commit = git_text(
+            repository,
+            "rev-parse",
+            "--verify",
+            f"{commit_sha}^{{commit}}",
+        )
+        if not commit_ok or not resolved_commit:
+            raise LedgerError("commit-sha is not a locally available Git commit.")
+        if not resolved_commit.casefold().startswith(commit_sha.casefold()):
+            raise LedgerError("commit-sha does not resolve to the supplied Git commit.")
+
+        head_ok, current_head = git_text(repository, "rev-parse", "--verify", "HEAD")
+        if not head_ok or current_head != resolved_commit:
+            raise LedgerError("The publication commit must be the current local HEAD.")
+        parent_ok, parent_sha = git_text(
+            repository,
+            "rev-parse",
+            "--verify",
+            f"{resolved_commit}^",
+        )
+        if not parent_ok or parent_sha != plan.get("repositoryAtStart", {}).get("headSha"):
+            raise LedgerError(
+                "The publication commit parent does not match the prepared base commit."
+            )
+        paths_ok, changed_paths = git_paths(
+            repository,
+            "diff-tree",
+            "--no-commit-id",
+            "--name-only",
+            "--no-renames",
+            "-r",
+            resolved_commit,
+        )
+        if not paths_ok or changed_paths != ["data/products.json"]:
+            raise LedgerError(
+                "The publication commit must change only data/products.json."
+            )
+        blob = subprocess.run(
+            ["git", "show", f"{resolved_commit}:data/products.json"],
+            cwd=repository,
+            check=False,
+            capture_output=True,
+        )
+        if (
+            blob.returncode != 0
+            or hashlib.sha256(blob.stdout).hexdigest()
+            != plan.get("catalogSha256Prepared")
+        ):
+            raise LedgerError(
+                "The publication commit catalog blob does not match the prepared target."
+            )
+        if require_pushed:
+            upstream_ok, upstream_sha = git_text(
+                repository,
+                "rev-parse",
+                "--verify",
+                "origin/main",
+            )
+            if not upstream_ok or upstream_sha != resolved_commit:
+                raise LedgerError(
+                    "origin/main does not match the publication commit; fetch after push "
+                    "before recording a pushed result."
+                )
+        return resolved_commit
+
+    def record_publication(
+        self,
+        run_id: str,
+        attempt_id: str | None,
+        status: str,
+        commit_sha: str | None,
+        deployment_commit_sha: str | None,
+        deployment_url: str | None,
+        live_catalog_sha256: str | None,
+        failure_code: str | None,
+        live_verified: bool,
+    ) -> dict[str, Any]:
+        cleaned_attempt_id = self.publication_attempt_id(run_id, attempt_id)
+        if status not in PUBLICATION_RESULT_STATUSES:
+            raise LedgerError(f"Unsupported publication result status: {status!r}")
+        cleaned_commit_sha = text(commit_sha)
+        if cleaned_commit_sha and not re.fullmatch(r"[0-9a-fA-F]{7,64}", cleaned_commit_sha):
+            raise LedgerError("commit-sha must be a 7-64 character hexadecimal Git object ID.")
+        cleaned_deployment_commit_sha = text(deployment_commit_sha)
+        if cleaned_deployment_commit_sha and not re.fullmatch(
+            r"[0-9a-fA-F]{7,64}",
+            cleaned_deployment_commit_sha,
+        ):
+            raise LedgerError(
+                "deployment-commit-sha must be a 7-64 character hexadecimal Git object ID."
+            )
+        cleaned_live_catalog_sha256 = text(live_catalog_sha256)
+        if cleaned_live_catalog_sha256 and not re.fullmatch(
+            r"[0-9a-fA-F]{64}",
+            cleaned_live_catalog_sha256,
+        ):
+            raise LedgerError("live-catalog-sha256 must be a 64-character hexadecimal digest.")
+        cleaned_failure_code = text(failure_code)
+        if cleaned_failure_code and not re.fullmatch(
+            r"[a-z0-9][a-z0-9._-]{0,63}",
+            cleaned_failure_code,
+        ):
+            raise LedgerError(
+                "failure-code must be 1-64 lowercase letters, digits, dots, underscores, or hyphens."
+            )
+        cleaned_deployment_url = text(deployment_url)
+        if cleaned_deployment_url:
+            parts = urlsplit(cleaned_deployment_url)
+            if (
+                parts.scheme.casefold() not in {"http", "https"}
+                or not parts.hostname
+                or parts.username
+                or parts.password
+            ):
+                raise LedgerError("deployment-url must be a plain public HTTP(S) URL.")
+        if status in {"pushed_not_verified", "deployment_failed", "live_verified"} and not cleaned_commit_sha:
+            raise LedgerError(f"{status} requires --commit-sha.")
+        if status == "live_verified" and (
+            not live_verified or not cleaned_deployment_url
+        ):
+            raise LedgerError(
+                "live_verified requires --live-verified and --deployment-url."
+            )
+        if status != "live_verified" and live_verified:
+            raise LedgerError("--live-verified is only valid with status live_verified.")
+        if status == "live_verified" and (
+            not cleaned_deployment_commit_sha or not cleaned_live_catalog_sha256
+        ):
+            raise LedgerError(
+                "live_verified requires --deployment-commit-sha and "
+                "--live-catalog-sha256."
+            )
+
+        with self.connect() as connection:
+            run = connection.execute(
+                "SELECT * FROM runs WHERE run_id = ?",
+                (run_id,),
+            ).fetchone()
+            attempt = connection.execute(
+                "SELECT * FROM publication_attempts WHERE attempt_id = ?",
+                (cleaned_attempt_id,),
+            ).fetchone()
+        if not run:
+            raise LedgerError(f"Unknown private review run: {run_id}")
+        if run["publication_mode"] != PUBLICATION_MODE_UNLISTED:
+            raise LedgerError(f"Run {run_id!r} did not enable guarded publication.")
+        if run["finished_at"] is None or run["lifecycle_stage"] != "finished":
+            raise LedgerError(
+                f"Run {run_id!r} must finish and release its private run lock "
+                "before recording an external publication result."
+            )
+        if not attempt or attempt["run_id"] != run_id:
+            raise LedgerError(
+                f"Unknown publication attempt {cleaned_attempt_id!r} for run {run_id!r}."
+            )
+        if run["publication_attempt_id"] != cleaned_attempt_id:
+            raise LedgerError(
+                f"Publication attempt {cleaned_attempt_id!r} is not the current "
+                f"resolved attempt for run {run_id!r}."
+            )
+        try:
+            plan = json.loads(attempt["plan_json"])
+            prior_result = json.loads(attempt["result_json"] or "{}")
+        except json.JSONDecodeError as error:
+            raise LedgerError(
+                f"Publication attempt {cleaned_attempt_id!r} contains malformed private JSON."
+            ) from error
+        try:
+            start_preflight = json.loads(run["repository_preflight_json"] or "{}")
+        except json.JSONDecodeError as error:
+            raise LedgerError(
+                f"Publication run {run_id!r} has malformed repository proof data."
+            ) from error
+
+        if attempt["status"] in PUBLICATION_RESULT_STATUSES:
+            expected_input = {
+                "status": status,
+                "deploymentCommitSha": cleaned_deployment_commit_sha,
+                "deploymentUrl": cleaned_deployment_url,
+                "liveCatalogSha256": cleaned_live_catalog_sha256,
+                "failureCode": cleaned_failure_code,
+                "liveVerified": live_verified,
+            }
+            observed = {key: prior_result.get(key) for key in expected_input}
+            prior_commit = text(prior_result.get("commitSha"))
+            same_commit = bool(
+                (not prior_commit and not cleaned_commit_sha)
+                or (
+                    prior_commit
+                    and cleaned_commit_sha
+                    and prior_commit.casefold().startswith(
+                        cleaned_commit_sha.casefold()
+                    )
+                )
+            )
+            if observed != expected_input or not same_commit:
+                raise LedgerError(
+                    f"Publication attempt {cleaned_attempt_id!r} already has a different "
+                    "terminal result."
+                )
+            receipt_path = self.write_publication_receipt(
+                run_id,
+                cleaned_attempt_id,
+                plan,
+                prior_result,
+            )
+            self.append_event(
+                {
+                    "event": "publication_result_recorded",
+                    "eventKey": (
+                        f"publication_result_recorded:{run_id}:"
+                        f"{cleaned_attempt_id}:{status}"
+                    ),
+                    "runId": run_id,
+                    "attemptId": cleaned_attempt_id,
+                    **prior_result,
+                }
+            )
+            self.queue(run_id)
+            return {
+                "runId": run_id,
+                "attemptId": cleaned_attempt_id,
+                **prior_result,
+                "idempotentReplay": True,
+                "receipt": str(receipt_path),
+            }
+
+        resolved_commit_sha = cleaned_commit_sha
+        if cleaned_commit_sha:
+            resolved_commit_sha = self.verify_local_publication_commit(
+                plan,
+                start_preflight,
+                cleaned_commit_sha,
+                status
+                in {"pushed_not_verified", "deployment_failed", "live_verified"},
+            )
+        if status == "live_verified":
+            if cleaned_deployment_commit_sha.casefold() != resolved_commit_sha.casefold():
+                raise LedgerError(
+                    "deployment-commit-sha must equal the verified pushed commit."
+                )
+            if (
+                cleaned_live_catalog_sha256.casefold()
+                != str(plan.get("catalogSha256Prepared") or "").casefold()
+            ):
+                raise LedgerError(
+                    "live-catalog-sha256 must equal the prepared catalog digest."
+                )
+            deployment_host = (urlsplit(cleaned_deployment_url).hostname or "").casefold()
+            if deployment_host != "caribbeansaas.com" and not deployment_host.endswith(
+                ".caribbeansaas.pages.dev"
+            ):
+                raise LedgerError(
+                    "A live-verified deployment URL must use caribbeansaas.com "
+                    "or the caribbeansaas.pages.dev project."
+                )
+        if attempt["status"] != "prepared" or not bool(plan.get("publicationAllowed")):
+            raise LedgerError(
+                f"Publication attempt {cleaned_attempt_id!r} is {attempt['status']!r}; "
+                "no external publication result may be recorded."
+            )
+
+        recorded_at = utc_now()
+        result = {
+            "status": status,
+            "commitSha": resolved_commit_sha,
+            "deploymentCommitSha": cleaned_deployment_commit_sha,
+            "deploymentUrl": cleaned_deployment_url,
+            "liveCatalogSha256": cleaned_live_catalog_sha256,
+            "failureCode": cleaned_failure_code,
+            "liveVerified": live_verified,
+            "recordedAt": recorded_at,
+        }
+        with self.connect() as connection:
+            connection.execute(
+                """
+                UPDATE publication_attempts
+                SET status = ?, result_json = ?, recorded_at = ?
+                WHERE attempt_id = ? AND run_id = ?
+                """,
+                (
+                    status,
+                    stable_json(result),
+                    recorded_at,
+                    cleaned_attempt_id,
+                    run_id,
+                ),
+            )
+            if run["publication_attempt_id"] == cleaned_attempt_id:
+                connection.execute(
+                    """
+                    UPDATE runs SET publication_status = ?
+                    WHERE run_id = ?
+                    """,
+                    (status, run_id),
+                )
+        receipt_path = self.write_publication_receipt(
+            run_id,
+            cleaned_attempt_id,
+            plan,
+            result,
+        )
+        self.append_event(
+            {
+                "event": "publication_result_recorded",
+                "eventKey": (
+                    f"publication_result_recorded:{run_id}:{cleaned_attempt_id}:{status}"
+                ),
+                "runId": run_id,
+                "attemptId": cleaned_attempt_id,
+                **result,
+            }
+        )
+        self.queue(run_id)
+        return {
+            "runId": run_id,
+            "attemptId": cleaned_attempt_id,
+            **result,
+            "idempotentReplay": False,
+            "receipt": str(receipt_path),
         }
 
     def inventory(self, catalog: Path) -> dict[str, Any]:
@@ -3426,6 +4579,7 @@ class ReviewLedger:
         provenance = json.loads(run["provenance_json"])
         side_effect_attestation = json.loads(run["attestation_json"] or "{}")
         worker_contracts_validated = bool(run["worker_contracts_validated"])
+        publication = self.publication_summary(run_id)
         packet_candidates: list[dict[str, Any]] = []
         lines = [
             "# CaribbeanSaaS private review queue",
@@ -3440,6 +4594,13 @@ class ReviewLedger:
             f"- Source failures: `{stable_json(source_failures)}`",
             f"- Side-effect attestation: `{stable_json(side_effect_attestation)}`",
             f"- Worker contracts validated: `{str(worker_contracts_validated).lower()}`",
+            "",
+            "## Coordinator publication gate",
+            "",
+            f"- Mode: `{publication['mode']}`",
+            f"- Status: `{publication['status']}`",
+            f"- Run-start preflight: `{stable_json(publication['preflight'])}`",
+            f"- Private attempts: `{stable_json(publication['attempts'])}`",
             "",
         ]
         titles = {
@@ -3502,9 +4663,11 @@ class ReviewLedger:
             [
                 "## Safety attestation",
                 "",
-                "This packet operation created no account, submitted no form, contacted nobody, "
-                "mutated no third-party system, set no record to `visibility: listed`, performed "
-                "no Git action, and performed no deployment.",
+                "The worker research represented in this packet created no account, submitted "
+                "no form, contacted nobody, mutated no third-party system, set no record to "
+                "`visibility: listed`, and performed no repository or deployment action. "
+                "Any authorized coordinator preflight or publication action is recorded "
+                "separately in the repository proof and private publication receipt.",
                 "",
             ]
         )
@@ -3520,6 +4683,7 @@ class ReviewLedger:
             "sourceFailures": source_failures,
             "sideEffectAttestation": side_effect_attestation,
             "workerContractsValidated": worker_contracts_validated,
+            "publication": publication,
             "candidates": packet_candidates,
             "counts": {
                 "readyForHumanReview": len(grouped.get("ready_for_human_review", [])),
@@ -3545,7 +4709,10 @@ class ReviewLedger:
                 connection.execute(
                     """
                     UPDATE runs
-                    SET lifecycle_stage = 'packeted'
+                    SET lifecycle_stage = CASE
+                        WHEN lifecycle_stage = 'validated' THEN 'validated'
+                        ELSE 'packeted'
+                    END
                     WHERE run_id = ? AND finished_at IS NULL
                     """,
                     (run_id,),
@@ -3608,6 +4775,24 @@ class ReviewLedger:
                 f"Run {run_id!r} began with a dirty public catalog; public projection is disabled "
                 "for the whole run even if the worktree later becomes clean."
             )
+        if run["publication_mode"] == PUBLICATION_MODE_UNLISTED:
+            try:
+                publication_preflight = json.loads(
+                    run["repository_preflight_json"] or "{}"
+                )
+            except json.JSONDecodeError as error:
+                raise LedgerError(
+                    f"Run {run_id!r} has malformed repository preflight facts; "
+                    "public projection is disabled."
+                ) from error
+            if (
+                not isinstance(publication_preflight, dict)
+                or not bool(publication_preflight.get("eligible"))
+            ):
+                raise LedgerError(
+                    f"Run {run_id!r} did not begin on a clean, upstream-aligned main "
+                    "worktree; public projection and publication are disabled for this run."
+                )
         catalog_payload, products = load_catalog(catalog)
         if catalog_payload.get("schemaVersion") != 2:
             raise LedgerError("sync-unlisted requires data/products.json schemaVersion 2.")
@@ -3709,10 +4894,18 @@ class ReviewLedger:
                     connection.execute(
                         """
                         UPDATE candidates
-                        SET state = 'synced_unlisted', synced_catalog_id = ?, updated_at = ?
+                        SET state = 'synced_unlisted',
+                            synced_catalog_id = ?,
+                            synced_public_record_json = ?,
+                            updated_at = ?
                         WHERE candidate_id = ?
                         """,
-                        (record["id"], utc_now(), row["candidate_id"]),
+                        (
+                            record["id"],
+                            stable_json(record),
+                            utc_now(),
+                            row["candidate_id"],
+                        ),
                     )
             for row, record in additions:
                 self.append_event(
@@ -3934,9 +5127,17 @@ def build_parser() -> argparse.ArgumentParser:
     begin = commands.add_parser(
         "begin-run",
         parents=[common],
-        help="Acquire the private run lock and record catalog cleanliness at run start.",
+        help="Acquire the private run lock and record catalog/repository facts at run start.",
     )
     begin.add_argument("--run-id", required=True, help="Unique ID for this review run.")
+    begin.add_argument(
+        "--publish-unlisted",
+        action="store_true",
+        help=(
+            "Enable coordinator-only guarded publication planning for sanitized "
+            "unlisted additions."
+        ),
+    )
     finish = commands.add_parser(
         "finish-run",
         parents=[common],
@@ -3963,6 +5164,51 @@ def build_parser() -> argparse.ArgumentParser:
         help="Append eligible candidates as sanitized visibility=unlisted catalog records.",
     )
     sync.add_argument("--run-id", required=True, help="Explicit run whose eligible records may be projected.")
+    prepare = commands.add_parser(
+        "prepare-publication",
+        parents=[common],
+        help="Write a private, local-only publication plan after validation.",
+    )
+    prepare.add_argument("--run-id", required=True, help="Publication-enabled active run ID.")
+    prepare.add_argument(
+        "--attempt-id",
+        help="Stable idempotency ID; defaults to <run-id>-publication.",
+    )
+    record = commands.add_parser(
+        "record-publication",
+        parents=[common],
+        help="Record a terminal coordinator publication result without Git or network actions.",
+    )
+    record.add_argument("--run-id", required=True, help="Publication-enabled run ID.")
+    record.add_argument(
+        "--attempt-id",
+        help="Stable idempotency ID; defaults to <run-id>-publication.",
+    )
+    record.add_argument(
+        "--status",
+        required=True,
+        choices=sorted(PUBLICATION_RESULT_STATUSES),
+        help="Terminal publication result.",
+    )
+    record.add_argument("--commit-sha", help="Local/pushed Git commit object ID, when applicable.")
+    record.add_argument(
+        "--deployment-commit-sha",
+        help="Source commit reported by the connected Cloudflare Pages deployment.",
+    )
+    record.add_argument("--deployment-url", help="Public deployment URL, when applicable.")
+    record.add_argument(
+        "--live-catalog-sha256",
+        help="SHA-256 digest calculated from the verified live catalog response body.",
+    )
+    record.add_argument(
+        "--failure-code",
+        help="Short machine-readable terminal failure category for the private receipt.",
+    )
+    record.add_argument(
+        "--live-verified",
+        action="store_true",
+        help="Attest that the committed catalog was verified on the live public routes.",
+    )
     commands.add_parser("validate", parents=[common], help="Validate catalog visibility and private-field boundaries.")
     return parser
 
@@ -3982,7 +5228,12 @@ def execute(args: argparse.Namespace) -> tuple[int, dict[str, Any]]:
             ensure_clean_real_catalog(args.catalog, args.allow_dirty_catalog)
         ledger.initialize()
         if args.command == "begin-run":
-            return 0, ledger.begin_run(args.catalog, args.run_id, args.allow_dirty_catalog)
+            return 0, ledger.begin_run(
+                args.catalog,
+                args.run_id,
+                args.allow_dirty_catalog,
+                args.publish_unlisted,
+            )
         if args.command == "finish-run":
             with ledger.command_lock(args.run_id):
                 return 0, ledger.finish_run(args.catalog, args.run_id)
@@ -4010,6 +5261,25 @@ def execute(args: argparse.Namespace) -> tuple[int, dict[str, Any]]:
         if args.command == "sync-unlisted":
             with ledger.command_lock(args.run_id):
                 return 0, ledger.sync_unlisted(args.catalog, args.run_id)
+        if args.command == "prepare-publication":
+            with ledger.command_lock(args.run_id):
+                return 0, ledger.prepare_publication(
+                    args.catalog,
+                    args.run_id,
+                    args.attempt_id,
+                )
+        if args.command == "record-publication":
+            return 0, ledger.record_publication(
+                args.run_id,
+                args.attempt_id,
+                args.status,
+                args.commit_sha,
+                args.deployment_commit_sha,
+                args.deployment_url,
+                args.live_catalog_sha256,
+                args.failure_code,
+                args.live_verified,
+            )
         if args.command == "validate":
             active_lock = ledger.read_lock()
             if active_lock:

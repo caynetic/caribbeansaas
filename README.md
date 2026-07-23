@@ -16,6 +16,10 @@ The public bundle contains only website pages, public assets, catalog data, and
 discovery files. Local operating records, research, audits, design-review
 artifacts, and credentials are deliberately excluded.
 
+The human-readable Open Data explorer at `open-data.html` visualizes every
+public-safe catalog record, while `data/products.json` remains the raw data
+endpoint and the homepage directory remains limited to `visibility: listed`.
+
 For the production setup, deploy process, public-bundle boundaries, and live
 verification steps, see [HOSTING.md](HOSTING.md).
 
@@ -24,10 +28,14 @@ verification steps, see [HOSTING.md](HOSTING.md).
 The local [weekly review skill](.agents/skills/caribbeansaas-weekly-review/SKILL.md)
 runs every Monday at 9:00 AM Nassau time through a machine-local Codex
 schedule. Private reviews and the schedule's machine-specific configuration
-are ignored from Git and the public bundle. The automation never automatically
-commits, pushes, deploys, or makes a listing live. Its guarded local ledger
-compares each discovery run against the full public/private identity inventory,
-including aliases, canonical domains, and official app-store IDs.
+are ignored from Git and the public bundle. After a fully validated run, the
+coordinator may automatically commit and push only append-only, public-safe
+`visibility: unlisted` additions to `data/products.json`; GitHub-connected
+Cloudflare Pages then deploys that public dataset. It never changes a record to
+`listed`, so making an active homepage listing remains a manual decision. Its
+guarded local ledger compares each discovery run against the full
+public/private identity inventory, including aliases, canonical domains, and
+official app-store IDs, and records a private publication receipt.
 
 ## Checks
 

@@ -16,6 +16,7 @@ GENERATED_ROUTE_DIRS = ("category", "products", "software")
 PUBLIC_SITEMAP_URLS = [
     f"{SITE_URL}/",
     f"{SITE_URL}/curation.html",
+    f"{SITE_URL}/open-data.html",
     f"{SITE_URL}/privacy.html",
     f"{SITE_URL}/terms.html",
 ]
@@ -77,6 +78,7 @@ def main() -> None:
         "<changefreq>weekly</changefreq>",
         "<priority>1.0</priority>",
         f"<loc>{SITE_URL}/curation.html</loc>",
+        f"<loc>{SITE_URL}/open-data.html</loc>",
         f"<loc>{SITE_URL}/privacy.html</loc>",
         f"<loc>{SITE_URL}/terms.html</loc>",
     ]:

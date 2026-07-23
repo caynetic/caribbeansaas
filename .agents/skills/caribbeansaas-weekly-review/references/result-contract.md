@@ -14,29 +14,32 @@ repository, deployment, or third-party system.
 | Active run lock | `private/reviews/run.lock` | Coordinator only; one run at a time. |
 | Catalog snapshots | `private/reviews/snapshots/products-<sha256>.json` | Coordinator only; must be Git-ignored. |
 | Review packet | `private/reviews/review-packets/review-<run-id>.{md,json}` | Coordinator only; must be Git-ignored. |
+| Publication receipt | `private/reviews/publication-receipts/<run-id>--<attempt-id>.json` | Coordinator only; must be Git-ignored. |
 
 Before any source lookup, the coordinator must:
 
 1. Confirm every private path is Git-ignored, outside `dist/`, `data/`, and
    `assets/`, and excluded from the public build.
 2. Generate a unique run ID and call `review_ledger.py begin-run --run-id
-   <run-id>`. The CLI holds the stable `ledger.lock` mutex through
+   <run-id>`. For an automation allowed to publish public-safe additions, add
+   `--publish-unlisted`. The CLI holds the stable `ledger.lock` mutex through
    initialization and lifecycle writes, atomically acquires `run.lock`,
-   snapshots the catalog, and persists the catalog digest and clean/dirty state
+   snapshots the catalog, and persists the catalog digest plus the whole
+   repository's clean/dirty state, branch, local HEAD, and upstream alignment
    at run start.
 3. If another lock exists, stop. Never delete, overwrite, reuse, or bypass an
    unknown lock. Do not use `--allow-dirty-catalog` outside an isolated test
    fixture.
 4. Call `review_ledger.py inventory` and load its complete public/private
    identity inventory before dispatching any worker. A dirty-at-start catalog
-   disables public projection for the whole run even if its Git state later
-   changes, but private work continues.
+   or repository, non-`main` branch, or unaligned base disables publication for
+   the whole run even if Git state later changes, but private work continues.
 
-If `begin-run` fails a storage or lock check, stop without fetching, ingesting,
-syncing, committing, pushing, deploying, or writing a substitute file
-elsewhere.
-If the catalog is dirty, record `catalog_dirty_at_start`, continue private-only,
-and skip only `sync-unlisted`.
+If `begin-run` fails a storage or lock check, stop without source research,
+ingesting, syncing, committing, pushing, deploying, or writing a substitute
+file elsewhere.
+If the catalog or repository publication preflight fails, record the exact
+hold, continue private-only, and skip `sync-unlisted` and publication.
 
 Run in this order: scout public leads; verifier identity, canonical URL, and
 deduplication; auditor public-surface observations; then coordinator-only
@@ -46,25 +49,37 @@ domain or official-app-store-ID duplicate is not a new candidate. An existing
 `visibility: "unlisted"` record is still known history and suppresses
 accidental reuse.
 
-The weekly task enables the projection stage only after both the persisted
-clean-catalog-at-start gate and a fresh current-catalog Git cleanliness check
-pass and all three required workers have status `complete`. A partial or
-stopped run remains private. The ledger adds only sanitized records with
-`visibility: "unlisted"`; the visible directory renders exactly
-`visibility: "listed"`. The task must never write `visibility: "listed"`,
-modify an existing catalog record, commit, push, deploy, or contact anyone.
+The weekly task enables the projection stage only after the persisted
+clean/aligned-start gate and all three required workers have status `complete`.
+A partial or stopped run remains private. The ledger adds only sanitized
+records with `visibility: "unlisted"`; the visible directory renders exactly
+`visibility: "listed"`. The coordinator may publish only the exact append-only
+delta produced by that run after `prepare-publication` proves every existing
+record is unchanged and in the same order, every new ID belongs to this run,
+the current branch/base is unchanged, and the whole worktree contains no path
+except the unstaged catalog change. Workers never make Git or deployment
+actions. No task may write `visibility: "listed"`, modify an existing catalog
+record, contact anyone, force-push, resolve a conflict automatically, or use a
+direct-upload deployment.
 
 Use one unique run ID throughout the stateful run. `ingest` reads it from the
 normalized envelope, while `validate` derives the active run from the lock:
 
 ```text
-review_ledger.py begin-run --run-id <run-id>
+review_ledger.py begin-run --run-id <run-id> --publish-unlisted
 review_ledger.py inventory
 review_ledger.py ingest <normalized-run.json>
 review_ledger.py sync-unlisted --run-id <run-id>  # only if both clean gates pass
 review_ledger.py queue --run-id <run-id>
 review_ledger.py validate
+review_ledger.py prepare-publication --run-id <run-id> --attempt-id <attempt-id>
 review_ledger.py finish-run --run-id <run-id>
+# Only after a prepared plan: check, stage the catalog only, commit, push, and
+# let GitHub-connected Cloudflare Pages deploy. Then record the terminal result:
+review_ledger.py record-publication --run-id <run-id> --attempt-id <attempt-id> \
+  --status <terminal-status> [--commit-sha <sha>] \
+  [--deployment-commit-sha <sha>] [--deployment-url <url>] \
+  [--live-catalog-sha256 <digest>] [--failure-code <code>] [--live-verified]
 ```
 
 The coordinator must ingest an envelope with `candidates: []` for a successful
@@ -75,10 +90,15 @@ the packet when safe, validate, and release only the matching lock with
 human inspection before any later run.
 
 The private ledger records `started → ingested → packeted → validated →
-finished` as an authoritative fail-closed lifecycle. `finish-run` rechecks the
-matching packet and current ledger/catalog validation before releasing the
-lock. Re-ingest or `sync-unlisted` returns the run to `ingested`, requiring a
-fresh packet and validation. There is no force-unlock path in the automation.
+finished` as an authoritative fail-closed review lifecycle and stores
+publication attempts separately. `finish-run` rechecks the matching packet,
+current ledger/catalog validation, and, for publication-enabled runs, a
+prepared or terminal no-change/blocked publication plan before releasing the
+lock. Re-ingest or `sync-unlisted` returns the review run to `ingested`,
+requiring a fresh packet and validation. There is no force-unlock path in the
+automation. Publication-result recording is idempotent by attempt ID and may
+occur only after `finish-run`. A failed or ambiguous terminal result is left
+for human recovery rather than silently retried or overwritten.
 
 Never sign up, log in, submit a form, accept terms, contact an operator, start
 a trial, make a payment, install software, use credentials, mutate an API, or
@@ -165,7 +185,10 @@ list every uncovered slice rather than silently narrowing coverage.
 Every worker returns exactly one JSON object inside one fenced `json` block and
 no prose outside it. Use ISO 8601 UTC timestamps, public-source URLs only, and
 evidence-bounded wording. Omit unknown values instead of inventing them. Every
-worker sets every side-effect attestation value to `false`.
+worker sets every side-effect attestation value to `false`. The normalized
+run-level attestation summarizes the same worker/research phase; it does not
+describe the separately recorded coordinator `git pull --ff-only` preflight or
+post-review guarded publication.
 
 The v1 object shapes below are exact: unknown or missing keys are invalid. A
 worker with non-empty `errors`, or a blocking run-level hold keyed to the run
@@ -551,11 +574,16 @@ which claims they support. Tier A binds evidence A to an official source that
 supports the Caribbean connection and requires a second distinct supporting
 source. Tier B binds evidence A to the official source and evidence B to
 reliable independent corroboration that supports the Caribbean connection.
-Otherwise ingest it as a private hold. The ledger sanitizes the allowed public fields and,
-during the scheduled sync, appends only `visibility: "unlisted"`; it never
-projects `privateReview`, evidence, confidence, contacts, or audit data. Never
-place a secret, cookie, browser state, form input, or unnecessary PII in either
-part of the normalized object.
+Otherwise ingest it as a private hold. The ledger sanitizes the allowed public
+fields and, during the scheduled sync, appends only
+`visibility: "unlisted"`; it never projects `privateReview`, evidence,
+confidence, contacts, or audit data. A publication plan must bind the run-start
+catalog digest, exact added IDs, target catalog digest, base commit, and only
+permitted path before any Git action. A successful receipt must bind the
+resulting commit, pushed remote commit, connected Pages deployment source
+commit, and live catalog digest to that same plan. Never place a secret,
+cookie, browser state, form input, or unnecessary PII in either part of the
+normalized object or a publication receipt.
 
 ## Acceptance and packet
 
@@ -568,7 +596,13 @@ without partial ledger ingest.
 Write private Markdown and JSON packets with the run ID, source matrix,
 model/effort/fallback use, query/source counts, coverage gaps, source failures,
 leads, duplicates, holds grouped by reason, human-review queue, projected
-unlisted IDs, and human decisions required. End with an explicit attestation:
-no account, form, contact, third-party mutation, `visibility: "listed"`, Git
-action, or deployment occurred. Release the matching run lock only after the
-packet and validation complete.
+unlisted IDs, publication-attempt state, and human decisions required. End with
+an explicit worker/research attestation: those operations created no account,
+submitted no form, made no contact or third-party mutation, set no record to
+`visibility: "listed"`, and performed no repository or deployment action.
+Authorized coordinator preflight and publication actions are recorded
+separately and do not rewrite worker attestations. Release the matching run
+lock only after the packet, validation, and publication-plan gate complete.
+The private receipt records any later scoped Git push, connected deployment,
+live verification, failure, or no-change result; a post-publication packet
+refresh remains a summary of those separate records.

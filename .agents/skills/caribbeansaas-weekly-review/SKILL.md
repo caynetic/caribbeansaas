@@ -1,13 +1,13 @@
 ---
 name: caribbeansaas-weekly-review
-description: "Run a guarded weekly discovery, deduplication, public-surface audit, and human-review workflow for CaribbeanSaaS candidates. Use when researching Caribbean-connected online software, preparing a local weekly review packet, or reconciling new leads against the catalog without publishing, contacting, signing up, or changing a deployment."
+description: "Run a guarded weekly discovery, deduplication, public-surface audit, human-review, and optional public-data publication workflow for CaribbeanSaaS candidates. Use when researching Caribbean-connected online software, preparing a local weekly review packet, reconciling new leads against the catalog, or publishing validated public-safe unlisted additions without making them active listings."
 ---
 
 # CaribbeanSaaS Weekly Review
 
 Run this workflow as a local, evidence-based curation aid. It discovers
 Caribbean-connected online software and prepares a human review queue; it does
-not decide what CaribbeanSaaS publishes.
+not decide what becomes an active CaribbeanSaaS listing.
 
 ## Non-negotiable boundary
 
@@ -17,8 +17,12 @@ not decide what CaribbeanSaaS publishes.
 - Do not conduct a penetration test, vulnerability scan, port scan, fuzzing,
   credential test, password-reset check, or any other interaction that could
   affect a third-party system.
-- Do not commit, push, deploy, create a pull request, or set a record's
-  `visibility` to `listed`.
+- Workers must not commit, push, deploy, create a pull request, or perform any
+  repository action. The coordinator may use only the guarded publication
+  sequence below to commit and push a proven append-only
+  `data/products.json` projection. Never set a record's `visibility` to
+  `listed`, force-push, resolve a conflict automatically, or deploy through a
+  separate direct-upload path.
 - Store audit evidence, private notes, and review decisions only in the
   machine-local private ledger. Do not store credentials, browser state,
   sensitive personal data, or unnecessary contact information.
@@ -48,12 +52,15 @@ packet. Do not silently substitute a model or reasoning level.
 
 ## Coordinator sequence
 
-1. Generate a unique run ID and call `review_ledger.py begin-run --run-id
-   <run-id>`. This performs the local-storage preflight, holds the stable ledger
+1. Generate a unique run ID. For a scheduled publication run, first require a
+   clean `main` checkout aligned with `origin/main`, then call
+   `review_ledger.py begin-run --run-id <run-id> --publish-unlisted`. This
+   performs the local-storage and repository preflight, holds the stable ledger
    operation mutex through initialization and lifecycle writes, atomically
    acquires the private run lock, snapshots `data/products.json`, and records
-   whether the catalog was clean at run start. Stop before network work if it
-   fails.
+   the immutable Git/catalog starting state. A dirty, non-main, or diverged
+   checkout may continue private-only but cannot publish. Stop before network
+   research if lock or storage validation fails.
 2. Call `review_ledger.py inventory` only after the run lock is acquired. Use
    its full public/private identity inventory (names, aliases, canonical
    domains, and official app-store IDs) as the minimum deduplication set before
@@ -71,41 +78,62 @@ packet. Do not silently substitute a model or reasoning level.
    attestation. Then ingest the contract-versioned normalized envelope with
    `workerContractsValidated: true`, the same run ID, exact worker provenance,
    coverage, resolved sources, aliases, official app-store IDs, and every
-   protected run-level side-effect attestation explicitly `false`. Empty
-   successful runs still ingest `candidates: []`. Every candidate uses the same
+   protected worker/research side-effect attestation explicitly `false`.
+   Coordinator Git preflight/publication facts are recorded separately and do
+   not change those worker attestations. Empty successful runs still ingest
+   `candidates: []`. Every candidate uses the same
    private `leadKey` as exactly one Auditor result; the ledger reconciles its
    canonical name and URL, public operator against both identity observations,
    aliases, official app-store IDs, product kind, tier, full source references,
    evidence A/B against the Verifier's matching recommended-tier evidence,
    recommendation, and any worker hold before it can be review-ready. Run any
-   permitted unlisted projection, then generate the final packet.
-7. Validate the ledger and catalog, call `review_ledger.py finish-run --run-id
-   <run-id>` to release the lock, then return the packet location and a concise
-   list of human decisions. On a handled failure, write a failure/partial
-   packet and release the matching lock; never delete or bypass an unknown
-   lock. Do not perform a promotion, outreach, or deployment action.
+   permitted unlisted projection, then generate and validate the private
+   packet.
+7. For a publication-enabled run, call `prepare-publication` with the matching
+   run and unique attempt ID. It must write a private plan before any Git
+   action and independently prove an append-only catalog delta containing
+   exactly this run's sanitized unlisted additions, with no other worktree,
+   branch, base, schema, or lifecycle drift. A zero-addition run records a
+   terminal no-change result. Any failed proof stops publication.
+8. Call `review_ledger.py finish-run --run-id <run-id>` to release the matching
+   run lock. On a handled research failure, write a failure/partial packet and
+   release the matching lock; never delete or bypass an unknown lock.
+9. Only for a prepared publication plan, run the full repository checks, stage
+   only `data/products.json`, re-prove the staged path and catalog digest,
+   create a normal commit whose parent is the planned base, and push that exact
+   commit to `origin/main` without force. Let the connected Cloudflare Pages
+   project deploy the GitHub commit; do not upload a separate bundle. Verify
+   the live JSON contains the planned IDs as unlisted, the Open Data explorer
+   exposes them, and the homepage/structured data still exclude them. Record
+   the terminal Git, deployment-source commit, live-catalog digest, and
+   live-verification result with `record-publication` in the private receipt.
+   A conflict, timeout, failed check, mismatched SHA, or unknown deployment
+   state is a recorded stop for human recovery, not an automatic retry.
 
-The ledger persists the fail-closed lifecycle `started → ingested → packeted →
-validated → finished`. `finish-run` is not an emergency unlock: it refuses to
-release the run lock unless a contract-valid ingest (including an explicitly
-empty run), final packet, and successful current ledger/catalog validation have
-all completed. A later ingest or unlisted sync invalidates the packet and
-validation checkpoints.
+The ledger persists a fail-closed review lifecycle and, when enabled, a
+separate idempotent publication attempt. `finish-run` is not an emergency
+unlock: it refuses to release the run lock unless a contract-valid ingest
+(including an explicitly empty run), final packet, successful current
+ledger/catalog validation, and a resolved publication plan have completed. A
+later ingest or unlisted sync invalidates the packet and validation
+checkpoints.
 
 ## Public-safe projection gate
 
-The scheduled task may run its public-safe unlisted projection only after both
-the contract's persisted clean-at-start gate and a fresh current-catalog Git
-cleanliness check pass and all three worker statuses are `complete`. A partial
-or stopped run still produces a private packet but cannot project. The
-projection is a data projection, not a listing: it must use
-`visibility: "unlisted"`, remain absent from the visible directory (which
-renders `visibility: "listed"` only), and remain uncommitted and undeployed.
+The scheduled task may run its public-safe unlisted projection only after the
+contract's immutable clean/aligned-start proof, a fresh exact-worktree check,
+and all three `complete` worker results pass. A partial or stopped run still
+produces a private packet but cannot project or publish. The projection is a
+public-data record, not a listing: it must use `visibility: "unlisted"` and
+remain absent from the homepage directory and product structured data, which
+render `visibility: "listed"` only. Publication is limited to the exact
+append-only projection proved in the private receipt.
 
 ## Completion standard
 
 Complete only after the coordinator has validated the private event ledger and
-written both Markdown and JSON weekly review packets and released its matching
-run lock. State the exact coverage, fallbacks, holds, and gaps. Never call the
-outcome a product-quality, security, legal-compliance, or availability
-certification.
+written both Markdown and JSON weekly review packets, resolved the publication
+plan, released its matching run lock, and recorded any attempted Git/Cloudflare
+outcome. State the exact coverage, fallbacks, holds, publication status, and
+gaps. Never call the outcome a product-quality, security, legal-compliance, or
+availability certification.

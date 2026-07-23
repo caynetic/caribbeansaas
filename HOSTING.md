@@ -27,17 +27,38 @@ that generated directory only; it does not publish the repository root.
 The generated bundle contains:
 
 - Homepage and support pages (`index.html`, `404.html`, `curation.html`,
-  `privacy.html`, and `terms.html`).
+  `open-data.html`, `privacy.html`, and `terms.html`).
 - Public assets under `assets/`.
 - The public catalog at `data/products.json`.
 - Search and discovery files such as `robots.txt`, `sitemap.xml`, `llms.txt`,
   and `site.webmanifest`.
 
-`data/products.json` is intentionally public. The directory displays only
-records whose `visibility` is `listed`; the JSON can retain public-safe
-`unlisted` records, but must never contain internal review notes, personal
-contact details, or unpublished research. An unlisted record is not displayed
-and does not communicate a rejection, availability conclusion, or endorsement.
+`data/products.json` is intentionally public. The homepage directory and
+product structured data include only records whose `visibility` is `listed`;
+the dedicated Open Data explorer can visualize both `listed` and public-safe
+`unlisted` records with explicit labels. The JSON must never contain internal
+review notes, personal contact details, or unpublished research. An unlisted
+record is not an active directory listing and does not communicate a rejection,
+availability conclusion, or endorsement.
+
+## Guarded weekly data publication
+
+The machine-local weekly review may publish newly reviewed public-safe records
+to the raw catalog as `visibility: unlisted`. This path is fail-closed:
+
+- The run must start on a clean, aligned `main` checkout and pass every worker,
+  evidence, deduplication, schema, and ledger gate.
+- The publication plan must prove the catalog is the run-start snapshot plus
+  only that run's sanitized unlisted additions. Existing records cannot change
+  or move.
+- The coordinator stages and commits only `data/products.json`, pushes without
+  force to `origin/main`, and lets the GitHub-connected Pages project deploy.
+- The live JSON and listed-only homepage boundary must be verified and recorded
+  in the ignored private publication receipt.
+
+A dirty, diverged, partial, or failed run remains private. No automated run may
+set `visibility: listed`, edit an existing public record, resolve a Git
+conflict, force-push, or use a separate direct-upload deployment.
 
 ## Deploying a change
 
@@ -71,6 +92,7 @@ After a deploy succeeds, confirm these endpoints are available:
 ```text
 https://caribbeansaas.com/
 https://caribbeansaas.com/curation.html
+https://caribbeansaas.com/open-data.html
 https://caribbeansaas.com/privacy.html
 https://caribbeansaas.com/terms.html
 https://caribbeansaas.com/data/products.json

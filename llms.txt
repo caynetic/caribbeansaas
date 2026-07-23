@@ -14,14 +14,16 @@ Primary topics:
 
 Regional coverage includes Antigua and Barbuda, The Bahamas, Barbados, Belize, Curacao, the Dominican Republic, Grenada, Guyana, Jamaica, Saint Lucia, and Trinidad and Tobago.
 
-The current public pages are the homepage, `/curation.html`, `/privacy.html`, and `/terms.html`.
+The current public pages are the homepage, `/curation.html`, `/open-data.html`,
+`/privacy.html`, and `/terms.html`.
 CaribbeanSaaS does not publish generated product, category, or country routes.
 
-Public catalog data is available at `/data/products.json`. The website displays
-only records with `visibility: listed`; the data file can also contain clearly
+Public catalog data is available at `/data/products.json`, with a visual
+explorer at `/open-data.html`. The main directory displays only records with
+`visibility: listed`; the explorer and data file can also contain clearly
 labelled public-safe `visibility: unlisted` records for research and ecosystem
-discovery. Unlisted means not currently displayed, not a rejection, product
-availability statement, or endorsement signal.
+discovery. Unlisted means not currently displayed in the main directory, not a
+rejection, product availability statement, or endorsement signal.
 
 Listings are reviewed before display. CaribbeanSaaS is not a marketplace, app store, instant listing directory, ranking system, or checkout platform.
 
