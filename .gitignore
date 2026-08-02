@@ -9,6 +9,10 @@
 # Generated public deployment bundle
 /dist/
 
+# Machine-local Codex orchestration
+/.agents/
+/.codex/
+
 # Local operational records and design-review artifacts
 /PROJECT_BRAIN.md
 /DESIGN.md
@@ -18,8 +22,15 @@
 /audits/
 /private/
 /tmp/
+/tests/
+/HOSTING.md
 /stitch_caribbeansaas_software_directory.zip
 /scripts/send_outreach_email.py
+/llms.txt
+
+# Retained locally for possible future design work; never deploy these assets.
+/assets/caribbean-map.png
+/assets/brand/caribbeansaas-icon-source.png
 
 # Local Python tooling artifacts
 __pycache__/

@@ -20,10 +20,13 @@ PUBLIC_ROOT_FILES = (
     "terms.html",
     "robots.txt",
     "sitemap.xml",
-    "llms.txt",
     "site.webmanifest",
 )
 PUBLIC_DIRECTORIES = ("assets", "data")
+EXCLUDED_ASSET_FILENAMES = (
+    "caribbean-map.png",
+    "caribbeansaas-icon-source.png",
+)
 
 
 def generated_country_files() -> tuple[str, ...]:
@@ -69,7 +72,7 @@ def main() -> None:
         shutil.copytree(
             require_directory(relative_path),
             DIST / relative_path,
-            ignore=shutil.ignore_patterns(".DS_Store"),
+            ignore=shutil.ignore_patterns(".DS_Store", *EXCLUDED_ASSET_FILENAMES),
         )
 
 

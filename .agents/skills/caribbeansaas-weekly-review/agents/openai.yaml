@@ -1,4 +1,0 @@
-interface:
-  display_name: "CaribbeanSaaS Weekly Review"
-  short_description: "Review and safely update Caribbean software data"
-  default_prompt: "Use $caribbeansaas-weekly-review to prepare an evidence-backed weekly review and, only when every publication gate passes, publish sanitized unlisted catalog additions without contacting anyone or making a listing live."
