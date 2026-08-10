@@ -54,16 +54,16 @@
       "aliases": [
         "Civic Finance Dashboard"
       ],
-      "logoUrl": null,
-      "logoAlt": null,
-      "logoWidth": null,
-      "logoHeight": null,
+      "logoUrl": "https://cdn.caynetic.app/caribbeansaas/products/logos/bahamas-opendata-logo.png",
+      "logoAlt": "Bahamas OpenData logo",
+      "logoWidth": 256,
+      "logoHeight": 256,
       "screenshotUrls": [],
       "companyName": "Bahamas OpenData",
       "founderNames": [],
       "caribbeanConnection": "Built for Bahamian public-finance access, with development credited to Freeport-based KemisDigital.",
-      "visibility": "unlisted",
-      "publishedAt": null,
+      "visibility": "listed",
+      "publishedAt": "2026-08-10",
       "updatedAt": "2026-08-10"
     },
     {
