@@ -33,6 +33,40 @@
       "updatedAt": "2026-07-06"
     },
     {
+      "id": "bahamas-opendata",
+      "slug": "bahamas-opendata",
+      "name": "Bahamas OpenData",
+      "tagline": "Public dashboard for Bahamian civic finance.",
+      "description": "A civic finance dashboard for exploring Bahamian budget, spending, revenue, debt, health, income, polls, and downloadable public data sourced from official publications.",
+      "productKind": "web_tool",
+      "websiteUrl": "https://www.bahamasopendata.com",
+      "country": "Bahamas",
+      "countries": [
+        "Bahamas"
+      ],
+      "category": "Data and analytics",
+      "industry": "Public finance",
+      "tags": [
+        "Open data",
+        "Budget",
+        "Civic tech"
+      ],
+      "aliases": [
+        "Civic Finance Dashboard"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Bahamas OpenData",
+      "founderNames": [],
+      "caribbeanConnection": "Built for Bahamian public-finance access, with development credited to Freeport-based KemisDigital.",
+      "visibility": "unlisted",
+      "publishedAt": null,
+      "updatedAt": "2026-08-10"
+    },
+    {
       "id": "bumblebee-creators",
       "slug": "bumblebee-creators",
       "name": "Bumblebee Creators",
@@ -359,6 +393,43 @@
       "visibility": "listed",
       "publishedAt": "2026-07-10",
       "updatedAt": "2026-07-10"
+    },
+    {
+      "id": "roadalert-242",
+      "slug": "roadalert-242",
+      "name": "RoadAlert 242",
+      "tagline": "Community road alerts for drivers across The Bahamas.",
+      "description": "A mobile and web app that maps community-reported road hazards, accidents, road works, potholes, flooding, and other driving alerts across The Bahamas.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://roadalert242.app",
+      "country": "Bahamas",
+      "countries": [
+        "Bahamas"
+      ],
+      "category": "Tourism",
+      "industry": "Transportation",
+      "tags": [
+        "Road safety",
+        "Hazards",
+        "Community alerts"
+      ],
+      "aliases": [
+        "RoadAlerts242"
+      ],
+      "officialAppStoreIds": [
+        "google:com.roadalert242.app"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Global Motion LLC",
+      "founderNames": [],
+      "caribbeanConnection": "Operated by Global Motion LLC in The Bahamas and built for drivers across the Bahamian islands.",
+      "visibility": "unlisted",
+      "publishedAt": null,
+      "updatedAt": "2026-08-10"
     },
     {
       "id": "schoolmate-sis",
