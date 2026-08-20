@@ -370,6 +370,79 @@
       "updatedAt": "2026-07-06"
     },
     {
+      "id": "lokademy",
+      "slug": "lokademy",
+      "name": "Lokademy",
+      "tagline": "CSEC science learning with an AI study guide.",
+      "description": "A Guyana-built learning platform for CSEC science students, with courses and an AI study guide.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://www.lokademy.com",
+      "country": "Guyana",
+      "countries": [
+        "Guyana"
+      ],
+      "category": "Education",
+      "industry": "EdTech",
+      "tags": [
+        "CSEC",
+        "Science",
+        "Study tools"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [
+        "apple:6753605148",
+        "google:com.kj2148675482.app"
+      ],
+      "logoUrl": "https://cdn.caynetic.app/caribbeansaas/products/logos/lokademy-logo.jpg",
+      "logoAlt": "Lokademy logo",
+      "logoWidth": 1227,
+      "logoHeight": 1270,
+      "screenshotUrls": [],
+      "companyName": "Lokademy",
+      "founderNames": [],
+      "caribbeanConnection": "Built in Guyana for CSEC science learners.",
+      "visibility": "listed",
+      "publishedAt": "2026-08-20",
+      "updatedAt": "2026-08-20"
+    },
+    {
+      "id": "noticomax",
+      "slug": "noticomax",
+      "name": "NoticoMax",
+      "tagline": "Everyday organization across your devices.",
+      "description": "A Puerto Rico-based multi-platform productivity app for notes, reminders, bookmarks, and everyday organization.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://noticomax.com",
+      "country": "Puerto Rico",
+      "countries": [
+        "Puerto Rico"
+      ],
+      "category": "Productivity",
+      "industry": "Productivity software",
+      "tags": [
+        "Notes",
+        "Reminders",
+        "Organization"
+      ],
+      "aliases": [
+        "Notico Max"
+      ],
+      "officialAppStoreIds": [
+        "apple:6762639265"
+      ],
+      "logoUrl": "https://cdn.caynetic.app/caribbeansaas/products/logos/noticomax-logo.png",
+      "logoAlt": "NoticoMax logo",
+      "logoWidth": 409,
+      "logoHeight": 610,
+      "screenshotUrls": [],
+      "companyName": "Nexulon LLC",
+      "founderNames": [],
+      "caribbeanConnection": "Built by Puerto Rico-based Nexulon LLC.",
+      "visibility": "listed",
+      "publishedAt": "2026-08-20",
+      "updatedAt": "2026-08-20"
+    },
+    {
       "id": "rezbs",
       "slug": "rezbs",
       "name": "RezBS",
@@ -497,6 +570,39 @@
       "visibility": "listed",
       "publishedAt": "2026-07-02",
       "updatedAt": "2026-07-06"
+    },
+    {
+      "id": "vertilla",
+      "slug": "vertilla",
+      "name": "Vertilla",
+      "tagline": "Rental operations software for Caribbean businesses.",
+      "description": "A Jamaica-based rental operations platform for vehicle and equipment businesses, with tools for fleet, contracts, customers, payments, and reporting.",
+      "productKind": "saas",
+      "websiteUrl": "https://vertilla.com",
+      "country": "Jamaica",
+      "countries": [
+        "Jamaica"
+      ],
+      "category": "Commerce",
+      "industry": "Rental operations",
+      "tags": [
+        "Rentals",
+        "Fleet management",
+        "Operations"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": "https://cdn.caynetic.app/caribbeansaas/products/logos/vertilla-logo.png",
+      "logoAlt": "Vertilla logo",
+      "logoWidth": 1503,
+      "logoHeight": 335,
+      "screenshotUrls": [],
+      "companyName": "Vertilla",
+      "founderNames": [],
+      "caribbeanConnection": "Based in Jamaica and built for rental businesses across the Caribbean.",
+      "visibility": "listed",
+      "publishedAt": "2026-08-20",
+      "updatedAt": "2026-08-20"
     }
   ]
 }

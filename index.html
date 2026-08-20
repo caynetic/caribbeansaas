@@ -221,7 +221,7 @@
       "name": "Listed CaribbeanSaaS digital products",
       "description": "Reviewed Caribbean software and digital products currently listed in the CaribbeanSaaS directory.",
       "itemListOrder": "https://schema.org/ItemListOrderAscending",
-      "numberOfItems": 10,
+      "numberOfItems": 13,
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -376,6 +376,48 @@
           "position": 8,
           "item": {
             "@type": "SoftwareApplication",
+            "@id": "https://caribbeansaas.com/#lokademy",
+            "name": "Lokademy",
+            "url": "https://www.lokademy.com",
+            "applicationCategory": "Education software",
+            "operatingSystem": "iOS, Android, Web",
+            "description": "A Guyana-built learning platform for CSEC science students, with courses and an AI study guide.",
+            "areaServed": {
+              "@type": "Country",
+              "name": "Guyana"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Lokademy"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "item": {
+            "@type": "SoftwareApplication",
+            "@id": "https://caribbeansaas.com/#noticomax",
+            "name": "NoticoMax",
+            "url": "https://noticomax.com",
+            "applicationCategory": "Productivity software",
+            "operatingSystem": "Windows, macOS, iOS, Web",
+            "description": "A Puerto Rico-based multi-platform productivity app for notes, reminders, bookmarks, and everyday organization.",
+            "areaServed": {
+              "@type": "Country",
+              "name": "Puerto Rico"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Nexulon LLC"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "item": {
+            "@type": "SoftwareApplication",
             "@id": "https://caribbeansaas.com/#rezbs",
             "name": "RezBS",
             "url": "https://rezbs.com",
@@ -394,7 +436,7 @@
         },
         {
           "@type": "ListItem",
-          "position": 9,
+          "position": 11,
           "item": {
             "@type": "SoftwareApplication",
             "@id": "https://caribbeansaas.com/#schoolmate-sis",
@@ -415,7 +457,7 @@
         },
         {
           "@type": "ListItem",
-          "position": 10,
+          "position": 12,
           "item": {
             "@type": "SoftwareApplication",
             "@id": "https://caribbeansaas.com/#triblockhr",
@@ -431,6 +473,27 @@
             "publisher": {
               "@type": "Organization",
               "name": "TriblockHR"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "item": {
+            "@type": "SoftwareApplication",
+            "@id": "https://caribbeansaas.com/#vertilla",
+            "name": "Vertilla",
+            "url": "https://vertilla.com",
+            "applicationCategory": "Rental operations software",
+            "operatingSystem": "Web",
+            "description": "A Jamaica-based rental operations platform for vehicle and equipment businesses.",
+            "areaServed": {
+              "@type": "Country",
+              "name": "Jamaica"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Vertilla"
             }
           }
         }
@@ -788,6 +851,22 @@
         justify-content: flex-end;
         gap: 0.45rem;
         white-space: nowrap;
+    }
+
+    .product-region-filter {
+        margin: -0.2rem -0.2rem -0.2rem 0.1rem;
+        border: 0;
+        background: transparent;
+        padding: 0.2rem;
+        color: inherit;
+        font: inherit;
+        line-height: inherit;
+        cursor: pointer;
+    }
+
+    .product-region-filter:hover .product-region-value,
+    .product-region-filter:focus-visible .product-region-value {
+        color: #B9F8FF;
     }
 
     .region-stats-grid {
@@ -1384,6 +1463,21 @@
                             <img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
                             <span>Bahamas</span>
                         </label>
+                        <label class="region-option">
+                            <input class="region-checkbox" data-region="Guyana" value="Guyana" type="checkbox"/>
+                            <img class="region-flag" src="assets/flags/gy.png" alt="" aria-hidden="true"/>
+                            <span>Guyana</span>
+                        </label>
+                        <label class="region-option">
+                            <input class="region-checkbox" data-region="Jamaica" value="Jamaica" type="checkbox"/>
+                            <img class="region-flag" src="assets/flags/jm.png" alt="" aria-hidden="true"/>
+                            <span>Jamaica</span>
+                        </label>
+                        <label class="region-option">
+                            <input class="region-checkbox" data-region="Puerto Rico" value="Puerto Rico" type="checkbox"/>
+                            <img class="region-flag" src="assets/flags/pr.png" alt="" aria-hidden="true"/>
+                            <span>Puerto Rico</span>
+                        </label>
                     </div>
                 </details>
             </div>
@@ -1408,10 +1502,12 @@
                 </a>
                 <div class="product-region">
                     <span class="product-region-label">Region</span>
-                    <span class="product-region-value">
-                        <img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
-                        Bahamas
-                    </span>
+                    <button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: Bahamas">
+                        <span class="product-region-value">
+                            <img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
+                            Bahamas
+                        </span>
+                    </button>
                 </div>
             </article>
             <article class="product-card scroll-reveal spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" data-product-id="cay-declarations" data-name="Cay Declarations" data-country="Bahamas" data-category="Commerce" data-search="cay declarations cay solutions bahamas customs brokerage click2clear manifest shipment declaration tariff billing logistics">
@@ -1430,10 +1526,12 @@
                 </a>
                 <div class="product-region">
                     <span class="product-region-label">Region</span>
-                    <span class="product-region-value">
-                        <img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
-                        Bahamas
-                    </span>
+                    <button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: Bahamas">
+                        <span class="product-region-value">
+                            <img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
+                            Bahamas
+                        </span>
+                    </button>
                 </div>
             </article>
             <article class="product-card scroll-reveal spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" data-product-id="cayneticvpn" data-name="CayneticVPN" data-country="Bahamas" data-category="Cybersecurity" data-search="cayneticvpn caynetic vpn bahamas cybersecurity privacy secure browsing encrypted internet wireguard">
@@ -1452,10 +1550,12 @@
                 </a>
                 <div class="product-region">
                     <span class="product-region-label">Region</span>
-                    <span class="product-region-value">
-                        <img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
-                        Bahamas
-                    </span>
+                    <button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: Bahamas">
+                        <span class="product-region-value">
+                            <img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
+                            Bahamas
+                        </span>
+                    </button>
                 </div>
             </article>
             <article class="product-card scroll-reveal spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" data-product-id="clearfile" data-name="ClearFile" data-country="Bahamas" data-category="Commerce" data-search="clearfile bahamas vat tax compliance otas accounting returns exports">
@@ -1464,7 +1564,7 @@
                 <p class="mt-4 text-xs italic leading-6 text-white/60">Bahamian VAT-preparation software with OTAS-ready exports; businesses submit their own filings.</p>
                 <div class="product-tags"><span class="product-tag">VAT</span><button class="product-tag product-tag-category" type="button" aria-label="Filter by category: Commerce" data-card-category="Commerce">Commerce</button><span class="product-tag">Compliance</span></div>
                 <a class="focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="https://www.clearfile.co" target="_blank" rel="noopener noreferrer">Visit website</a>
-                <div class="product-region"><span class="product-region-label">Region</span><span class="product-region-value"><img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>Bahamas</span></div>
+                <div class="product-region"><span class="product-region-label">Region</span><button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: Bahamas"><span class="product-region-value"><img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>Bahamas</span></button></div>
             </article>
             <article class="product-card scroll-reveal spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" data-product-id="dilly" data-name="Dilly" data-country="Bahamas" data-category="Commerce" data-search="dilly dillypay bahamas caribbean invoicing payment management invoices reminders customers finance">
                 <div class="product-media">
@@ -1482,10 +1582,12 @@
                 </a>
                 <div class="product-region">
                     <span class="product-region-label">Region</span>
-                    <span class="product-region-value">
-                        <img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
-                        Bahamas
-                    </span>
+                    <button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: Bahamas">
+                        <span class="product-region-value">
+                            <img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
+                            Bahamas
+                        </span>
+                    </button>
                 </div>
             </article>
             <article class="product-card scroll-reveal spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" data-product-id="kemispay" data-name="KemisPay" data-country="Bahamas" data-category="Fintech" data-search="kemispay bahamas payments payment links invoices subscriptions cash n go suncash kanoo">
@@ -1494,7 +1596,7 @@
                 <p class="mt-4 text-xs italic leading-6 text-white/60">Payment links, invoices, checkout buttons, and subscriptions through connected Bahamian payment providers.</p>
                 <div class="product-tags"><span class="product-tag">Payments</span><button class="product-tag product-tag-category" type="button" aria-label="Filter by category: Fintech" data-card-category="Fintech">Fintech</button><span class="product-tag">Subscriptions</span></div>
                 <a class="focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="https://www.kemispay.com" target="_blank" rel="noopener noreferrer">Visit website</a>
-                <div class="product-region"><span class="product-region-label">Region</span><span class="product-region-value"><img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>Bahamas</span></div>
+                <div class="product-region"><span class="product-region-label">Region</span><button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: Bahamas"><span class="product-region-value"><img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>Bahamas</span></button></div>
             </article>
             <article class="product-card scroll-reveal spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" data-product-id="lawbey" data-name="LawBey" data-country="Bahamas" data-category="AI and machine learning" data-search="lawbey bahamas bahamian law legal ai research assistant cases legal texts plain english">
                 <div class="product-media">
@@ -1512,10 +1614,60 @@
                 </a>
                 <div class="product-region">
                     <span class="product-region-label">Region</span>
-                    <span class="product-region-value">
-                        <img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
-                        Bahamas
-                    </span>
+                    <button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: Bahamas">
+                        <span class="product-region-value">
+                            <img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
+                            Bahamas
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class="product-card scroll-reveal spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" data-product-id="lokademy" data-name="Lokademy" data-country="Guyana" data-category="Education" data-search="lokademy guyana csec science learning courses ai study guide">
+                <div class="product-media">
+                    <img class="product-logo product-logo-image" src="assets/brand/caribbeansaas-icon-square.png" data-product-logo="lokademy" alt="Lokademy logo" width="1227" height="1270" loading="lazy"/>
+                </div>
+                <h3 class="mt-4 text-base font-bold uppercase tracking-[0.16em] text-white">Lokademy</h3>
+                <p class="mt-4 text-xs italic leading-6 text-white/60">A Guyana-built learning platform for CSEC science students, with courses and an AI study guide.</p>
+                <div class="product-tags">
+                    <span class="product-tag">CSEC</span>
+                    <button class="product-tag product-tag-category" type="button" aria-label="Filter by category: Education" data-card-category="Education">Education</button>
+                    <span class="product-tag">Science</span>
+                </div>
+                <a class="focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="https://www.lokademy.com" target="_blank" rel="noopener noreferrer">
+                    Visit website
+                </a>
+                <div class="product-region">
+                    <span class="product-region-label">Region</span>
+                    <button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: Guyana">
+                        <span class="product-region-value">
+                            <img class="region-flag" src="assets/flags/gy.png" alt="" aria-hidden="true"/>
+                            Guyana
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class="product-card scroll-reveal spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" data-product-id="noticomax" data-name="NoticoMax" data-country="Puerto Rico" data-category="Productivity" data-search="noticomax notico max puerto rico nexulon notes reminders bookmarks organization">
+                <div class="product-media">
+                    <img class="product-logo product-logo-image" src="assets/brand/caribbeansaas-icon-square.png" data-product-logo="noticomax" alt="NoticoMax logo" width="409" height="610" loading="lazy"/>
+                </div>
+                <h3 class="mt-4 text-base font-bold uppercase tracking-[0.16em] text-white">NoticoMax</h3>
+                <p class="mt-4 text-xs italic leading-6 text-white/60">A Puerto Rico-based multi-platform productivity app for notes, reminders, bookmarks, and everyday organization.</p>
+                <div class="product-tags">
+                    <span class="product-tag">Notes</span>
+                    <button class="product-tag product-tag-category" type="button" aria-label="Filter by category: Productivity" data-card-category="Productivity">Productivity</button>
+                    <span class="product-tag">Reminders</span>
+                </div>
+                <a class="focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="https://noticomax.com" target="_blank" rel="noopener noreferrer">
+                    Visit website
+                </a>
+                <div class="product-region">
+                    <span class="product-region-label">Region</span>
+                    <button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: Puerto Rico">
+                        <span class="product-region-value">
+                            <img class="region-flag" src="assets/flags/pr.png" alt="" aria-hidden="true"/>
+                            Puerto Rico
+                        </span>
+                    </button>
                 </div>
             </article>
             <article class="product-card scroll-reveal spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" data-product-id="rezbs" data-name="RezBS" data-country="Bahamas" data-category="Tourism" data-search="rezbs bahamas caribbean tours booking reservations payments manifests waivers">
@@ -1524,7 +1676,7 @@
                 <p class="mt-4 text-xs italic leading-6 text-white/60">Bahamas-created booking and operations software for tours, reservations, payments, manifests, and digital waivers.</p>
                 <div class="product-tags"><span class="product-tag">Bookings</span><button class="product-tag product-tag-category" type="button" aria-label="Filter by category: Tourism" data-card-category="Tourism">Tourism</button><span class="product-tag">Tours</span></div>
                 <a class="focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="https://rezbs.com" target="_blank" rel="noopener noreferrer">Visit website</a>
-                <div class="product-region"><span class="product-region-label">Region</span><span class="product-region-value"><img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>Bahamas</span></div>
+                <div class="product-region"><span class="product-region-label">Region</span><button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: Bahamas"><span class="product-region-value"><img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>Bahamas</span></button></div>
             </article>
             <article class="product-card scroll-reveal spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" data-product-id="schoolmate-sis" data-name="SchoolMate SIS" data-country="Bahamas" data-category="Education" data-search="schoolmate sis bahamas caribbean education school management k-12 attendance grades schedules billing parent communication reports">
                 <div class="product-media">
@@ -1542,10 +1694,12 @@
                 </a>
                 <div class="product-region">
                     <span class="product-region-label">Region</span>
-                    <span class="product-region-value">
-                        <img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
-                        Bahamas
-                    </span>
+                    <button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: Bahamas">
+                        <span class="product-region-value">
+                            <img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
+                            Bahamas
+                        </span>
+                    </button>
                 </div>
             </article>
             <article class="product-card scroll-reveal spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" data-product-id="triblockhr" data-name="TriblockHR" data-country="Bahamas" data-category="Productivity" data-search="triblockhr bahamas nassau caribbean hris payroll human resources compliance employee records attendance self service">
@@ -1564,10 +1718,36 @@
                 </a>
                 <div class="product-region">
                     <span class="product-region-label">Region</span>
-                    <span class="product-region-value">
-                        <img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
-                        Bahamas
-                    </span>
+                    <button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: Bahamas">
+                        <span class="product-region-value">
+                            <img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
+                            Bahamas
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class="product-card scroll-reveal spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" data-product-id="vertilla" data-name="Vertilla" data-country="Jamaica" data-category="Commerce" data-search="vertilla jamaica caribbean rentals fleet contracts customers payments reporting equipment vehicles">
+                <div class="product-media">
+                    <img class="product-logo product-logo-image" src="assets/brand/caribbeansaas-icon-square.png" data-product-logo="vertilla" alt="Vertilla logo" width="1503" height="335" loading="lazy"/>
+                </div>
+                <h3 class="mt-4 text-base font-bold uppercase tracking-[0.16em] text-white">Vertilla</h3>
+                <p class="mt-4 text-xs italic leading-6 text-white/60">A Jamaica-based rental operations platform for vehicle and equipment businesses, with tools for fleet, contracts, customers, payments, and reporting.</p>
+                <div class="product-tags">
+                    <span class="product-tag">Rentals</span>
+                    <button class="product-tag product-tag-category" type="button" aria-label="Filter by category: Commerce" data-card-category="Commerce">Commerce</button>
+                    <span class="product-tag">Operations</span>
+                </div>
+                <a class="focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="https://vertilla.com" target="_blank" rel="noopener noreferrer">
+                    Visit website
+                </a>
+                <div class="product-region">
+                    <span class="product-region-label">Region</span>
+                    <button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: Jamaica">
+                        <span class="product-region-value">
+                            <img class="region-flag" src="assets/flags/jm.png" alt="" aria-hidden="true"/>
+                            Jamaica
+                        </span>
+                    </button>
                 </div>
             </article>
             <!-- PRODUCT_CARDS_END -->
@@ -1596,13 +1776,46 @@
             <ul class="region-stats-grid" aria-label="Apps by region">
                 <li>
                     <a class="region-stat spectral-overlay focus-ring" href="/bahamas" aria-label="Browse 10 apps from the Bahamas">
-                    <span class="region-stat-label">
-                        <img class="region-stat-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
-                        <span class="region-stat-name">Bahamas</span>
-                    </span>
-                    <span class="flex items-center gap-2">
-                        <span class="region-stat-count">10</span>
-                    </span>
+                        <span class="region-stat-label">
+                            <img class="region-stat-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
+                            <span class="region-stat-name">Bahamas</span>
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <span class="region-stat-count">10</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a class="region-stat spectral-overlay focus-ring" href="/guyana" aria-label="Browse 1 app from Guyana">
+                        <span class="region-stat-label">
+                            <img class="region-stat-flag" src="assets/flags/gy.png" alt="" aria-hidden="true"/>
+                            <span class="region-stat-name">Guyana</span>
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <span class="region-stat-count">1</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a class="region-stat spectral-overlay focus-ring" href="/jamaica" aria-label="Browse 1 app from Jamaica">
+                        <span class="region-stat-label">
+                            <img class="region-stat-flag" src="assets/flags/jm.png" alt="" aria-hidden="true"/>
+                            <span class="region-stat-name">Jamaica</span>
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <span class="region-stat-count">1</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a class="region-stat spectral-overlay focus-ring" href="/puerto-rico" aria-label="Browse 1 app from Puerto Rico">
+                        <span class="region-stat-label">
+                            <img class="region-stat-flag" src="assets/flags/pr.png" alt="" aria-hidden="true"/>
+                            <span class="region-stat-name">Puerto Rico</span>
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <span class="region-stat-count">1</span>
+                        </span>
                     </a>
                 </li>
             </ul>
@@ -1658,6 +1871,7 @@
     const allCategoriesCheckbox = document.querySelector("#allCategories");
     const categoryCheckboxes = Array.from(document.querySelectorAll(".category-checkbox[data-category]"));
     const cardCategoryButtons = Array.from(document.querySelectorAll(".product-tag-category[data-card-category]"));
+    const cardRegionButtons = Array.from(document.querySelectorAll(".product-region-filter"));
     const clearCategoriesButton = document.querySelector("#clearCategories");
     const regionSummary = document.querySelector("#regionSummary");
     const allRegionsCheckbox = document.querySelector("#allRegions");
@@ -1781,6 +1995,25 @@
         });
         syncActiveCategories();
         categoryMenu.open = false;
+        currentPage = 1;
+        updateResults();
+        document.querySelector("#directoryControls").scrollIntoView({
+            behavior: preferredScrollBehavior(),
+            block: "start"
+        });
+    }
+
+    function selectCardRegion(region) {
+        if (ROUTE_REGION) {
+            return;
+        }
+
+        searchInput.value = "";
+        regionCheckboxes.forEach((checkbox) => {
+            checkbox.checked = checkbox.dataset.region === region;
+        });
+        syncActiveRegions();
+        regionMenu.open = false;
         currentPage = 1;
         updateResults();
         document.querySelector("#directoryControls").scrollIntoView({
@@ -2061,6 +2294,15 @@
     cardCategoryButtons.forEach((button) => {
         button.addEventListener("click", () => {
             selectCardCategory(button.dataset.cardCategory);
+        });
+    });
+
+    cardRegionButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const card = button.closest(".product-card");
+            if (card) {
+                selectCardRegion(card.dataset.country);
+            }
         });
     });
 
