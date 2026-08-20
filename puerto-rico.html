@@ -583,6 +583,12 @@
         padding: 0.42rem 0.6rem;
     }
 
+    .region-stat-filter {
+        width: 100%;
+        color: inherit;
+        text-align: left;
+    }
+
     .region-stat-count {
         display: inline-flex;
         min-width: 1.65rem;
@@ -1229,7 +1235,7 @@
             </div>
             <ul class="region-stats-grid" aria-label="Apps by region">
                 <li>
-                    <a class="region-stat spectral-overlay focus-ring" href="/bahamas" aria-label="Browse 10 apps from the Bahamas">
+                    <a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Bahamas#directory" data-region-stat="Bahamas" aria-label="Filter directory to 10 apps from the Bahamas">
                         <span class="region-stat-label">
                             <img class="region-stat-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/>
                             <span class="region-stat-name">Bahamas</span>
@@ -1240,7 +1246,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="region-stat spectral-overlay focus-ring" href="/guyana" aria-label="Browse 1 app from Guyana">
+                    <a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Guyana#directory" data-region-stat="Guyana" aria-label="Filter directory to 1 app from Guyana">
                         <span class="region-stat-label">
                             <img class="region-stat-flag" src="assets/flags/gy.png" alt="" aria-hidden="true"/>
                             <span class="region-stat-name">Guyana</span>
@@ -1251,7 +1257,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="region-stat spectral-overlay focus-ring" href="/jamaica" aria-label="Browse 1 app from Jamaica">
+                    <a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Jamaica#directory" data-region-stat="Jamaica" aria-label="Filter directory to 1 app from Jamaica">
                         <span class="region-stat-label">
                             <img class="region-stat-flag" src="assets/flags/jm.png" alt="" aria-hidden="true"/>
                             <span class="region-stat-name">Jamaica</span>
@@ -1262,7 +1268,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="region-stat spectral-overlay focus-ring" href="/puerto-rico" aria-label="Browse 1 app from Puerto Rico">
+                    <a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Puerto%20Rico#directory" data-region-stat="Puerto Rico" aria-label="Filter directory to 1 app from Puerto Rico">
                         <span class="region-stat-label">
                             <img class="region-stat-flag" src="assets/flags/pr.png" alt="" aria-hidden="true"/>
                             <span class="region-stat-name">Puerto Rico</span>
@@ -1326,6 +1332,7 @@
     const categoryCheckboxes = Array.from(document.querySelectorAll(".category-checkbox[data-category]"));
     const cardCategoryButtons = Array.from(document.querySelectorAll(".product-tag-category[data-card-category]"));
     const cardRegionButtons = Array.from(document.querySelectorAll(".product-region-filter"));
+    const regionStatLinks = Array.from(document.querySelectorAll(".region-stat-filter"));
     const clearCategoriesButton = document.querySelector("#clearCategories");
     const regionSummary = document.querySelector("#regionSummary");
     const allRegionsCheckbox = document.querySelector("#allRegions");
@@ -1470,10 +1477,6 @@
         regionMenu.open = false;
         currentPage = 1;
         updateResults();
-        document.querySelector("#directoryControls").scrollIntoView({
-            behavior: preferredScrollBehavior(),
-            block: "start"
-        });
     }
 
     function updateClearButton() {
@@ -1757,6 +1760,17 @@
             if (card) {
                 selectCardRegion(card.dataset.country);
             }
+        });
+    });
+
+    regionStatLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+            if (ROUTE_REGION) {
+                return;
+            }
+
+            event.preventDefault();
+            selectCardRegion(link.dataset.regionStat);
         });
     });
 
