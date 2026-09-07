@@ -1,7 +1,7 @@
 # CaribbeanSaaS
 
-CaribbeanSaaS is a curated directory of Caribbean-built software and digital
-platforms.
+CaribbeanSaaS is a discovery directory of software and digital platforms built in
+or specifically serving the Caribbean.
 
 ## Public deployment
 

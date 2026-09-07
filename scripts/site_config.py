@@ -4,6 +4,16 @@ from __future__ import annotations
 # Country and territory routes are explicit so public URLs remain stable when
 # labels contain spaces, punctuation, accents, or political naming variants.
 COUNTRY_ROUTE_SLUGS = {
+    "Anguilla": "anguilla",
+    "Bermuda": "bermuda",
+    "Bonaire": "bonaire",
+    "Caribbean": "caribbean",
+    "Cuba": "cuba",
+    "French Guiana": "french-guiana",
+    "Guadeloupe": "guadeloupe",
+    "Martinique": "martinique",
+    "Saint Barthélemy": "saint-barthelemy",
+    "Saint Martin": "saint-martin",
     "Antigua and Barbuda": "antigua-and-barbuda",
     "Aruba": "aruba",
     "Bahamas": "bahamas",

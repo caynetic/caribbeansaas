@@ -8,6 +8,8 @@ from datetime import date
 from pathlib import Path
 from typing import Iterable
 
+from directory_catalog import render_directory, item
+
 from site_config import (
     COUNTRY_ROUTE_SLUGS,
     country_route_display_name,
@@ -199,7 +201,7 @@ def replace_structured_data(
     return index_html[: match.start()] + replacement + index_html[match.end() :]
 
 
-def ordered_homepage_structured_data(index_html: str, product_ids: list[str]) -> str:
+def ordered_homepage_structured_data(index_html: str, products: list[dict]) -> str:
     match = STRUCTURED_DATA_PATTERN.search(index_html)
     if match is None:
         raise RuntimeError("Homepage structured data block is missing")
@@ -212,11 +214,7 @@ def ordered_homepage_structured_data(index_html: str, product_ids: list[str]) ->
     for node in graph:
         node_id = node.get("@id")
         if isinstance(node_id, str) and node_id.endswith("#listed-digital-products"):
-            entries = ordered_item_list_entries(
-                node,
-                product_ids,
-                context="Homepage",
-            )
+            entries = [item(product, position, SITE_URL) for position, product in enumerate(products, start=1)]
             node["numberOfItems"] = len(entries)
             node["itemListElement"] = entries
             break
@@ -283,8 +281,8 @@ def country_page_html(country: str, products: list[dict], index_html: str) -> st
     display_name = country_route_display_name(country)
     title = f"{country} Software Directory | CaribbeanSaaS"
     description = (
-        f"Discover reviewed software and digital products built by founders "
-        f"and teams connected to {display_name}."
+        f"Discover software built in or serving {display_name}. "
+        f"Directory inclusion is not a product assessment or endorsement."
     )
     product_id_order = [product["id"] for product in products]
 
@@ -297,7 +295,7 @@ def country_page_html(country: str, products: list[dict], index_html: str) -> st
     )
     page = replace_once(
         page,
-        '<meta name="description" content="Discover reviewed Caribbean-built SaaS products, AI tools, fintech platforms, cybersecurity products, healthcare apps, tourism software, and developer tools."/>',
+        '<meta name="description" content="Discover software built in or serving the Caribbean: SaaS products, AI tools, business platforms, and more. Listings are for discovery, not product endorsements."/>',
         f'<meta name="description" content="{description}"/>',
         "meta description",
     )
@@ -315,7 +313,7 @@ def country_page_html(country: str, products: list[dict], index_html: str) -> st
     )
     page = replace_once(
         page,
-        '<meta property="og:description" content="A curated directory for reviewed Caribbean-built SaaS products, AI tools, fintech platforms, cybersecurity products, healthcare apps, tourism software, and developer tools."/>',
+        '<meta property="og:description" content="Discover software built in or serving the Caribbean: SaaS products, AI tools, business platforms, and more. Listings are for discovery, not product endorsements."/>',
         f'<meta property="og:description" content="{description}"/>',
         "Open Graph description",
     )
@@ -333,7 +331,7 @@ def country_page_html(country: str, products: list[dict], index_html: str) -> st
     )
     page = replace_once(
         page,
-        '<meta name="twitter:description" content="Discover reviewed Caribbean-built SaaS products, AI tools, fintech platforms, cybersecurity products, healthcare apps, tourism software, and developer tools."/>',
+        '<meta name="twitter:description" content="Discover software built in or serving the Caribbean: SaaS products, AI tools, business platforms, and more. Listings are for discovery, not product endorsements."/>',
         f'<meta name="twitter:description" content="{description}"/>',
         "Twitter description",
     )
@@ -363,12 +361,12 @@ def country_page_html(country: str, products: list[dict], index_html: str) -> st
     )
 
     heading_pattern = re.compile(
-        r'<h1 class="max-w-3xl[^>]+aria-label="Discover Caribbean-Built Software">.*?</h1>',
+        r'<h1 class="max-w-3xl[^>]+aria-label="Discover Caribbean Software">.*?</h1>',
         re.DOTALL,
     )
-    heading = f'''<h1 class="max-w-3xl text-[2.75rem] font-semibold uppercase leading-[0.95] tracking-normal text-white sm:text-6xl md:text-7xl" aria-label="Discover software from {display_name}">
+    heading = f'''<h1 class="max-w-3xl text-[2.75rem] font-semibold uppercase leading-[0.95] tracking-normal text-white sm:text-6xl md:text-7xl" aria-label="Discover software for {display_name}">
             <span class="hero-title-line">Discover</span>
-            <span class="hero-title-line">Software From</span>
+            <span class="hero-title-line">Software For</span>
             <span class="hero-title-line">{display_name.title()}</span>
         </h1>'''
     page, heading_count = heading_pattern.subn(heading, page, count=1)
@@ -377,8 +375,8 @@ def country_page_html(country: str, products: list[dict], index_html: str) -> st
 
     page = replace_once(
         page,
-        "CaribbeanSaaS showcases reviewed SaaS products, AI tools, fintech platforms, cybersecurity products, healthcare apps, developer tools, tourism software, and more from founders and teams across the region.",
-        f"Browse reviewed software and digital products from founders and teams connected to {display_name}.",
+        "Explore SaaS products, AI tools, business platforms, and more built in or serving the Caribbean. We check basic listing information, not product quality, security, or performance.",
+        f"Browse software built in or serving {display_name}. Listings describe the regional connection and are not product endorsements.",
         "hero supporting copy",
     )
     page = country_structured_data(
@@ -412,8 +410,8 @@ def main() -> None:
     grouped_products = listed_products_by_country(products)
     index_html = without_legacy_index_blocks(INDEX.read_text())
     product_id_order = [product["id"] for product in products]
-    index_html = filtered_product_cards(index_html, product_id_order)
-    index_html = ordered_homepage_structured_data(index_html, product_id_order)
+    index_html = render_directory(index_html, products)
+    index_html = ordered_homepage_structured_data(index_html, products)
     country_pages, country_urls = render_country_pages(grouped_products, index_html)
     support_urls = [
         (f"{SITE_URL}/{path}", priority)

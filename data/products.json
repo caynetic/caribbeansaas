@@ -2,6 +2,312 @@
   "schemaVersion": 2,
   "products": [
     {
+      "id": "about-svg",
+      "slug": "about-svg",
+      "name": "About SVG",
+      "tagline": "A mobile information companion for Saint Vincent and the Grenadines.",
+      "description": "A mobile information companion for Saint Vincent and the Grenadines.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://play.google.com/store/apps/details?id=com.safyah.aboutsvg",
+      "country": "Saint Vincent and the Grenadines",
+      "countries": [
+        "Saint Vincent and the Grenadines"
+      ],
+      "category": "Tourism",
+      "industry": "Travel and transportation",
+      "tags": [
+        "Tourism",
+        "mobile app"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [
+        "google:com.safyah.aboutsvg"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "An island guide for Saint Vincent and the Grenadines.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "accountberry",
+      "slug": "accountberry",
+      "name": "Accountberry",
+      "tagline": "ERP and accounting software for business workflows in Puerto Rico and the United States.",
+      "description": "ERP and accounting software for business workflows in Puerto Rico and the United States.",
+      "productKind": "saas",
+      "websiteUrl": "https://accountberry.com/es/",
+      "country": "Puerto Rico",
+      "countries": [
+        "Puerto Rico"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Supports accounting and business operations in Puerto Rico.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "agriculture-platform-suriname",
+      "slug": "agriculture-platform-suriname",
+      "name": "Agriculture Platform Suriname",
+      "tagline": "A platform connecting farmers and agribusiness participants in Suriname.",
+      "description": "A platform connecting farmers and agribusiness participants in Suriname.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://agriculture.platform.sr/?lang=dutch",
+      "country": "Suriname",
+      "countries": [
+        "Suriname"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Agriculture Platform Suriname is presented for farmers and agribusiness participants in Suriname.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "aidenteach",
+      "slug": "aidenteach",
+      "name": "AidenTeach",
+      "tagline": "An education tool supporting AI-assisted classroom workflows in Belize.",
+      "description": "An education tool supporting AI-assisted classroom workflows in Belize.",
+      "productKind": "web_tool",
+      "websiteUrl": "https://www.aidenteach.com/",
+      "country": "Belize",
+      "countries": [
+        "Belize"
+      ],
+      "category": "Education",
+      "industry": "Education technology",
+      "tags": [
+        "Education",
+        "web tool"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Designed for AI adoption in Belizean classrooms.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "altivia",
+      "slug": "altivia",
+      "name": "Altivia",
+      "tagline": "A platform for condominium-management workflows in the Dominican Republic.",
+      "description": "A platform for condominium-management workflows in the Dominican Republic.",
+      "productKind": "saas",
+      "websiteUrl": "https://altivia.do/",
+      "country": "Dominican Republic",
+      "countries": [
+        "Dominican Republic"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Condominium administration for properties in the Dominican Republic.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "ansa",
+      "slug": "ansa",
+      "name": "ANSA",
+      "tagline": "A multi-service digital platform positioned for Jamaica and Caribbean users.",
+      "description": "A multi-service digital platform positioned for Jamaica and Caribbean users.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://oneansa.online/",
+      "country": "Jamaica",
+      "countries": [
+        "Jamaica"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Designed for businesses in Jamaica.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "apex",
+      "slug": "apex",
+      "name": "APEX",
+      "tagline": "An AI-assisted business-management platform from Teragal, with operations, customer-management, and reporting tools.",
+      "description": "An AI-assisted business-management platform from Teragal, with operations, customer-management, and reporting tools.",
+      "productKind": "saas",
+      "websiteUrl": "https://teragal.com/teragal/platform",
+      "country": "Jamaica",
+      "countries": [
+        "Jamaica"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [
+        "APEX by Teragal",
+        "APEX Platform"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Teragal Technologies",
+      "founderNames": [],
+      "caribbeanConnection": "Offered by Teragal, which operates teams in Jamaica, for Caribbean businesses.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "atrivia",
+      "slug": "atrivia",
+      "name": "Atrivia",
+      "tagline": "Cloud ERP software for accounting, electronic invoicing, payroll, sales, and business management.",
+      "description": "Cloud ERP software for accounting, electronic invoicing, payroll, sales, and business management.",
+      "productKind": "saas",
+      "websiteUrl": "https://atrivia.net/en",
+      "country": "Dominican Republic",
+      "countries": [
+        "Dominican Republic"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Atrivia",
+      "founderNames": [],
+      "caribbeanConnection": "Operated from Santo Domingo, Dominican Republic.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "awaks-pay",
+      "slug": "awaks-pay",
+      "name": "AWAKS PAY",
+      "tagline": "Payment-acceptance software, apps, and dashboards for businesses in the French Caribbean.",
+      "description": "Payment-acceptance software, apps, and dashboards for businesses in the French Caribbean.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://awakspay.com/",
+      "country": "Guadeloupe",
+      "countries": [
+        "Guadeloupe",
+        "Martinique",
+        "French Guiana"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "digital platform"
+      ],
+      "aliases": [
+        "PayWish"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Serves Guadeloupe, Martinique and French Guiana.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
       "id": "bahamacalc",
       "slug": "bahamacalc",
       "name": "BahamaCalc",
@@ -28,9 +334,10 @@
       "companyName": "BahamaCalc",
       "founderNames": [],
       "caribbeanConnection": "Built around Bahamian import costs, duties, VAT, and local business pricing needs.",
-      "visibility": "unlisted",
+      "visibility": "listed",
       "publishedAt": "2026-07-02",
-      "updatedAt": "2026-07-06"
+      "updatedAt": "2026-09-07",
+      "aliases": []
     },
     {
       "id": "bahamas-opendata",
@@ -67,6 +374,241 @@
       "updatedAt": "2026-08-10"
     },
     {
+      "id": "bandy",
+      "slug": "bandy",
+      "name": "Bandy",
+      "tagline": "A mobile application for community time-banking exchanges in the Caribbean.",
+      "description": "A mobile application for community time-banking exchanges in the Caribbean.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://www.bandycaribbean.com/bandy-app",
+      "country": "Caribbean",
+      "countries": [
+        "Caribbean"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "mobile app"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Designed for Caribbean business teams.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "bcb-developers",
+      "slug": "bcb-developers",
+      "name": "BCB Developers",
+      "tagline": "A developer portal providing access to Bermuda banking API documentation and integration tools.",
+      "description": "A developer portal providing access to Bermuda banking API documentation and integration tools.",
+      "productKind": "api_or_developer_tool",
+      "websiteUrl": "https://developers.bcb.bm/",
+      "country": "Bermuda",
+      "countries": [
+        "Bermuda"
+      ],
+      "category": "Developer tools",
+      "industry": "Software development",
+      "tags": [
+        "Developer tools",
+        "api or developer tool"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "BCB",
+      "founderNames": [],
+      "caribbeanConnection": "BCB Developers presents Bermuda banking API functionality.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "belizing-payments",
+      "slug": "belizing-payments",
+      "name": "Belizing Payments",
+      "tagline": "A payment-acceptance and settlement platform for businesses in Belize.",
+      "description": "A payment-acceptance and settlement platform for businesses in Belize.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://payments.belizing.com/",
+      "country": "Belize",
+      "countries": [
+        "Belize"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Belizing.com",
+      "founderNames": [],
+      "caribbeanConnection": "Belizing Payments is operated within the Belize-based Belizing.com marketplace ecosystem for Belize service providers.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "bgig",
+      "slug": "bgig",
+      "name": "bGig",
+      "tagline": "A digital platform connecting small-business advertising with bMedia's Puerto Rico billboard network.",
+      "description": "A digital platform connecting small-business advertising with bMedia's Puerto Rico billboard network.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://www.bgig.com/",
+      "country": "Puerto Rico",
+      "countries": [
+        "Puerto Rico"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "bMedia",
+      "founderNames": [],
+      "caribbeanConnection": "Connects small-business advertisers with bMedia’s Puerto Rico billboard network.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "bimploy",
+      "slug": "bimploy",
+      "name": "Bimploy",
+      "tagline": "HR and payroll software for employee records, training, and Barbados payroll workflows.",
+      "description": "HR and payroll software for employee records, training, and Barbados payroll workflows.",
+      "productKind": "saas",
+      "websiteUrl": "https://bimploy.com/",
+      "country": "Barbados",
+      "countries": [
+        "Barbados"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Bimploy",
+      "founderNames": [],
+      "caribbeanConnection": "Bimploy states that it is made in Barbados and built for Barbadian organizations.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "bonaire",
+      "slug": "bonaire",
+      "name": "Bonaire",
+      "tagline": "A mobile travel application for discovering Bonaire.",
+      "description": "A mobile travel application for discovering Bonaire.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://play.google.com/store/apps/details?hl=nl&id=com.bonaire.app",
+      "country": "Bonaire",
+      "countries": [
+        "Bonaire"
+      ],
+      "category": "Tourism",
+      "industry": "Travel and transportation",
+      "tags": [
+        "Tourism",
+        "mobile app"
+      ],
+      "aliases": [
+        "Bonaire app"
+      ],
+      "officialAppStoreIds": [
+        "google:com.bonaire.app"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "The application is presented for discovering Bonaire.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "brightpath-ja",
+      "slug": "brightpath-ja",
+      "name": "BrightPath Ja",
+      "tagline": "School-management software for Jamaican schools.",
+      "description": "School-management software for Jamaican schools.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.brightpathja.com/",
+      "country": "Jamaica",
+      "countries": [
+        "Jamaica"
+      ],
+      "category": "Education",
+      "industry": "Education technology",
+      "tags": [
+        "Education",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "BrightPath Ja is presented for Jamaican school workflows.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
       "id": "bumblebee-creators",
       "slug": "bumblebee-creators",
       "name": "Bumblebee Creators",
@@ -85,17 +627,84 @@
         "Creators",
         "Marketing"
       ],
+      "logoUrl": "https://cdn.caynetic.app/caribbeansaas/products/logos/bumblebee-creators-logo.svg",
+      "logoAlt": "Bumblebee Creators logo",
+      "logoWidth": 64,
+      "logoHeight": 64,
+      "screenshotUrls": [],
+      "companyName": "Bumblebee Creators",
+      "founderNames": [],
+      "caribbeanConnection": "Built for Bahamian creators and local companies seeking creator-led marketing work.",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07",
+      "aliases": []
+    },
+    {
+      "id": "caribepay",
+      "slug": "caribepay",
+      "name": "CaribePay",
+      "tagline": "A digital payments platform serving Saint Kitts and Nevis.",
+      "description": "A digital payments platform serving Saint Kitts and Nevis.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://caribepay.com/home/about",
+      "country": "Saint Kitts and Nevis",
+      "countries": [
+        "Saint Kitts and Nevis"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
       "logoUrl": null,
       "logoAlt": null,
       "logoWidth": null,
       "logoHeight": null,
       "screenshotUrls": [],
-      "companyName": "Bumblebee Creators",
+      "companyName": null,
       "founderNames": [],
-      "caribbeanConnection": "Built for Bahamian creators and local companies seeking creator-led marketing work.",
-      "visibility": "unlisted",
-      "publishedAt": null,
-      "updatedAt": "2026-07-23"
+      "caribbeanConnection": "A payment platform serving Saint Kitts and Nevis.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "caribridge",
+      "slug": "caribridge",
+      "name": "Caribridge",
+      "tagline": "A marketplace and storefront platform connecting Caribbean entrepreneurs with international buyers.",
+      "description": "A marketplace and storefront platform connecting Caribbean entrepreneurs with international buyers.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://caribridge.solutions/",
+      "country": "Caribbean",
+      "countries": [
+        "Caribbean"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "marketplace"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Caribridge",
+      "founderNames": [],
+      "caribbeanConnection": "A marketplace for Caribbean merchants.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "caribtrends",
@@ -128,9 +737,78 @@
       "companyName": "CaribTrends",
       "founderNames": [],
       "caribbeanConnection": "Built by Caynetic for Caribbean search, demand, and market-intelligence workflows.",
-      "visibility": "unlisted",
+      "visibility": "listed",
       "publishedAt": "2026-07-02",
-      "updatedAt": "2026-08-08"
+      "updatedAt": "2026-09-07",
+      "aliases": []
+    },
+    {
+      "id": "caribware",
+      "slug": "caribware",
+      "name": "CaribWare",
+      "tagline": "Business software for organizations across Curacao, Aruba, and Bonaire.",
+      "description": "Business software for organizations across Curacao, Aruba, and Bonaire.",
+      "productKind": "saas",
+      "websiteUrl": "https://caribware.com/",
+      "country": "Curacao",
+      "countries": [
+        "Curacao",
+        "Aruba",
+        "Bonaire"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Business software serving organizations across Curaçao, Aruba and Bonaire.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "cavio",
+      "slug": "cavio",
+      "name": "Cavio",
+      "tagline": "A creator-commerce platform for selling training, ebooks, and digital products using Haitian payment workflows.",
+      "description": "A creator-commerce platform for selling training, ebooks, and digital products using Haitian payment workflows.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://cavio.store/",
+      "country": "Haiti",
+      "countries": [
+        "Haiti"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "marketplace"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Tools for Haitian creators and their payment needs.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "cay-declarations",
@@ -161,7 +839,41 @@
       "caribbeanConnection": "Built by a Bahamian software company for brokerage and Customs Click2Clear workflows in The Bahamas.",
       "visibility": "listed",
       "publishedAt": "2026-07-10",
-      "updatedAt": "2026-07-10"
+      "updatedAt": "2026-07-10",
+      "aliases": []
+    },
+    {
+      "id": "caybooks",
+      "slug": "caybooks",
+      "name": "Caybooks",
+      "tagline": "Cloud bookkeeping software focused on Cayman business workflows.",
+      "description": "Cloud bookkeeping software focused on Cayman business workflows.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.caybooks.com/",
+      "country": "Cayman Islands",
+      "countries": [
+        "Cayman Islands"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Supports business accounting in the Cayman Islands.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "cayneticvpn",
@@ -192,7 +904,80 @@
       "caribbeanConnection": "Built by Caynetic with a Bahamas and Caribbean technology focus.",
       "visibility": "listed",
       "publishedAt": "2026-07-02",
-      "updatedAt": "2026-07-02"
+      "updatedAt": "2026-07-02",
+      "aliases": []
+    },
+    {
+      "id": "chemotionplus-easyplus",
+      "slug": "chemotionplus-easyplus",
+      "name": "Chemotionplus EasyPlus",
+      "tagline": "EasyPlus is point-of-sale and invoicing software from the Chemotionplus product portfolio.",
+      "description": "EasyPlus is point-of-sale and invoicing software from the Chemotionplus product portfolio.",
+      "productKind": "saas",
+      "websiteUrl": "https://chemotionplus.com/",
+      "country": "Haiti",
+      "countries": [
+        "Haiti"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "saas"
+      ],
+      "aliases": [
+        "Chemotionplus",
+        "EasyPlus"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Offered by Haiti-registered software operator Chemotionplus.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "chwazy",
+      "slug": "chwazy",
+      "name": "Chwazy",
+      "tagline": "A freelance and services marketplace supporting the Haitian professional community.",
+      "description": "A freelance and services marketplace supporting the Haitian professional community.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://chwazy.com/",
+      "country": "Haiti",
+      "countries": [
+        "Haiti"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "marketplace"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [
+        "google:com.chwazy.app",
+        "apple:6756549917"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "PLIGHT HERO, LLC",
+      "founderNames": [],
+      "caribbeanConnection": "Chwazy states that it is built to support the Haitian professional community.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "clearfile",
@@ -203,10 +988,16 @@
       "productKind": "saas",
       "websiteUrl": "https://www.clearfile.co",
       "country": "Bahamas",
-      "countries": ["Bahamas"],
+      "countries": [
+        "Bahamas"
+      ],
       "category": "Commerce",
       "industry": "Tax compliance",
-      "tags": ["VAT", "Compliance", "Accounting"],
+      "tags": [
+        "VAT",
+        "Compliance",
+        "Accounting"
+      ],
       "logoUrl": "https://cdn.caynetic.app/caribbeansaas/products/logos/clearfile-logo.svg",
       "logoAlt": "ClearFile logo",
       "logoWidth": 32,
@@ -217,7 +1008,352 @@
       "caribbeanConnection": "Made in The Bahamas for local VAT preparation and OTAS-ready exports.",
       "visibility": "listed",
       "publishedAt": "2026-07-10",
-      "updatedAt": "2026-07-10"
+      "updatedAt": "2026-07-10",
+      "aliases": []
+    },
+    {
+      "id": "cliccash",
+      "slug": "cliccash",
+      "name": "ClicCash",
+      "tagline": "A mobile wallet for transfers, bill payments, top-ups, and merchant payments.",
+      "description": "A mobile wallet for transfers, bill payments, top-ups, and merchant payments.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://www.cliccash.com/",
+      "country": "Antigua and Barbuda",
+      "countries": [
+        "Antigua and Barbuda"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "A mobile wallet available in Antigua and Barbuda.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "cloudpos",
+      "slug": "cloudpos",
+      "name": "CloudPOS",
+      "tagline": "A point-of-sale platform with payment links, QR checkout, and business dashboards.",
+      "description": "A point-of-sale platform with payment links, QR checkout, and business dashboards.",
+      "productKind": "saas",
+      "websiteUrl": "https://adeshllc.com/cloudpos",
+      "country": "Caribbean",
+      "countries": [
+        "Caribbean"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Adesh LLC",
+      "founderNames": [],
+      "caribbeanConnection": "Point-of-sale software serving entrepreneurs in Jamaica, Guyana, Barbados and Trinidad and Tobago.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "core-salud",
+      "slug": "core-salud",
+      "name": "Core Salud",
+      "tagline": "Clinical-management software with electronic prescriptions and digital medical records.",
+      "description": "Clinical-management software with electronic prescriptions and digital medical records.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.core-salud.com/",
+      "country": "Dominican Republic",
+      "countries": [
+        "Dominican Republic"
+      ],
+      "category": "Healthcare",
+      "industry": "Healthcare administration",
+      "tags": [
+        "Healthcare",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Clinical management software for healthcare professionals in the Dominican Republic.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "creolecentric",
+      "slug": "creolecentric",
+      "name": "CreoleCentric",
+      "tagline": "A platform for Haitian Creole speech, translation, learning, and developer tools.",
+      "description": "A platform for Haitian Creole speech, translation, learning, and developer tools.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.creolecentric.com/",
+      "country": "Haiti",
+      "countries": [
+        "Haiti"
+      ],
+      "category": "AI and machine learning",
+      "industry": "AI software",
+      "tags": [
+        "AI and machine learning",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [
+        "apple:6761323866"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "CreoleCentric Labs",
+      "founderNames": [],
+      "caribbeanConnection": "Designed for Haitian Creole language users; the operator identifies its base in Florida.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "crm-fidecoin",
+      "slug": "crm-fidecoin",
+      "name": "CRM Fidecoin",
+      "tagline": "Business software for invoicing, point of sale, ecommerce, collections, and condominium workflows.",
+      "description": "Business software for invoicing, point of sale, ecommerce, collections, and condominium workflows.",
+      "productKind": "saas",
+      "websiteUrl": "https://crmfidecoin.com/",
+      "country": "Dominican Republic",
+      "countries": [
+        "Dominican Republic"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [
+        "Fidecoin"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Fidecoin",
+      "founderNames": [],
+      "caribbeanConnection": "CRM Fidecoin describes Dominican electronic-invoicing and business workflows.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "cuba-travel",
+      "slug": "cuba-travel",
+      "name": "Cuba Travel",
+      "tagline": "An official Cuban tourism portal with destination information and reservation-oriented tools.",
+      "description": "An official Cuban tourism portal with destination information and reservation-oriented tools.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://www.cuba.travel/newhome",
+      "country": "Cuba",
+      "countries": [
+        "Cuba"
+      ],
+      "category": "Tourism",
+      "industry": "Travel and transportation",
+      "tags": [
+        "Tourism",
+        "digital platform"
+      ],
+      "aliases": [
+        "Cuba Travel app"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Cuba Travel",
+      "founderNames": [],
+      "caribbeanConnection": "Cuba Travel is presented as an official Cuban tourism portal.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "curi-point-of-sale",
+      "slug": "curi-point-of-sale",
+      "name": "Curi Point Of Sale",
+      "tagline": "Point-of-sale software for hospitality and retail businesses in Saint Lucia.",
+      "description": "Point-of-sale software for hospitality and retail businesses in Saint Lucia.",
+      "productKind": "saas",
+      "websiteUrl": "https://curi.lc/",
+      "country": "Saint Lucia",
+      "countries": [
+        "Saint Lucia"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "saas"
+      ],
+      "aliases": [
+        "Curi POS"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Curi Point Of Sale is presented for Saint Lucia hospitality and retail businesses.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "da-island-marketplace",
+      "slug": "da-island-marketplace",
+      "name": "Da Island Marketplace",
+      "tagline": "A mobile marketplace for vendors and customers in Antigua and Barbuda.",
+      "description": "A mobile marketplace for vendors and customers in Antigua and Barbuda.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://play.google.com/store/apps/details?id=com.daislandmarketplace.da_island_marketplace",
+      "country": "Antigua and Barbuda",
+      "countries": [
+        "Antigua and Barbuda"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "marketplace"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [
+        "google:com.daislandmarketplace.da_island_marketplace"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "A marketplace for Antigua and Barbuda.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "daria",
+      "slug": "daria",
+      "name": "Daria",
+      "tagline": "Operations and sales software for service businesses in the Dominican Republic.",
+      "description": "Operations and sales software for service businesses in the Dominican Republic.",
+      "productKind": "saas",
+      "websiteUrl": "https://daria.do/",
+      "country": "Dominican Republic",
+      "countries": [
+        "Dominican Republic"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Daria is presented for service businesses in the Dominican Republic.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "digiwallet-bz",
+      "slug": "digiwallet-bz",
+      "name": "DigiWallet BZ",
+      "tagline": "A Belize mobile wallet for transfers, bill payments, and merchant payments.",
+      "description": "A Belize mobile wallet for transfers, bill payments, and merchant payments.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://www.digiwallet.bz/",
+      "country": "Belize",
+      "countries": [
+        "Belize"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "mobile app"
+      ],
+      "aliases": [
+        "DigiWallet"
+      ],
+      "officialAppStoreIds": [
+        "google:com.belizetelemedia.digiwallet"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Belize Telemedia Limited",
+      "founderNames": [],
+      "caribbeanConnection": "DigiWallet BZ is described as a Belize mobile-wallet platform.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "dilly",
@@ -249,7 +1385,612 @@
       "caribbeanConnection": "Made in The Bahamas and designed around invoicing and payment workflows for Caribbean businesses.",
       "visibility": "listed",
       "publishedAt": "2026-07-10",
-      "updatedAt": "2026-07-13"
+      "updatedAt": "2026-07-13",
+      "aliases": []
+    },
+    {
+      "id": "doc4",
+      "slug": "doc4",
+      "name": "Doc4",
+      "tagline": "Clinic software for patient portals, medical records, electronic prescriptions, and practice administration.",
+      "description": "Clinic software for patient portals, medical records, electronic prescriptions, and practice administration.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.doc4.health/",
+      "country": "Jamaica",
+      "countries": [
+        "Jamaica"
+      ],
+      "category": "Healthcare",
+      "industry": "Healthcare administration",
+      "tags": [
+        "Healthcare",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Doc4",
+      "founderNames": [],
+      "caribbeanConnection": "Doc4 is presented for healthcare providers, patients, and clinics in Jamaica.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "educoco",
+      "slug": "educoco",
+      "name": "eduCoCo",
+      "tagline": "Education-management software with virtual classrooms and asynchronous learning content.",
+      "description": "Education-management software with virtual classrooms and asynchronous learning content.",
+      "productKind": "saas",
+      "websiteUrl": "https://educoco.do/",
+      "country": "Dominican Republic",
+      "countries": [
+        "Dominican Republic"
+      ],
+      "category": "Education",
+      "industry": "Education technology",
+      "tags": [
+        "Education",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "An education platform for Dominican institutions.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "educore-rd",
+      "slug": "educore-rd",
+      "name": "EduCore RD",
+      "tagline": "School-management software tailored to Dominican Republic processes.",
+      "description": "School-management software tailored to Dominican Republic processes.",
+      "productKind": "saas",
+      "websiteUrl": "https://educorerd.com/",
+      "country": "Dominican Republic",
+      "countries": [
+        "Dominican Republic"
+      ],
+      "category": "Education",
+      "industry": "Education technology",
+      "tags": [
+        "Education",
+        "saas"
+      ],
+      "aliases": [
+        "EduCore"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "School management software tailored to Dominican Republic processes.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "eezyteach-ai",
+      "slug": "eezyteach-ai",
+      "name": "EezyTeach AI",
+      "tagline": "An AI-assisted web tool for creating lessons, quizzes, and Caribbean curriculum content.",
+      "description": "An AI-assisted web tool for creating lessons, quizzes, and Caribbean curriculum content.",
+      "productKind": "web_tool",
+      "websiteUrl": "https://eduhub.technology/",
+      "country": "Caribbean",
+      "countries": [
+        "Caribbean"
+      ],
+      "category": "Education",
+      "industry": "Education technology",
+      "tags": [
+        "Education",
+        "web tool"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "EduHub",
+      "founderNames": [],
+      "caribbeanConnection": "EezyTeach AI is presented for Caribbean curriculum lesson and quiz creation.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "emobilepos-express",
+      "slug": "emobilepos-express",
+      "name": "eMobilePOS eXpress",
+      "tagline": "A mobile point-of-sale app for payments, invoicing, customer records, sales tracking, and reports.",
+      "description": "A mobile point-of-sale app for payments, invoicing, customer records, sales tracking, and reports.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://www.emobilepos.com/solutions/express/",
+      "country": "Puerto Rico",
+      "countries": [
+        "Puerto Rico"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "mobile app"
+      ],
+      "aliases": [
+        "eMobilePOS",
+        "eXpress"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "eMobilePOS",
+      "founderNames": [],
+      "caribbeanConnection": "Public Puerto Rico reporting identifies eXpress as developed in Puerto Rico.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "examnation",
+      "slug": "examnation",
+      "name": "ExamNation",
+      "tagline": "An education platform for student practice, assignments, adaptive assessments, and teacher and parent insights.",
+      "description": "An education platform for student practice, assignments, adaptive assessments, and teacher and parent insights.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://www.tryexamnation.com/",
+      "country": "Caribbean",
+      "countries": [
+        "Caribbean"
+      ],
+      "category": "Education",
+      "industry": "Education technology",
+      "tags": [
+        "Education",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "ExamNation",
+      "founderNames": [],
+      "caribbeanConnection": "Designed for Caribbean-focused student practice and assessment workflows.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "glan",
+      "slug": "glan",
+      "name": "GLAN",
+      "tagline": "An early-access mobile-money platform presenting wallet and merchant-payment tools for the Caribbean.",
+      "description": "An early-access mobile-money platform presenting wallet and merchant-payment tools for the Caribbean.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://theglanapp.com/",
+      "country": "Bahamas",
+      "countries": [
+        "Bahamas"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "mobile app"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Kingfluence Financial LLC",
+      "founderNames": [],
+      "caribbeanConnection": "Its official site describes a Bahamas origin and an initial Bahamian launch.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07",
+      "availability": "early_access"
+    },
+    {
+      "id": "goyana",
+      "slug": "goyana",
+      "name": "GoYana",
+      "tagline": "A digital platform for delivery and ride services in Guyana.",
+      "description": "A digital platform for delivery and ride services in Guyana.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://goyana.app/",
+      "country": "Guyana",
+      "countries": [
+        "Guyana"
+      ],
+      "category": "Tourism",
+      "industry": "Travel and transportation",
+      "tags": [
+        "Tourism",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "GoYana is presented for delivery and rides use in Guyana.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "gradelogics",
+      "slug": "gradelogics",
+      "name": "Gradelogics",
+      "tagline": "Cloud school-management software for Jamaican school workflows.",
+      "description": "Cloud school-management software for Jamaican school workflows.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.gradelogics.com/",
+      "country": "Jamaica",
+      "countries": [
+        "Jamaica"
+      ],
+      "category": "Education",
+      "industry": "Education technology",
+      "tags": [
+        "Education",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Gradelogics is presented for Jamaican schools.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "gypayrolls",
+      "slug": "gypayrolls",
+      "name": "gypayrolls",
+      "tagline": "Cloud payroll software for Guyana statutory-reporting workflows.",
+      "description": "Cloud payroll software for Guyana statutory-reporting workflows.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.gypayrolls.com/",
+      "country": "Guyana",
+      "countries": [
+        "Guyana"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Supports Guyana payroll and statutory calculations.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "headoffice",
+      "slug": "headoffice",
+      "name": "HeadOffice",
+      "tagline": "Business software for accounting, payroll, and tax workflows in Saint Lucia.",
+      "description": "Business software for accounting, payroll, and tax workflows in Saint Lucia.",
+      "productKind": "saas",
+      "websiteUrl": "https://headoffice.app/saint-lucia",
+      "country": "Saint Lucia",
+      "countries": [
+        "Saint Lucia"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Business software for Saint Lucia.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "heddle",
+      "slug": "heddle",
+      "name": "Heddle",
+      "tagline": "Early-access business software for storefronts, orders, inventory, bookings, and customer management.",
+      "description": "Early-access business software for storefronts, orders, inventory, bookings, and customer management.",
+      "productKind": "saas",
+      "websiteUrl": "https://heddleapp.com/en",
+      "country": "Trinidad and Tobago",
+      "countries": [
+        "Trinidad and Tobago"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Heddle officially identifies itself as built in Trinidad and Tobago for Trinidad and Tobago and the Caribbean.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07",
+      "availability": "early_access"
+    },
+    {
+      "id": "helloag",
+      "slug": "helloag",
+      "name": "HelloAG",
+      "tagline": "An agricultural intelligence platform for Jamaica and the Caribbean, including AgriDOS tools.",
+      "description": "An agricultural intelligence platform for Jamaica and the Caribbean, including AgriDOS tools.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://helloagriculture.com/",
+      "country": "Jamaica",
+      "countries": [
+        "Jamaica"
+      ],
+      "category": "Data and analytics",
+      "industry": "Data and research",
+      "tags": [
+        "Data and analytics",
+        "digital platform"
+      ],
+      "aliases": [
+        "AgriDOS",
+        "Hello Agriculture"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Agricultural intelligence for Jamaica and the Caribbean.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "hr-hub-pro",
+      "slug": "hr-hub-pro",
+      "name": "HR HUB Pro",
+      "tagline": "Caribbean HR and payroll software for employee records, attendance, recruitment, and reporting.",
+      "description": "Caribbean HR and payroll software for employee records, attendance, recruitment, and reporting.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.hrhubpro.com/",
+      "country": "Cayman Islands",
+      "countries": [
+        "Cayman Islands"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "HR HUB",
+      "founderNames": [],
+      "caribbeanConnection": "Payroll software with a Cayman Islands operator address and Caribbean payroll support.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "inifye-logistics",
+      "slug": "inifye-logistics",
+      "name": "Inifye Logistics",
+      "tagline": "Cloud software for supply-chain, fleet, and logistics-management workflows.",
+      "description": "Cloud software for supply-chain, fleet, and logistics-management workflows.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.inifye.tech/products/logistics",
+      "country": "Trinidad and Tobago",
+      "countries": [
+        "Trinidad and Tobago"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Inifye Technologies",
+      "founderNames": [],
+      "caribbeanConnection": "Inifye Technologies identifies itself as founded in Trinidad and Tobago and identifies Inifye Logistics as one of its software products.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "islandflow",
+      "slug": "islandflow",
+      "name": "IslandFlow",
+      "tagline": "Business-management software for Bahamian VAT, duty, bonded sales, and payroll workflows.",
+      "description": "Business-management software for Bahamian VAT, duty, bonded sales, and payroll workflows.",
+      "productKind": "saas",
+      "websiteUrl": "https://islandflow.ai/",
+      "country": "Bahamas",
+      "countries": [
+        "Bahamas"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Designed for Bahamian VAT, duty, bonded-sales, and NIB payroll workflows.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "islandhop",
+      "slug": "islandhop",
+      "name": "IslandHop",
+      "tagline": "An on-demand delivery and services platform for Trinidad and Tobago.",
+      "description": "An on-demand delivery and services platform for Trinidad and Tobago.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://islandhoptt.com/",
+      "country": "Trinidad and Tobago",
+      "countries": [
+        "Trinidad and Tobago"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "IslandHop is presented for on-demand services in Trinidad and Tobago.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "isle-stay",
+      "slug": "isle-stay",
+      "name": "Isle Stay",
+      "tagline": "Software for managing holiday-rental guest experiences in Caribbean markets.",
+      "description": "Software for managing holiday-rental guest experiences in Caribbean markets.",
+      "productKind": "saas",
+      "websiteUrl": "https://islestay.digital/",
+      "country": "Caribbean",
+      "countries": [
+        "Caribbean"
+      ],
+      "category": "Tourism",
+      "industry": "Travel and transportation",
+      "tags": [
+        "Tourism",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Rental management software for Caribbean property markets.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "kanect-bahamas",
@@ -280,7 +2021,142 @@
       "caribbeanConnection": "Built around finding and booking trusted local service providers across The Bahamas.",
       "visibility": "unlisted",
       "publishedAt": "2026-07-02",
-      "updatedAt": "2026-07-06"
+      "updatedAt": "2026-07-06",
+      "aliases": []
+    },
+    {
+      "id": "kanoo",
+      "slug": "kanoo",
+      "name": "Kanoo",
+      "tagline": "A digital-wallet application serving consumers and businesses in The Bahamas.",
+      "description": "A digital-wallet application serving consumers and businesses in The Bahamas.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://www.kanoopays.com/",
+      "country": "Bahamas",
+      "countries": [
+        "Bahamas"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "mobile app"
+      ],
+      "aliases": [
+        "Kanoo App"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Kanoo is presented for digital-wallet use in The Bahamas.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "karimobilemoney",
+      "slug": "karimobilemoney",
+      "name": "KariMobileMoney",
+      "tagline": "A digital-payments application being introduced for the Grenada market.",
+      "description": "A digital-payments application being introduced for the Grenada market.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://www.karimobilemoney.com/",
+      "country": "Grenada",
+      "countries": [
+        "Grenada"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "mobile app"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "A mobile money product preparing to launch in Grenada.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07",
+      "availability": "preview"
+    },
+    {
+      "id": "kemispay",
+      "slug": "kemispay",
+      "name": "KemisPay",
+      "tagline": "Payment links and subscriptions for Bahamian businesses.",
+      "description": "A Bahamian payment-management platform for creating payment links, invoices, checkout buttons, and subscriptions through connected local payment providers.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.kemispay.com",
+      "country": "Bahamas",
+      "countries": [
+        "Bahamas"
+      ],
+      "category": "Fintech",
+      "industry": "Payments",
+      "tags": [
+        "Payments",
+        "Invoicing",
+        "Subscriptions"
+      ],
+      "logoUrl": "https://cdn.caynetic.app/caribbeansaas/products/logos/kemispay-logo.svg",
+      "logoAlt": "KemisPay logo",
+      "logoWidth": 96,
+      "logoHeight": 96,
+      "screenshotUrls": [],
+      "companyName": "KemisPay",
+      "founderNames": [],
+      "caribbeanConnection": "Built in The Bahamas to connect merchants with Cash N Go, SunCash, and Kanoo payment services.",
+      "visibility": "listed",
+      "publishedAt": "2026-07-10",
+      "updatedAt": "2026-07-10",
+      "aliases": []
+    },
+    {
+      "id": "kesbiz",
+      "slug": "kesbiz",
+      "name": "Kesbiz",
+      "tagline": "Commerce-management software for business workflows in Haiti.",
+      "description": "Commerce-management software for business workflows in Haiti.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.kesbiz.net/",
+      "country": "Haiti",
+      "countries": [
+        "Haiti"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Kesbiz is presented for Haiti commerce workflows.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "keyride",
@@ -308,35 +2184,113 @@
       "screenshotUrls": [],
       "companyName": "KeyRide",
       "founderNames": [],
-      "caribbeanConnection": "Bahamian transportation and booking platform confirmed by local product review.",
-      "visibility": "unlisted",
+      "caribbeanConnection": "Its official website presents a vehicle-rental marketplace for The Bahamas.",
+      "visibility": "listed",
       "publishedAt": "2026-07-02",
-      "updatedAt": "2026-07-10"
+      "updatedAt": "2026-09-07",
+      "aliases": [],
+      "connectionType": "market"
     },
     {
-      "id": "kemispay",
-      "slug": "kemispay",
-      "name": "KemisPay",
-      "tagline": "Payment links and subscriptions for Bahamian businesses.",
-      "description": "A Bahamian payment-management platform for creating payment links, invoices, checkout buttons, and subscriptions through connected local payment providers.",
-      "productKind": "saas",
-      "websiteUrl": "https://www.kemispay.com",
-      "country": "Bahamas",
-      "countries": ["Bahamas"],
-      "category": "Fintech",
-      "industry": "Payments",
-      "tags": ["Payments", "Invoicing", "Subscriptions"],
-      "logoUrl": "https://cdn.caynetic.app/caribbeansaas/products/logos/kemispay-logo.svg",
-      "logoAlt": "KemisPay logo",
-      "logoWidth": 96,
-      "logoHeight": 96,
+      "id": "kmarkets",
+      "slug": "kmarkets",
+      "name": "Kmarkets",
+      "tagline": "A marketplace and social-commerce platform for businesses and customers in Haiti.",
+      "description": "A marketplace and social-commerce platform for businesses and customers in Haiti.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://www.kmarkets.app/about-us",
+      "country": "Haiti",
+      "countries": [
+        "Haiti"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "marketplace"
+      ],
+      "aliases": [
+        "Kreyòl Markets"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
       "screenshotUrls": [],
-      "companyName": "KemisPay",
+      "companyName": "Kmarkets",
       "founderNames": [],
-      "caribbeanConnection": "Built in The Bahamas to connect merchants with Cash N Go, SunCash, and Kanoo payment services.",
+      "caribbeanConnection": "Kmarkets is presented as a Haiti-focused marketplace and social-commerce platform.",
+      "connectionType": "market",
       "visibility": "listed",
-      "publishedAt": "2026-07-10",
-      "updatedAt": "2026-07-10"
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "konekte",
+      "slug": "konekte",
+      "name": "Konekte",
+      "tagline": "A community-commerce platform with voucher, merchant-marketplace, and aid-distribution tools.",
+      "description": "A community-commerce platform with voucher, merchant-marketplace, and aid-distribution tools.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://konekte.org/",
+      "country": "Haiti",
+      "countries": [
+        "Haiti"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "konekte Digital",
+      "founderNames": [],
+      "caribbeanConnection": "Konekte is presented as a Haiti digital community-commerce platform.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "kontab",
+      "slug": "kontab",
+      "name": "Kontab",
+      "tagline": "Cloud accounting software with payroll workflow support for Saint Lucia.",
+      "description": "Cloud accounting software with payroll workflow support for Saint Lucia.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.kontab.net/",
+      "country": "Saint Lucia",
+      "countries": [
+        "Saint Lucia"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Supports accounting for businesses in Saint Lucia.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "lawbey",
@@ -367,7 +2321,41 @@
       "caribbeanConnection": "Focused on Bahamian law and legal research.",
       "visibility": "listed",
       "publishedAt": "2026-07-02",
-      "updatedAt": "2026-07-06"
+      "updatedAt": "2026-07-06",
+      "aliases": []
+    },
+    {
+      "id": "localio",
+      "slug": "localio",
+      "name": "Localio",
+      "tagline": "A marketplace for discovering local businesses in Turks and Caicos.",
+      "description": "A marketplace for discovering local businesses in Turks and Caicos.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://localiotci.net/",
+      "country": "Turks and Caicos Islands",
+      "countries": [
+        "Turks and Caicos Islands"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "marketplace"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "A marketplace serving the Turks and Caicos Islands.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "lokademy",
@@ -406,6 +2394,312 @@
       "updatedAt": "2026-08-20"
     },
     {
+      "id": "lora-learn-papiamentu",
+      "slug": "lora-learn-papiamentu",
+      "name": "Lora Learn Papiamentu",
+      "tagline": "A language-learning app for Papiamentu, used in Curacao and Bonaire.",
+      "description": "A language-learning app for Papiamentu, used in Curacao and Bonaire.",
+      "productKind": "web_tool",
+      "websiteUrl": "https://learnpapiamentu.app/",
+      "country": "Curacao",
+      "countries": [
+        "Curacao",
+        "Bonaire"
+      ],
+      "category": "Education",
+      "industry": "Education technology",
+      "tags": [
+        "Education",
+        "web tool"
+      ],
+      "aliases": [
+        "Lora"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Language learning for Papiamentu, spoken in Curaçao and Bonaire.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "lypso",
+      "slug": "lypso",
+      "name": "Lypso",
+      "tagline": "Payroll software with employee records, payslips, bank-file preparation, and accountant review.",
+      "description": "Payroll software with employee records, payslips, bank-file preparation, and accountant review.",
+      "productKind": "saas",
+      "websiteUrl": "https://lypso.app/",
+      "country": "Barbados",
+      "countries": [
+        "Barbados"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Lypso is presented for Barbados payroll workflows.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07",
+      "availability": "beta"
+    },
+    {
+      "id": "mehu",
+      "slug": "mehu",
+      "name": "Mehu",
+      "tagline": "A dialect-focused AI platform presenting datasets, language models, and developer tools, including Haitian Creole.",
+      "description": "A dialect-focused AI platform presenting datasets, language models, and developer tools, including Haitian Creole.",
+      "productKind": "api_or_developer_tool",
+      "websiteUrl": "https://www.mehu.ai/",
+      "country": "Haiti",
+      "countries": [
+        "Haiti"
+      ],
+      "category": "Developer tools",
+      "industry": "Software development",
+      "tags": [
+        "Developer tools",
+        "api or developer tool"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Mehu Inc.",
+      "founderNames": [],
+      "caribbeanConnection": "Supports Haitian Creole among its target language communities.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07",
+      "availability": "preview"
+    },
+    {
+      "id": "mintage-payroll",
+      "slug": "mintage-payroll",
+      "name": "Mintage Payroll",
+      "tagline": "Cloud payroll software for Guyana payroll and statutory-reporting workflows.",
+      "description": "Cloud payroll software for Guyana payroll and statutory-reporting workflows.",
+      "productKind": "saas",
+      "websiteUrl": "https://mintagepayroll.com/",
+      "country": "Guyana",
+      "countries": [
+        "Guyana"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Supports payroll and statutory calculations in Guyana.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "mmoney",
+      "slug": "mmoney",
+      "name": "mMoney",
+      "tagline": "A digital payment app with consumer-wallet and merchant-payment functions in Barbados.",
+      "description": "A digital payment app with consumer-wallet and merchant-payment functions in Barbados.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://www.mmoneybb.com/support/faq",
+      "country": "Barbados",
+      "countries": [
+        "Barbados"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "mobile app"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "mMoney Inc.",
+      "founderNames": [],
+      "caribbeanConnection": "Its official FAQ identifies Barbados origins and service within Barbados.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "mstar-learning-support-platform",
+      "slug": "mstar-learning-support-platform",
+      "name": "MSTAR Learning Support Platform",
+      "tagline": "An online learning-support platform for teachers and students in Grenada.",
+      "description": "An online learning-support platform for teachers and students in Grenada.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://mgrm.mstarlsp.com/",
+      "country": "Grenada",
+      "countries": [
+        "Grenada"
+      ],
+      "category": "Education",
+      "industry": "Education technology",
+      "tags": [
+        "Education",
+        "digital platform"
+      ],
+      "aliases": [
+        "MSTAR"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Government of Grenada / MGRM",
+      "founderNames": [],
+      "caribbeanConnection": "Used as Grenada’s national learning-support platform.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "myaruba",
+      "slug": "myaruba",
+      "name": "myAruba",
+      "tagline": "Aruba Tourism Authority's visitor application for exploring the island.",
+      "description": "Aruba Tourism Authority's visitor application for exploring the island.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://www.aruba.com/nl/myaruba-app",
+      "country": "Aruba",
+      "countries": [
+        "Aruba"
+      ],
+      "category": "Tourism",
+      "industry": "Travel and transportation",
+      "tags": [
+        "Tourism",
+        "mobile app"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Aruba Tourism Authority",
+      "founderNames": [],
+      "caribbeanConnection": "MyAruba is presented by Aruba's tourism authority for island exploration.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "naxxo",
+      "slug": "naxxo",
+      "name": "Naxxo",
+      "tagline": "Business software for Dominican Republic SMEs, including operations and invoicing workflows.",
+      "description": "Business software for Dominican Republic SMEs, including operations and invoicing workflows.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.naxxo.app/",
+      "country": "Dominican Republic",
+      "countries": [
+        "Dominican Republic"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Designed for Dominican Republic small-business and invoicing workflows.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "nio-digital-business-platform",
+      "slug": "nio-digital-business-platform",
+      "name": "Nio Digital Business Platform",
+      "tagline": "Business software for operations, inventory, finance, HR, payroll, and reporting in energy-service workflows.",
+      "description": "Business software for operations, inventory, finance, HR, payroll, and reporting in energy-service workflows.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.niodbp.com/energy",
+      "country": "Trinidad and Tobago",
+      "countries": [
+        "Trinidad and Tobago"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [
+        "Nio DBP"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Business operations software for energy services in Trinidad and Tobago.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
       "id": "noticomax",
       "slug": "noticomax",
       "name": "NoticoMax",
@@ -424,9 +2718,7 @@
         "Reminders",
         "Organization"
       ],
-      "aliases": [
-        "Notico Max"
-      ],
+      "aliases": [],
       "officialAppStoreIds": [
         "apple:6762639265"
       ],
@@ -443,6 +2735,419 @@
       "updatedAt": "2026-08-20"
     },
     {
+      "id": "nou",
+      "slug": "nou",
+      "name": "NOU",
+      "tagline": "A multi-seller marketplace connecting Haitian sellers and customers.",
+      "description": "A multi-seller marketplace connecting Haitian sellers and customers.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://www.agronou.com/",
+      "country": "Haiti",
+      "countries": [
+        "Haiti"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "marketplace"
+      ],
+      "aliases": [
+        "Agronou"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "NOU",
+      "founderNames": [],
+      "caribbeanConnection": "NOU is presented as a marketplace for Haitian sellers and customers.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "oceypay",
+      "slug": "oceypay",
+      "name": "OceyPay",
+      "tagline": "Payment infrastructure for wallets, merchant QR payments, and public collections.",
+      "description": "Payment infrastructure for wallets, merchant QR payments, and public collections.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://www.oceypay.com/",
+      "country": "Caribbean",
+      "countries": [
+        "Caribbean"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "digital platform"
+      ],
+      "aliases": [
+        "NGPX"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Designed for Caribbean payment rails, merchant payments, and government collections.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "odeliver",
+      "slug": "odeliver",
+      "name": "oDeliver",
+      "tagline": "A logistics platform with a merchant portal, shipment tracking, and developer integrations.",
+      "description": "A logistics platform with a merchant portal, shipment tracking, and developer integrations.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://odeliver.org/about",
+      "country": "Trinidad and Tobago",
+      "countries": [
+        "Trinidad and Tobago"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Agora Technologies Ltd.",
+      "founderNames": [],
+      "caribbeanConnection": "ODeliver is a Trinidad and Tobago-founded logistics platform operated by Agora Technologies Ltd.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "osirius-online-suriname",
+      "slug": "osirius-online-suriname",
+      "name": "Osirius Online Suriname",
+      "tagline": "Online bookkeeping software for business workflows in Suriname.",
+      "description": "Online bookkeeping software for business workflows in Suriname.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.boekhouden.sr/nieuwewebsite",
+      "country": "Suriname",
+      "countries": [
+        "Suriname"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [
+        "Osirius Online"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Business software tailored to Suriname.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "paisr",
+      "slug": "paisr",
+      "name": "PAISR",
+      "tagline": "A payments platform with merchant tools, wallet functionality, and developer APIs.",
+      "description": "A payments platform with merchant tools, wallet functionality, and developer APIs.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://www.paisr.tech/",
+      "country": "Caribbean",
+      "countries": [
+        "Caribbean"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "PAISR Technologies NV",
+      "founderNames": [],
+      "caribbeanConnection": "PAISR is presented as a payment solution for individuals and businesses across the Caribbean.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "panalbi",
+      "slug": "panalbi",
+      "name": "PanalBI",
+      "tagline": "A business platform combining ERP, point of sale, marketplace, and delivery tools for Cuban businesses.",
+      "description": "A business platform combining ERP, point of sale, marketplace, and delivery tools for Cuban businesses.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://panalbi.com/",
+      "country": "Cuba",
+      "countries": [
+        "Cuba"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Business intelligence tools for Cuban organizations.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "pay2commerce",
+      "slug": "pay2commerce",
+      "name": "Pay2Commerce",
+      "tagline": "Business-management software for invoicing, accounting, point of sale, and ecommerce.",
+      "description": "Business-management software for invoicing, accounting, point of sale, and ecommerce.",
+      "productKind": "saas",
+      "websiteUrl": "https://pay2commerce.app/",
+      "country": "Dominican Republic",
+      "countries": [
+        "Dominican Republic"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Pay2Commerce is presented for business-management and digital-invoicing workflows in the Dominican Republic.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "paypak-professional",
+      "slug": "paypak-professional",
+      "name": "PayPak Professional",
+      "tagline": "Payroll software supporting statutory payroll workflows across Caribbean jurisdictions.",
+      "description": "Payroll software supporting statutory payroll workflows across Caribbean jurisdictions.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.gray-notes.bb/paypak.php",
+      "country": "Barbados",
+      "countries": [
+        "Barbados"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [
+        "PayPak"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Gray-Notes Software",
+      "founderNames": [],
+      "caribbeanConnection": "PayPak Professional supports statutory payroll workflows across Caribbean jurisdictions.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "posneto",
+      "slug": "posneto",
+      "name": "Posneto",
+      "tagline": "A platform combining point of sale, ecommerce, accounting, inventory, and electronic invoicing.",
+      "description": "A platform combining point of sale, ecommerce, accounting, inventory, and electronic invoicing.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.posneto.com/",
+      "country": "Dominican Republic",
+      "countries": [
+        "Dominican Republic"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Posneto is presented as a platform designed for Dominican businesses and DGII electronic invoicing.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "prep",
+      "slug": "prep",
+      "name": "PREP",
+      "tagline": "A recruitment platform that connects food and beverage businesses with job candidates.",
+      "description": "A recruitment platform that connects food and beverage businesses with job candidates.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://www.prep-app.com/",
+      "country": "Puerto Rico",
+      "countries": [
+        "Puerto Rico"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "digital platform"
+      ],
+      "aliases": [
+        "Prep App"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "PREP",
+      "founderNames": [],
+      "caribbeanConnection": "Created by Puerto Rican entrepreneurs, according to public Puerto Rico reporting.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "quickpay-by-yawp",
+      "slug": "quickpay-by-yawp",
+      "name": "QuickPay by YAWP",
+      "tagline": "A mobile app for merchant payments and business-management workflows in Bermuda.",
+      "description": "A mobile app for merchant payments and business-management workflows in Bermuda.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://play.google.com/store/apps/details?id=bm.quickpay.merchant",
+      "country": "Bermuda",
+      "countries": [
+        "Bermuda"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "mobile app"
+      ],
+      "aliases": [
+        "QuickPay",
+        "YAWP"
+      ],
+      "officialAppStoreIds": [
+        "google:bm.quickpay.merchant"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Agility Ltd",
+      "founderNames": [],
+      "caribbeanConnection": "Designed for Bermuda merchant payment and business-management workflows.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "rentiq",
+      "slug": "rentiq",
+      "name": "RentIQ",
+      "tagline": "Vehicle-rental operations software for Caribbean rental businesses.",
+      "description": "Vehicle-rental operations software for Caribbean rental businesses.",
+      "productKind": "saas",
+      "websiteUrl": "https://inifyerentiq.com/",
+      "country": "Caribbean",
+      "countries": [
+        "Caribbean"
+      ],
+      "category": "Tourism",
+      "industry": "Travel and transportation",
+      "tags": [
+        "Tourism",
+        "saas"
+      ],
+      "aliases": [
+        "Inifye RentIQ"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Inifye Technologies",
+      "founderNames": [],
+      "caribbeanConnection": "RentIQ is described as built by Inifye Technologies for Caribbean car-rental operators.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
       "id": "rezbs",
       "slug": "rezbs",
       "name": "RezBS",
@@ -451,10 +3156,17 @@
       "productKind": "saas",
       "websiteUrl": "https://rezbs.com",
       "country": "Bahamas",
-      "countries": ["Bahamas", "Caribbean"],
+      "countries": [
+        "Bahamas",
+        "Caribbean"
+      ],
       "category": "Tourism",
       "industry": "Tour operations",
-      "tags": ["Bookings", "Tours", "Reservations"],
+      "tags": [
+        "Bookings",
+        "Tours",
+        "Reservations"
+      ],
       "logoUrl": "https://cdn.caynetic.app/caribbeansaas/products/logos/rezbs-logo.png",
       "logoAlt": "RezBS logo",
       "logoWidth": 115,
@@ -465,7 +3177,74 @@
       "caribbeanConnection": "Created in The Bahamas and designed for Caribbean tour operators and regional payment connections.",
       "visibility": "listed",
       "publishedAt": "2026-07-10",
-      "updatedAt": "2026-07-10"
+      "updatedAt": "2026-07-10",
+      "aliases": []
+    },
+    {
+      "id": "rhyslist",
+      "slug": "rhyslist",
+      "name": "RhysList",
+      "tagline": "A marketplace connecting customers in Guyana with local service providers.",
+      "description": "A marketplace connecting customers in Guyana with local service providers.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://www.rhyslist.com/",
+      "country": "Guyana",
+      "countries": [
+        "Guyana"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "marketplace"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Independent reporting identifies RhysList as a locally developed Guyanese marketplace.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "rivia",
+      "slug": "rivia",
+      "name": "Rivia",
+      "tagline": "A suite of SaaS products for property valuation and laboratory-analysis management.",
+      "description": "A suite of SaaS products for property valuation and laboratory-analysis management.",
+      "productKind": "saas",
+      "websiteUrl": "https://rivia.do/",
+      "country": "Dominican Republic",
+      "countries": [
+        "Dominican Republic"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Upgrade Developers Group",
+      "founderNames": [],
+      "caribbeanConnection": "Its official site identifies the software as made in the Dominican Republic by Upgrade.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "roadalert-242",
@@ -492,17 +3271,86 @@
       "officialAppStoreIds": [
         "google:com.roadalert242.app"
       ],
+      "logoUrl": "https://cdn.caynetic.app/caribbeansaas/products/logos/roadalert-242-logo.png",
+      "logoAlt": "RoadAlert 242 logo",
+      "logoWidth": 512,
+      "logoHeight": 512,
+      "screenshotUrls": [],
+      "companyName": "Global Motion LLC",
+      "founderNames": [],
+      "caribbeanConnection": "Operated by Global Motion LLC in The Bahamas and built for drivers across the Bahamian islands.",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "sanddollar",
+      "slug": "sanddollar",
+      "name": "SandDollar",
+      "tagline": "The Central Bank of The Bahamas application for its digital Bahamian-dollar wallet.",
+      "description": "The Central Bank of The Bahamas application for its digital Bahamian-dollar wallet.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://play.google.com/store/apps/details?hl=en_US&id=io.movmint.sanddollar",
+      "country": "Bahamas",
+      "countries": [
+        "Bahamas"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "mobile app"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [
+        "google:io.movmint.sanddollar",
+        "apple:6477689485"
+      ],
       "logoUrl": null,
       "logoAlt": null,
       "logoWidth": null,
       "logoHeight": null,
       "screenshotUrls": [],
-      "companyName": "Global Motion LLC",
+      "companyName": "Central Bank of The Bahamas",
       "founderNames": [],
-      "caribbeanConnection": "Operated by Global Motion LLC in The Bahamas and built for drivers across the Bahamian islands.",
-      "visibility": "unlisted",
-      "publishedAt": null,
-      "updatedAt": "2026-08-10"
+      "caribbeanConnection": "SandDollar is the Central Bank of The Bahamas digital Bahamian-dollar wallet.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "school-sr",
+      "slug": "school-sr",
+      "name": "school.sr",
+      "tagline": "A digital learning platform for students in Suriname.",
+      "description": "A digital learning platform for students in Suriname.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://school.sr/",
+      "country": "Suriname",
+      "countries": [
+        "Suriname"
+      ],
+      "category": "Education",
+      "industry": "Education technology",
+      "tags": [
+        "Education",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "A digital learning platform for students in Suriname.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "schoolmate-sis",
@@ -534,7 +3382,412 @@
       "caribbeanConnection": "Built for Bahamian and Caribbean K-12 schools with region-specific school operations in mind.",
       "visibility": "listed",
       "publishedAt": "2026-07-02",
-      "updatedAt": "2026-07-06"
+      "updatedAt": "2026-07-06",
+      "aliases": []
+    },
+    {
+      "id": "slaeb",
+      "slug": "slaeb",
+      "name": "Slaeb",
+      "tagline": "A modular business platform originating in Martinique.",
+      "description": "A modular business platform originating in Martinique.",
+      "productKind": "saas",
+      "websiteUrl": "https://slaeb.com/fr/",
+      "country": "Martinique",
+      "countries": [
+        "Martinique"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Its official site describes the platform as founded in Martinique.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "smartsante",
+      "slug": "smartsante",
+      "name": "SMARTSANTE",
+      "tagline": "A healthcare software platform for administration and patient-related workflows in Haiti.",
+      "description": "A healthcare software platform for administration and patient-related workflows in Haiti.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.smartsantehaiti.com/",
+      "country": "Haiti",
+      "countries": [
+        "Haiti"
+      ],
+      "category": "Healthcare",
+      "industry": "Healthcare administration",
+      "tags": [
+        "Healthcare",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "SMARTSANTE is presented for healthcare administration in Haiti.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "sovoli",
+      "slug": "sovoli",
+      "name": "Sovoli",
+      "tagline": "A digital school platform serving Jamaica, Guyana, and other Caribbean markets.",
+      "description": "A digital school platform serving Jamaica, Guyana, and other Caribbean markets.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://www.sovoli.com/about",
+      "country": "Caribbean",
+      "countries": [
+        "Caribbean"
+      ],
+      "category": "Education",
+      "industry": "Education technology",
+      "tags": [
+        "Education",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Sovoli is presented for schools in Jamaica, Guyana, and the wider Caribbean.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "spineframe",
+      "slug": "spineframe",
+      "name": "SpineFrame",
+      "tagline": "Practice-management software for healthcare administration from Puerto Rico-based Nexulon.",
+      "description": "Practice-management software for healthcare administration from Puerto Rico-based Nexulon.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.spineframe.com/",
+      "country": "Puerto Rico",
+      "countries": [
+        "Puerto Rico"
+      ],
+      "category": "Healthcare",
+      "industry": "Healthcare administration",
+      "tags": [
+        "Healthcare",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Nexulon LLC",
+      "founderNames": [],
+      "caribbeanConnection": "Nexulon identifies itself as Puerto Rico-based and identifies SpineFrame as a product it owns and operates.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "studysmart",
+      "slug": "studysmart",
+      "name": "StudySmart",
+      "tagline": "An education application supporting preparation for Jamaica's Primary Exit Profile exams.",
+      "description": "An education application supporting preparation for Jamaica's Primary Exit Profile exams.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://eduhub.technology/",
+      "country": "Jamaica",
+      "countries": [
+        "Jamaica"
+      ],
+      "category": "Education",
+      "industry": "Education technology",
+      "tags": [
+        "Education",
+        "mobile app"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "EduHub",
+      "founderNames": [],
+      "caribbeanConnection": "StudySmart is presented for Jamaica's PEP curriculum.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "suncash",
+      "slug": "suncash",
+      "name": "SunCash",
+      "tagline": "A Bahamian mobile wallet for bill payments and merchant payments.",
+      "description": "A Bahamian mobile wallet for bill payments and merchant payments.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://mysuncash.com/",
+      "country": "Bahamas",
+      "countries": [
+        "Bahamas"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "The operator identifies its headquarters in The Bahamas.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "suri",
+      "slug": "suri",
+      "name": "SURI",
+      "tagline": "Integrated business software combining CRM, HR, payroll, finance, point of sale, and inventory.",
+      "description": "Integrated business software combining CRM, HR, payroll, finance, point of sale, and inventory.",
+      "productKind": "saas",
+      "websiteUrl": "https://surisystem.com/",
+      "country": "Trinidad and Tobago",
+      "countries": [
+        "Trinidad and Tobago"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Kp Digital Designs",
+      "founderNames": [],
+      "caribbeanConnection": "The official SURI site identifies its operator in Port of Spain, Trinidad, and describes software built for Caribbean business operations.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "swiftcash",
+      "slug": "swiftcash",
+      "name": "SwiftCash",
+      "tagline": "A payments platform with wallets, QR payments, and a merchant dashboard.",
+      "description": "A payments platform with wallets, QR payments, and a merchant dashboard.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://swiftcash.app/",
+      "country": "Antigua and Barbuda",
+      "countries": [
+        "Antigua and Barbuda"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "mobile app"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "A wallet and merchant platform with a published Antigua and Barbuda contact address.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "swyft-taxi-driver",
+      "slug": "swyft-taxi-driver",
+      "name": "SWYFT Taxi Driver",
+      "tagline": "A mobile application for drivers using an Antigua ride-share platform.",
+      "description": "A mobile application for drivers using an Antigua ride-share platform.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://apps.apple.com/ca/app/swyft-taxi-driver/id6654924731",
+      "country": "Antigua and Barbuda",
+      "countries": [
+        "Antigua and Barbuda"
+      ],
+      "category": "Tourism",
+      "industry": "Travel and transportation",
+      "tags": [
+        "Tourism",
+        "mobile app"
+      ],
+      "aliases": [
+        "SWYFT"
+      ],
+      "officialAppStoreIds": [
+        "apple:6654924731"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "A driver app for ride sharing in Antigua.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "the-influence-jamaica",
+      "slug": "the-influence-jamaica",
+      "name": "The Influence Jamaica",
+      "tagline": "A creator-partnership platform for campaign management, payout coordination, and reporting.",
+      "description": "A creator-partnership platform for campaign management, payout coordination, and reporting.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://theinfluencejamaica.live/",
+      "country": "Jamaica",
+      "countries": [
+        "Jamaica"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "digital platform"
+      ],
+      "aliases": [
+        "The Influence"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "The platform is presented for Jamaican creator and brand campaign partnerships.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "timegiant",
+      "slug": "timegiant",
+      "name": "TimeGiant",
+      "tagline": "Cloud software for time, attendance, and payroll workflows in the Caribbean.",
+      "description": "Cloud software for time, attendance, and payroll workflows in the Caribbean.",
+      "productKind": "saas",
+      "websiteUrl": "https://tgslu.com/",
+      "country": "Saint Lucia",
+      "countries": [
+        "Saint Lucia"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Time and payroll software for Saint Lucia and the Caribbean.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "timekey-ai",
+      "slug": "timekey-ai",
+      "name": "TimeKey.ai",
+      "tagline": "Software for booking and property guest-operations workflows.",
+      "description": "Software for booking and property guest-operations workflows.",
+      "productKind": "saas",
+      "websiteUrl": "https://timekey.ai/",
+      "country": "Turks and Caicos Islands",
+      "countries": [
+        "Turks and Caicos Islands"
+      ],
+      "category": "Tourism",
+      "industry": "Travel and transportation",
+      "tags": [
+        "Tourism",
+        "saas"
+      ],
+      "aliases": [
+        "TimeKey"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Developed with property operators in the Turks and Caicos Islands.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "triblockhr",
@@ -569,7 +3822,209 @@
       "caribbeanConnection": "Designed in Nassau and built for HR and payroll compliance across Caribbean territories.",
       "visibility": "listed",
       "publishedAt": "2026-07-02",
-      "updatedAt": "2026-07-06"
+      "updatedAt": "2026-07-06",
+      "aliases": []
+    },
+    {
+      "id": "trifi",
+      "slug": "trifi",
+      "name": "TriFi",
+      "tagline": "A digital transfer platform serving Bermuda-focused payment workflows.",
+      "description": "A digital transfer platform serving Bermuda-focused payment workflows.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://get.trifi.co/",
+      "country": "Bermuda",
+      "countries": [
+        "Bermuda"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "digital platform"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "TriFi is presented for Bermuda-focused transfer activity.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "tropic-trade",
+      "slug": "tropic-trade",
+      "name": "Tropic Trade",
+      "tagline": "A marketplace app for Caribbean goods and services.",
+      "description": "A marketplace app for Caribbean goods and services.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://tropictrade.app/",
+      "country": "Caribbean",
+      "countries": [
+        "Caribbean"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "marketplace"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "A marketplace serving seven Caribbean islands.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "tropisuite",
+      "slug": "tropisuite",
+      "name": "TropiSuite",
+      "tagline": "A platform for HR, payroll, onboarding, and business administration across Caribbean markets.",
+      "description": "A platform for HR, payroll, onboarding, and business administration across Caribbean markets.",
+      "productKind": "saas",
+      "websiteUrl": "https://tropisuite.com/",
+      "country": "Caribbean",
+      "countries": [
+        "Caribbean"
+      ],
+      "category": "Productivity",
+      "industry": "Business operations",
+      "tags": [
+        "Productivity",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "TropiSuite",
+      "founderNames": [],
+      "caribbeanConnection": "TropiSuite is presented for payroll and HR workflows in Jamaica, Trinidad and Tobago, Barbados, and Guyana.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "vantex",
+      "slug": "vantex",
+      "name": "Vantex",
+      "tagline": "Point-of-sale and commerce-management software for Haitian businesses.",
+      "description": "Point-of-sale and commerce-management software for Haitian businesses.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.vantex.app/",
+      "country": "Haiti",
+      "countries": [
+        "Haiti"
+      ],
+      "category": "Commerce",
+      "industry": "Commerce and retail",
+      "tags": [
+        "Commerce",
+        "saas"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Vantex is presented for commerce operations in Haiti.",
+      "connectionType": "market",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "venda",
+      "slug": "venda",
+      "name": "VENDA",
+      "tagline": "A merchant-payment platform for Caribbean sellers accepting payments across sales channels.",
+      "description": "A merchant-payment platform for Caribbean sellers accepting payments across sales channels.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://payments.vendapay.net/",
+      "country": "Jamaica",
+      "countries": [
+        "Jamaica"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "digital platform"
+      ],
+      "aliases": [
+        "VendaPay"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "VENDA Payments",
+      "founderNames": [],
+      "caribbeanConnection": "VENDA publishes a Montego Bay, Jamaica address and describes its platform as designed for Caribbean sellers.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "verityos",
+      "slug": "verityos",
+      "name": "VerityOS",
+      "tagline": "An institutional AI operating-system product for on-premises deployments, presented through public pilot information.",
+      "description": "An institutional AI operating-system product for on-premises deployments, presented through public pilot information.",
+      "productKind": "api_or_developer_tool",
+      "websiteUrl": "https://www.verityos.net/",
+      "country": "Bahamas",
+      "countries": [
+        "Bahamas"
+      ],
+      "category": "AI and machine learning",
+      "industry": "AI software",
+      "tags": [
+        "AI and machine learning",
+        "api or developer tool"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Its official site identifies the product as built in The Bahamas.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07",
+      "availability": "early_access"
     },
     {
       "id": "vertilla",
@@ -603,6 +4058,75 @@
       "visibility": "listed",
       "publishedAt": "2026-08-20",
       "updatedAt": "2026-08-20"
+    },
+    {
+      "id": "wam",
+      "slug": "wam",
+      "name": "Wam",
+      "tagline": "A mobile wallet and payment application for Trinidad and Tobago.",
+      "description": "A mobile wallet and payment application for Trinidad and Tobago.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://wam.money/",
+      "country": "Trinidad and Tobago",
+      "countries": [
+        "Trinidad and Tobago"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "mobile app"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "A Trinidadian-born mobile wallet.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "wipay",
+      "slug": "wipay",
+      "name": "WiPay",
+      "tagline": "A regional payment platform for businesses accepting and managing customer payments.",
+      "description": "A regional payment platform for businesses accepting and managing customer payments.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://www.wipaygroup.com/",
+      "country": "Trinidad and Tobago",
+      "countries": [
+        "Trinidad and Tobago"
+      ],
+      "category": "Fintech",
+      "industry": "Payments and financial tools",
+      "tags": [
+        "Fintech",
+        "digital platform"
+      ],
+      "aliases": [
+        "WiPay Payment Services",
+        "WiPay Services Ltd."
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "The WiPay Group",
+      "founderNames": [],
+      "caribbeanConnection": "The WiPay Group says WiPay Payment Services Limited was founded in Trinidad and Tobago and operates across named Caribbean countries.",
+      "connectionType": "origin",
+      "visibility": "listed",
+      "publishedAt": "2026-09-07",
+      "updatedAt": "2026-09-07"
     }
   ]
 }
