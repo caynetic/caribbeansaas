@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import shutil
+import subprocess
 from pathlib import Path
 
 from generate_seo_pages import main as generate_public_pages
@@ -60,6 +61,7 @@ def require_directory(relative_path: str) -> Path:
 
 def main() -> None:
     generate_public_pages()
+    subprocess.run(["npm", "run", "build:css"], cwd=ROOT, check=True)
 
     if DIST.exists():
         shutil.rmtree(DIST)

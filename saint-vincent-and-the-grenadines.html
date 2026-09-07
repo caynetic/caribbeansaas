@@ -10,6 +10,7 @@
 <meta name="keywords" content="Caribbean SaaS, Caribbean software directory, Caribbean AI tools, Caribbean fintech, Caribbean cybersecurity, Caribbean healthcare software, Caribbean tourism software, Caribbean developer tools, Jamaica SaaS, Barbados SaaS, Trinidad and Tobago software, Bahamas software, Guyana software, Belize software, Grenada software, Saint Lucia software, Antigua and Barbuda software, Curacao software, Dominican Republic software"/>
 <meta name="application-name" content="CaribbeanSaaS"/>
 <meta name="theme-color" content="#0B0F12"/>
+<link rel="preload" as="image" href="assets/brand/caribbeansaas-mark-448.webp" imagesrcset="assets/brand/caribbeansaas-mark-224.webp 224w, assets/brand/caribbeansaas-mark-448.webp 448w" imagesizes="(min-width: 768px) 224px, 208px" fetchpriority="high"/>
 <link rel="canonical" href="https://caribbeansaas.com/saint-vincent-and-the-grenadines"/>
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="CaribbeanSaaS"/>
@@ -28,10 +29,9 @@
 <link rel="icon" type="image/png" sizes="48x48" href="assets/brand/favicon-48-centered.png"/>
 <link rel="apple-touch-icon" sizes="180x180" href="assets/brand/apple-touch-icon-centered.png"/>
 <link rel="manifest" href="site.webmanifest"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin/>
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin/>
+<link rel="stylesheet" href="assets/styles/utilities.css"/>
 <script id="structured-data" type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -191,31 +191,6 @@
   ]
 }
 </script>
-<script id="tailwind-config">
-    tailwind.config = {
-        theme: {
-            extend: {
-                colors: {
-                    primary: "#F4F7F8",
-                    secondary: "#8FA1AA",
-                    background: "#0B0F12",
-                    surface: "#12181D",
-                    outline: "#25313A",
-                    sea: "#00C2D7",
-                    reef: "#2ED6A3",
-                    lagoon: "#7FE7F2",
-                    sunset: "#FF7A59"
-                },
-                fontFamily: {
-                    sans: ["Geist", "ui-sans-serif", "system-ui", "sans-serif"]
-                },
-                boxShadow: {
-                    spectral: "0 28px 100px rgba(0, 0, 0, 0.42)"
-                }
-            }
-        }
-    };
-</script>
 <style>
     * {
         box-sizing: border-box;
@@ -333,9 +308,9 @@
         margin-bottom: 1.4rem;
         color: #F4F7F8;
         font-family: "Space Grotesk", "Geist", ui-sans-serif, system-ui, sans-serif;
-        font-size: 2.25rem;
+        font-size: clamp(1.8rem, 9vw, 2.25rem);
         font-weight: 700;
-        line-height: 0.95;
+        line-height: 1.05;
         max-width: 100%;
         text-shadow: 0 18px 44px rgba(0, 0, 0, 0.24);
         white-space: nowrap;
@@ -373,6 +348,8 @@
     }
 
     .product-card {
+        min-width: 0;
+        overflow-wrap: anywhere;
         display: flex;
         flex-direction: column;
         border: 1px solid transparent !important;
@@ -425,6 +402,11 @@
         background: rgba(244, 247, 248, 0.06);
     }
 
+    .product-logo-wide {
+        width: 9rem;
+        max-width: 100%;
+    }
+
     .product-logo span {
         font-size: 0.95rem;
         font-weight: 800;
@@ -444,6 +426,8 @@
     }
 
     .product-tag {
+        max-width: 100%;
+        flex-wrap: wrap;
         display: inline-flex;
         min-height: 1.45rem;
         align-items: center;
@@ -459,7 +443,9 @@
         padding: 0.34rem 0.52rem;
         text-decoration: none;
         text-transform: uppercase;
-        white-space: nowrap;
+        white-space: normal;
+        line-height: 1.4;
+        text-align: center;
     }
 
     .product-tag-category {
@@ -513,12 +499,14 @@
     }
 
     .product-region {
-        display: flex;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        width: 100%;
         margin-top: auto;
         padding-top: 1.1rem;
         align-items: center;
         justify-content: space-between;
-        gap: 1rem;
+        gap: 0.5rem;
         border-top: 1px solid rgba(143, 161, 170, 0.15);
         text-align: left;
     }
@@ -541,11 +529,20 @@
         align-items: center;
         justify-content: flex-end;
         gap: 0.45rem;
-        white-space: nowrap;
+        width: 100%;
+        white-space: normal;
+        line-height: 1.5;
+    }
+
+    .product-region-name {
+        min-width: 0;
+        overflow-wrap: anywhere;
     }
 
     .product-region-filter {
-        margin: -0.2rem -0.2rem -0.2rem 0.1rem;
+        min-width: 0;
+        min-height: 2.75rem;
+        margin: 0;
         border: 0;
         background: transparent;
         padding: 0.2rem;
@@ -562,7 +559,7 @@
 
     .region-stats-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 0.5rem;
         margin: 0;
         padding: 0;
@@ -571,7 +568,9 @@
 
     .region-stat {
         display: flex;
-        min-height: 2.25rem;
+        min-width: 0;
+        height: 100%;
+        min-height: 3.5rem;
         align-items: center;
         justify-content: space-between;
         gap: 0.75rem;
@@ -587,6 +586,7 @@
     }
 
     .region-stat-count {
+        flex-shrink: 0;
         display: inline-flex;
         min-width: 1.65rem;
         min-height: 1.65rem;
@@ -601,7 +601,8 @@
     }
 
     .region-stat-label {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1.5rem minmax(0, 1fr);
         min-width: 0;
         flex: 1 1 auto;
         align-items: center;
@@ -610,20 +611,33 @@
 
     .region-stat-flag {
         display: block;
-        width: 1.35rem;
-        height: 0.9rem;
-        flex: 0 0 1.35rem;
-        border: 1px solid rgba(244, 247, 248, 0.2);
-        object-fit: cover;
+        width: 1.5rem;
+        height: 1rem;
+        flex: 0 0 1.5rem;
+        object-fit: contain;
     }
 
     .region-stat-name {
+        min-width: 0;
+        overflow-wrap: anywhere;
         color: rgba(244, 247, 248, 0.78);
-        font-size: 0.58rem;
+        font-size: 0.625rem;
         font-weight: 800;
-        line-height: 1.25;
-        white-space: nowrap;
+        line-height: 1.5;
+        white-space: normal;
         text-transform: uppercase;
+    }
+
+    @media (max-width: 359px) {
+        .region-stats-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    @media (min-width: 640px) {
+        .region-stats-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (min-width: 1024px) {
+        .region-stats-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
 
     .filter-toolbar {
@@ -844,11 +858,10 @@
 
     .region-flag {
         display: block;
-        width: 1.35rem;
-        height: 0.9rem;
-        flex: 0 0 1.35rem;
-        border: 1px solid rgba(244, 247, 248, 0.2);
-        object-fit: cover;
+        width: 1.5rem;
+        height: 1rem;
+        flex: 0 0 1.5rem;
+        object-fit: contain;
     }
 
     .filter-clear {
@@ -922,13 +935,23 @@
         display: none;
     }
 
+    #directoryPagination {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        gap: 0.5rem;
+        max-width: 100%;
+    }
+
+    #directoryPageLabel { min-width: 0; }
+
     .pagination-control {
+        min-width: 0;
         display: inline-flex;
         min-height: 2.75rem;
         align-items: center;
         justify-content: center;
         border: 1px solid rgba(255, 255, 255, 0.16);
-        padding: 0.75rem 1rem;
+        padding: 0.75rem 0.6rem;
         color: rgba(244, 247, 248, 0.78);
         font-size: 0.62rem;
         font-weight: 800;
@@ -974,6 +997,12 @@
     }
 
     @media (max-width: 639px) {
+        .hero-shell h1 {
+            width: 100%;
+            min-width: 0;
+            font-size: clamp(2rem, 11vw, 2.75rem);
+        }
+
         .product-card,
         .product-card > p,
         .product-tags {
@@ -1061,7 +1090,7 @@
 <main class="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-14 px-4 py-14 sm:gap-20 sm:px-6 sm:py-20 lg:py-24">
     <section id="hero" class="hero-shell fade-in flex w-full max-w-5xl flex-col items-center text-center">
         <div class="hero-logo-wrap">
-            <img class="hero-logo" src="assets/brand/caribbeansaas-logo-mark-centered.png" alt="CaribbeanSaaS island technology logo" width="1024" height="1024"/>
+            <img class="hero-logo" src="assets/brand/caribbeansaas-mark-448.webp" srcset="assets/brand/caribbeansaas-mark-224.webp 224w, assets/brand/caribbeansaas-mark-448.webp 448w" sizes="(min-width: 768px) 224px, 208px" alt="CaribbeanSaaS island technology logo" width="448" height="448" fetchpriority="high" decoding="async">
         </div>
         <p class="hero-wordmark" aria-label="CaribbeanSaaS">
             <span class="hero-wordmark-caribbean">Caribbean</span><span class="hero-wordmark-saas">SaaS</span>
@@ -1086,7 +1115,8 @@
         </div>
     </section>
 
-    <section id="directory" class="flex w-full scroll-mt-24 flex-col gap-10" aria-label="Product directory">
+    <section id="directory" class="flex w-full scroll-mt-24 flex-col gap-10" aria-labelledby="directoryHeading">
+        <h2 id="directoryHeading" class="sr-only">Software directory</h2>
         <div id="directoryControls" class="spectral-overlay scroll-reveal flex w-full flex-col gap-5 p-4 sm:p-6" aria-label="Search and filter product directory">
             <label class="w-full" for="productSearch">
                 <span class="block text-[10px] font-bold uppercase tracking-[0.24em] text-white/40">Search products</span>
@@ -1132,31 +1162,31 @@
                             <input id="allRegions" class="region-all-checkbox" type="checkbox" checked/>
                             <span>All regions</span>
                         </label>
-                        <label class="region-option"><input class="region-checkbox" data-region="Antigua and Barbuda" value="Antigua and Barbuda" type="checkbox"/><img class="region-flag" src="assets/flags/ag.png" alt="" aria-hidden="true"/><span>Antigua and Barbuda</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Aruba" value="Aruba" type="checkbox"/><span class="region-flag" aria-hidden="true">🇦🇼</span><span>Aruba</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Bahamas" value="Bahamas" type="checkbox"/><img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/><span>Bahamas</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Barbados" value="Barbados" type="checkbox"/><img class="region-flag" src="assets/flags/bb.png" alt="" aria-hidden="true"/><span>Barbados</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Belize" value="Belize" type="checkbox"/><img class="region-flag" src="assets/flags/bz.png" alt="" aria-hidden="true"/><span>Belize</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Bermuda" value="Bermuda" type="checkbox"/><span class="region-flag" aria-hidden="true">🇧🇲</span><span>Bermuda</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Bonaire" value="Bonaire" type="checkbox"/><span class="region-flag" aria-hidden="true">🇧🇶</span><span>Bonaire</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Caribbean" value="Caribbean" type="checkbox"/><span class="region-flag" aria-hidden="true">🌐</span><span>Caribbean</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Cayman Islands" value="Cayman Islands" type="checkbox"/><span class="region-flag" aria-hidden="true">🇰🇾</span><span>Cayman Islands</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Cuba" value="Cuba" type="checkbox"/><span class="region-flag" aria-hidden="true">🇨🇺</span><span>Cuba</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Curacao" value="Curacao" type="checkbox"/><img class="region-flag" src="assets/flags/cw.png" alt="" aria-hidden="true"/><span>Curacao</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Dominican Republic" value="Dominican Republic" type="checkbox"/><img class="region-flag" src="assets/flags/do.png" alt="" aria-hidden="true"/><span>Dominican Republic</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Grenada" value="Grenada" type="checkbox"/><img class="region-flag" src="assets/flags/gd.png" alt="" aria-hidden="true"/><span>Grenada</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Guadeloupe" value="Guadeloupe" type="checkbox"/><span class="region-flag" aria-hidden="true">🇬🇵</span><span>Guadeloupe</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Guyana" value="Guyana" type="checkbox"/><img class="region-flag" src="assets/flags/gy.png" alt="" aria-hidden="true"/><span>Guyana</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Haiti" value="Haiti" type="checkbox"/><span class="region-flag" aria-hidden="true">🇭🇹</span><span>Haiti</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Jamaica" value="Jamaica" type="checkbox"/><img class="region-flag" src="assets/flags/jm.png" alt="" aria-hidden="true"/><span>Jamaica</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Martinique" value="Martinique" type="checkbox"/><span class="region-flag" aria-hidden="true">🇲🇶</span><span>Martinique</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Puerto Rico" value="Puerto Rico" type="checkbox"/><img class="region-flag" src="assets/flags/pr.png" alt="" aria-hidden="true"/><span>Puerto Rico</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Saint Kitts and Nevis" value="Saint Kitts and Nevis" type="checkbox"/><span class="region-flag" aria-hidden="true">🇰🇳</span><span>Saint Kitts and Nevis</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Saint Lucia" value="Saint Lucia" type="checkbox"/><img class="region-flag" src="assets/flags/lc.png" alt="" aria-hidden="true"/><span>Saint Lucia</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Saint Vincent and the Grenadines" value="Saint Vincent and the Grenadines" type="checkbox"/><span class="region-flag" aria-hidden="true">🇻🇨</span><span>Saint Vincent and the Grenadines</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Suriname" value="Suriname" type="checkbox"/><span class="region-flag" aria-hidden="true">🇸🇷</span><span>Suriname</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Trinidad and Tobago" value="Trinidad and Tobago" type="checkbox"/><img class="region-flag" src="assets/flags/tt.png" alt="" aria-hidden="true"/><span>Trinidad and Tobago</span></label>
-<label class="region-option"><input class="region-checkbox" data-region="Turks and Caicos Islands" value="Turks and Caicos Islands" type="checkbox"/><span class="region-flag" aria-hidden="true">🇹🇨</span><span>Turks and Caicos Islands</span></label></div>
+                        <label class="region-option"><input class="region-checkbox" data-region="Antigua and Barbuda" value="Antigua and Barbuda" type="checkbox"/><img class="region-flag" src="assets/flags/ag.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Antigua and Barbuda</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Aruba" value="Aruba" type="checkbox"/><img class="region-flag" src="assets/flags/aw.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Aruba</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Bahamas" value="Bahamas" type="checkbox"/><img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Bahamas</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Barbados" value="Barbados" type="checkbox"/><img class="region-flag" src="assets/flags/bb.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Barbados</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Belize" value="Belize" type="checkbox"/><img class="region-flag" src="assets/flags/bz.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Belize</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Bermuda" value="Bermuda" type="checkbox"/><img class="region-flag" src="assets/flags/bm.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Bermuda</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Bonaire" value="Bonaire" type="checkbox"/><img class="region-flag" src="assets/flags/bq.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Bonaire</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Caribbean" value="Caribbean" type="checkbox"/><img class="region-flag" src="assets/flags/caribbean.svg" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Caribbean</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Cayman Islands" value="Cayman Islands" type="checkbox"/><img class="region-flag" src="assets/flags/ky.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Cayman Islands</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Cuba" value="Cuba" type="checkbox"/><img class="region-flag" src="assets/flags/cu.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Cuba</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Curacao" value="Curacao" type="checkbox"/><img class="region-flag" src="assets/flags/cw.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Curacao</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Dominican Republic" value="Dominican Republic" type="checkbox"/><img class="region-flag" src="assets/flags/do.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Dominican Republic</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Grenada" value="Grenada" type="checkbox"/><img class="region-flag" src="assets/flags/gd.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Grenada</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Guadeloupe" value="Guadeloupe" type="checkbox"/><img class="region-flag" src="assets/flags/gp.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Guadeloupe</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Guyana" value="Guyana" type="checkbox"/><img class="region-flag" src="assets/flags/gy.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Guyana</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Haiti" value="Haiti" type="checkbox"/><img class="region-flag" src="assets/flags/ht.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Haiti</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Jamaica" value="Jamaica" type="checkbox"/><img class="region-flag" src="assets/flags/jm.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Jamaica</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Martinique" value="Martinique" type="checkbox"/><img class="region-flag" src="assets/flags/mq.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Martinique</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Puerto Rico" value="Puerto Rico" type="checkbox"/><img class="region-flag" src="assets/flags/pr.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Puerto Rico</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Saint Kitts and Nevis" value="Saint Kitts and Nevis" type="checkbox"/><img class="region-flag" src="assets/flags/kn.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Saint Kitts and Nevis</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Saint Lucia" value="Saint Lucia" type="checkbox"/><img class="region-flag" src="assets/flags/lc.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Saint Lucia</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Saint Vincent and the Grenadines" value="Saint Vincent and the Grenadines" type="checkbox"/><img class="region-flag" src="assets/flags/vc.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Saint Vincent and the Grenadines</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Suriname" value="Suriname" type="checkbox"/><img class="region-flag" src="assets/flags/sr.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Suriname</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Trinidad and Tobago" value="Trinidad and Tobago" type="checkbox"/><img class="region-flag" src="assets/flags/tt.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Trinidad and Tobago</span></label>
+<label class="region-option"><input class="region-checkbox" data-region="Turks and Caicos Islands" value="Turks and Caicos Islands" type="checkbox"/><img class="region-flag" src="assets/flags/tc.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span>Turks and Caicos Islands</span></label></div>
                 </details>
             </div>
             <button id="clearPreferences" class="filter-clear focus-ring" type="button" hidden>Clear preferences</button>
@@ -1165,7 +1195,7 @@
         <div id="productGrid" class="focus-ring grid w-full max-w-none grid-cols-1 gap-5 self-center sm:grid-cols-2 lg:grid-cols-3" tabindex="-1" aria-label="Directory results">
             <!-- PRODUCT_CARDS_START -->
             <article class="product-card scroll-reveal spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" data-product-id="about-svg" data-name="About SVG" data-country="Saint Vincent and the Grenadines" data-category="Tourism" data-search="about svg saint vincent and the grenadines tourism travel and transportation a mobile information companion for saint vincent and the grenadines. an island guide for saint vincent and the grenadines. mobile app travel and transportation">
-                <div class="product-media"><div class="product-logo logo-sea" aria-hidden="true"><span>AS</span></div></div>
+                <div class="product-media"><div class="product-logo logo-sea" data-product-logo="about-svg" aria-hidden="true"><span>AS</span></div></div>
                 <h3 class="mt-4 text-base font-bold uppercase tracking-[0.16em] text-white">About SVG</h3>
 
                 <p class="mt-4 text-xs italic leading-6 text-white/60">A mobile information companion for Saint Vincent and the Grenadines.</p>
@@ -1179,7 +1209,7 @@
                 <div class="product-region">
                     <span class="product-region-label">Region</span>
                     <button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: Saint Vincent and the Grenadines">
-                        <span class="product-region-value"><span class="region-flag" aria-hidden="true">🇻🇨</span> Saint Vincent and the Grenadines</span>
+                        <span class="product-region-value"><img class="region-flag" src="assets/flags/vc.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="product-region-name">Saint Vincent and the Grenadines</span></span>
                     </button>
                 </div>
             </article>
@@ -1207,31 +1237,31 @@
                 <div class="h-px flex-1 bg-white/10"></div>
             </div>
             <ul class="region-stats-grid" aria-label="Apps by region">
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Antigua%20and%20Barbuda#directory" data-region-stat="Antigua and Barbuda" aria-label="Filter directory to 4 apps connected to Antigua and Barbuda"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/ag.png" alt="" aria-hidden="true"/><span class="region-stat-name">Antigua and Barbuda</span></span><span class="flex items-center gap-2"><span class="region-stat-count">4</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Aruba#directory" data-region-stat="Aruba" aria-label="Filter directory to 1 app connected to Aruba"><span class="region-stat-label"><span class="region-stat-flag" aria-hidden="true">🇦🇼</span><span class="region-stat-name">Aruba</span></span><span class="flex items-center gap-2"><span class="region-stat-count">1</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Bahamas#directory" data-region-stat="Bahamas" aria-label="Filter directory to 21 apps connected to Bahamas"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/bs.png" alt="" aria-hidden="true"/><span class="region-stat-name">Bahamas</span></span><span class="flex items-center gap-2"><span class="region-stat-count">21</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Barbados#directory" data-region-stat="Barbados" aria-label="Filter directory to 4 apps connected to Barbados"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/bb.png" alt="" aria-hidden="true"/><span class="region-stat-name">Barbados</span></span><span class="flex items-center gap-2"><span class="region-stat-count">4</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Belize#directory" data-region-stat="Belize" aria-label="Filter directory to 3 apps connected to Belize"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/bz.png" alt="" aria-hidden="true"/><span class="region-stat-name">Belize</span></span><span class="flex items-center gap-2"><span class="region-stat-count">3</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Bermuda#directory" data-region-stat="Bermuda" aria-label="Filter directory to 3 apps connected to Bermuda"><span class="region-stat-label"><span class="region-stat-flag" aria-hidden="true">🇧🇲</span><span class="region-stat-name">Bermuda</span></span><span class="flex items-center gap-2"><span class="region-stat-count">3</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Bonaire#directory" data-region-stat="Bonaire" aria-label="Filter directory to 1 app connected to Bonaire"><span class="region-stat-label"><span class="region-stat-flag" aria-hidden="true">🇧🇶</span><span class="region-stat-name">Bonaire</span></span><span class="flex items-center gap-2"><span class="region-stat-count">1</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Caribbean#directory" data-region-stat="Caribbean" aria-label="Filter directory to 12 apps connected to Caribbean"><span class="region-stat-label"><span class="region-stat-flag" aria-hidden="true">🌐</span><span class="region-stat-name">Caribbean</span></span><span class="flex items-center gap-2"><span class="region-stat-count">12</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Cayman%20Islands#directory" data-region-stat="Cayman Islands" aria-label="Filter directory to 2 apps connected to Cayman Islands"><span class="region-stat-label"><span class="region-stat-flag" aria-hidden="true">🇰🇾</span><span class="region-stat-name">Cayman Islands</span></span><span class="flex items-center gap-2"><span class="region-stat-count">2</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Cuba#directory" data-region-stat="Cuba" aria-label="Filter directory to 2 apps connected to Cuba"><span class="region-stat-label"><span class="region-stat-flag" aria-hidden="true">🇨🇺</span><span class="region-stat-name">Cuba</span></span><span class="flex items-center gap-2"><span class="region-stat-count">2</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Curacao#directory" data-region-stat="Curacao" aria-label="Filter directory to 2 apps connected to Curacao"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/cw.png" alt="" aria-hidden="true"/><span class="region-stat-name">Curacao</span></span><span class="flex items-center gap-2"><span class="region-stat-count">2</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Dominican%20Republic#directory" data-region-stat="Dominican Republic" aria-label="Filter directory to 11 apps connected to Dominican Republic"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/do.png" alt="" aria-hidden="true"/><span class="region-stat-name">Dominican Republic</span></span><span class="flex items-center gap-2"><span class="region-stat-count">11</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Grenada#directory" data-region-stat="Grenada" aria-label="Filter directory to 2 apps connected to Grenada"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/gd.png" alt="" aria-hidden="true"/><span class="region-stat-name">Grenada</span></span><span class="flex items-center gap-2"><span class="region-stat-count">2</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Guadeloupe#directory" data-region-stat="Guadeloupe" aria-label="Filter directory to 1 app connected to Guadeloupe"><span class="region-stat-label"><span class="region-stat-flag" aria-hidden="true">🇬🇵</span><span class="region-stat-name">Guadeloupe</span></span><span class="flex items-center gap-2"><span class="region-stat-count">1</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Guyana#directory" data-region-stat="Guyana" aria-label="Filter directory to 5 apps connected to Guyana"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/gy.png" alt="" aria-hidden="true"/><span class="region-stat-name">Guyana</span></span><span class="flex items-center gap-2"><span class="region-stat-count">5</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Haiti#directory" data-region-stat="Haiti" aria-label="Filter directory to 11 apps connected to Haiti"><span class="region-stat-label"><span class="region-stat-flag" aria-hidden="true">🇭🇹</span><span class="region-stat-name">Haiti</span></span><span class="flex items-center gap-2"><span class="region-stat-count">11</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Jamaica#directory" data-region-stat="Jamaica" aria-label="Filter directory to 10 apps connected to Jamaica"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/jm.png" alt="" aria-hidden="true"/><span class="region-stat-name">Jamaica</span></span><span class="flex items-center gap-2"><span class="region-stat-count">10</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Martinique#directory" data-region-stat="Martinique" aria-label="Filter directory to 1 app connected to Martinique"><span class="region-stat-label"><span class="region-stat-flag" aria-hidden="true">🇲🇶</span><span class="region-stat-name">Martinique</span></span><span class="flex items-center gap-2"><span class="region-stat-count">1</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Puerto%20Rico#directory" data-region-stat="Puerto Rico" aria-label="Filter directory to 6 apps connected to Puerto Rico"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/pr.png" alt="" aria-hidden="true"/><span class="region-stat-name">Puerto Rico</span></span><span class="flex items-center gap-2"><span class="region-stat-count">6</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Saint%20Kitts%20and%20Nevis#directory" data-region-stat="Saint Kitts and Nevis" aria-label="Filter directory to 1 app connected to Saint Kitts and Nevis"><span class="region-stat-label"><span class="region-stat-flag" aria-hidden="true">🇰🇳</span><span class="region-stat-name">Saint Kitts and Nevis</span></span><span class="flex items-center gap-2"><span class="region-stat-count">1</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Saint%20Lucia#directory" data-region-stat="Saint Lucia" aria-label="Filter directory to 4 apps connected to Saint Lucia"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/lc.png" alt="" aria-hidden="true"/><span class="region-stat-name">Saint Lucia</span></span><span class="flex items-center gap-2"><span class="region-stat-count">4</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Saint%20Vincent%20and%20the%20Grenadines#directory" data-region-stat="Saint Vincent and the Grenadines" aria-label="Filter directory to 1 app connected to Saint Vincent and the Grenadines"><span class="region-stat-label"><span class="region-stat-flag" aria-hidden="true">🇻🇨</span><span class="region-stat-name">Saint Vincent and the Grenadines</span></span><span class="flex items-center gap-2"><span class="region-stat-count">1</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Suriname#directory" data-region-stat="Suriname" aria-label="Filter directory to 3 apps connected to Suriname"><span class="region-stat-label"><span class="region-stat-flag" aria-hidden="true">🇸🇷</span><span class="region-stat-name">Suriname</span></span><span class="flex items-center gap-2"><span class="region-stat-count">3</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Trinidad%20and%20Tobago#directory" data-region-stat="Trinidad and Tobago" aria-label="Filter directory to 8 apps connected to Trinidad and Tobago"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/tt.png" alt="" aria-hidden="true"/><span class="region-stat-name">Trinidad and Tobago</span></span><span class="flex items-center gap-2"><span class="region-stat-count">8</span></span></a></li>
-<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Turks%20and%20Caicos%20Islands#directory" data-region-stat="Turks and Caicos Islands" aria-label="Filter directory to 2 apps connected to Turks and Caicos Islands"><span class="region-stat-label"><span class="region-stat-flag" aria-hidden="true">🇹🇨</span><span class="region-stat-name">Turks and Caicos Islands</span></span><span class="flex items-center gap-2"><span class="region-stat-count">2</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Antigua%20and%20Barbuda#directory" data-region-stat="Antigua and Barbuda" aria-label="Filter directory to 4 apps connected to Antigua and Barbuda"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/ag.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Antigua and Barbuda</span></span><span class="flex items-center gap-2"><span class="region-stat-count">4</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Aruba#directory" data-region-stat="Aruba" aria-label="Filter directory to 1 app connected to Aruba"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/aw.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Aruba</span></span><span class="flex items-center gap-2"><span class="region-stat-count">1</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Bahamas#directory" data-region-stat="Bahamas" aria-label="Filter directory to 21 apps connected to Bahamas"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/bs.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Bahamas</span></span><span class="flex items-center gap-2"><span class="region-stat-count">21</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Barbados#directory" data-region-stat="Barbados" aria-label="Filter directory to 4 apps connected to Barbados"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/bb.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Barbados</span></span><span class="flex items-center gap-2"><span class="region-stat-count">4</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Belize#directory" data-region-stat="Belize" aria-label="Filter directory to 3 apps connected to Belize"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/bz.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Belize</span></span><span class="flex items-center gap-2"><span class="region-stat-count">3</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Bermuda#directory" data-region-stat="Bermuda" aria-label="Filter directory to 3 apps connected to Bermuda"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/bm.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Bermuda</span></span><span class="flex items-center gap-2"><span class="region-stat-count">3</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Bonaire#directory" data-region-stat="Bonaire" aria-label="Filter directory to 1 app connected to Bonaire"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/bq.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Bonaire</span></span><span class="flex items-center gap-2"><span class="region-stat-count">1</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Caribbean#directory" data-region-stat="Caribbean" aria-label="Filter directory to 12 apps connected to Caribbean"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/caribbean.svg" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Caribbean</span></span><span class="flex items-center gap-2"><span class="region-stat-count">12</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Cayman%20Islands#directory" data-region-stat="Cayman Islands" aria-label="Filter directory to 2 apps connected to Cayman Islands"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/ky.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Cayman Islands</span></span><span class="flex items-center gap-2"><span class="region-stat-count">2</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Cuba#directory" data-region-stat="Cuba" aria-label="Filter directory to 2 apps connected to Cuba"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/cu.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Cuba</span></span><span class="flex items-center gap-2"><span class="region-stat-count">2</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Curacao#directory" data-region-stat="Curacao" aria-label="Filter directory to 2 apps connected to Curacao"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/cw.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Curacao</span></span><span class="flex items-center gap-2"><span class="region-stat-count">2</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Dominican%20Republic#directory" data-region-stat="Dominican Republic" aria-label="Filter directory to 11 apps connected to Dominican Republic"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/do.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Dominican Republic</span></span><span class="flex items-center gap-2"><span class="region-stat-count">11</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Grenada#directory" data-region-stat="Grenada" aria-label="Filter directory to 2 apps connected to Grenada"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/gd.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Grenada</span></span><span class="flex items-center gap-2"><span class="region-stat-count">2</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Guadeloupe#directory" data-region-stat="Guadeloupe" aria-label="Filter directory to 1 app connected to Guadeloupe"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/gp.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Guadeloupe</span></span><span class="flex items-center gap-2"><span class="region-stat-count">1</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Guyana#directory" data-region-stat="Guyana" aria-label="Filter directory to 5 apps connected to Guyana"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/gy.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Guyana</span></span><span class="flex items-center gap-2"><span class="region-stat-count">5</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Haiti#directory" data-region-stat="Haiti" aria-label="Filter directory to 11 apps connected to Haiti"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/ht.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Haiti</span></span><span class="flex items-center gap-2"><span class="region-stat-count">11</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Jamaica#directory" data-region-stat="Jamaica" aria-label="Filter directory to 10 apps connected to Jamaica"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/jm.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Jamaica</span></span><span class="flex items-center gap-2"><span class="region-stat-count">10</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Martinique#directory" data-region-stat="Martinique" aria-label="Filter directory to 1 app connected to Martinique"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/mq.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Martinique</span></span><span class="flex items-center gap-2"><span class="region-stat-count">1</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Puerto%20Rico#directory" data-region-stat="Puerto Rico" aria-label="Filter directory to 6 apps connected to Puerto Rico"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/pr.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Puerto Rico</span></span><span class="flex items-center gap-2"><span class="region-stat-count">6</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Saint%20Kitts%20and%20Nevis#directory" data-region-stat="Saint Kitts and Nevis" aria-label="Filter directory to 1 app connected to Saint Kitts and Nevis"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/kn.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Saint Kitts and Nevis</span></span><span class="flex items-center gap-2"><span class="region-stat-count">1</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Saint%20Lucia#directory" data-region-stat="Saint Lucia" aria-label="Filter directory to 4 apps connected to Saint Lucia"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/lc.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Saint Lucia</span></span><span class="flex items-center gap-2"><span class="region-stat-count">4</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Saint%20Vincent%20and%20the%20Grenadines#directory" data-region-stat="Saint Vincent and the Grenadines" aria-label="Filter directory to 1 app connected to Saint Vincent and the Grenadines"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/vc.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Saint Vincent and the Grenadines</span></span><span class="flex items-center gap-2"><span class="region-stat-count">1</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Suriname#directory" data-region-stat="Suriname" aria-label="Filter directory to 3 apps connected to Suriname"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/sr.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Suriname</span></span><span class="flex items-center gap-2"><span class="region-stat-count">3</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Trinidad%20and%20Tobago#directory" data-region-stat="Trinidad and Tobago" aria-label="Filter directory to 8 apps connected to Trinidad and Tobago"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/tt.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Trinidad and Tobago</span></span><span class="flex items-center gap-2"><span class="region-stat-count">8</span></span></a></li>
+<li><a class="region-stat region-stat-filter spectral-overlay focus-ring" href="/?region=Turks%20and%20Caicos%20Islands#directory" data-region-stat="Turks and Caicos Islands" aria-label="Filter directory to 2 apps connected to Turks and Caicos Islands"><span class="region-stat-label"><img class="region-stat-flag" src="assets/flags/tc.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="region-stat-name">Turks and Caicos Islands</span></span><span class="flex items-center gap-2"><span class="region-stat-count">2</span></span></a></li>
 </ul>
         </section>
     </section>
@@ -1548,31 +1578,25 @@
                     .map((product) => [product.id, product])
             );
 
-            document.querySelectorAll("[data-product-logo]").forEach((image) => {
-                const product = productsById.get(image.dataset.productLogo);
-                if (!product || !product.logoUrl) {
-                    return;
-                }
+            document.querySelectorAll("[data-product-logo]").forEach((placeholder) => {
+                const product = productsById.get(placeholder.dataset.productLogo);
+                if (!product || !product.logoUrl) return;
 
-                image.addEventListener("error", () => {
-                    const fallback = document.createElement("div");
-                    fallback.className = "product-logo logo-sea";
-                    fallback.setAttribute("aria-hidden", "true");
-                    const letters = document.createElement("span");
-                    letters.textContent = (product.name || "").split(/\s+/).slice(0, 2).map(word => word[0]).join("");
-                    fallback.append(letters);
-                    image.replaceWith(fallback);
-                }, { once: true });
-                image.src = product.logoUrl;
+                const image = document.createElement("img");
+                image.className = "product-logo product-logo-image";
+                image.dataset.productLogo = product.id;
+                image.loading = "lazy";
+                image.decoding = "async";
                 image.alt = product.logoAlt || `${product.name || "Product"} logo`;
-
-                if (Number.isFinite(Number(product.logoWidth))) {
-                    image.width = Number(product.logoWidth);
+                image.width = Number(product.logoWidth) || 96;
+                image.height = Number(product.logoHeight) || 96;
+                image.classList.toggle("product-logo-wide", image.width / image.height > 2);
+                if (/^#[0-9a-f]{6}$/i.test(product.logoBackground || "")) {
+                    image.style.backgroundColor = product.logoBackground;
                 }
-
-                if (Number.isFinite(Number(product.logoHeight))) {
-                    image.height = Number(product.logoHeight);
-                }
+                image.addEventListener("error", () => image.replaceWith(placeholder), { once: true });
+                image.src = product.logoUrl;
+                placeholder.replaceWith(image);
             });
         } catch (error) {
             console.warn("Unable to load product media data.", error);

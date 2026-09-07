@@ -14,14 +14,17 @@ def e(value):
 
 def flag(country, css='region-flag'):
     if country == 'Caribbean':
-        return f'<span class="{css}" aria-hidden="true">🌐</span>'
-    code = FLAGS.get(country)
-    if not code:
-        raise ValueError(f'Country needs a flag mapping: {country}')
-    if (Path(__file__).resolve().parents[1] / 'assets' / 'flags' / f'{code}.png').exists():
-        return f'<img class="{css}" src="assets/flags/{code}.png" alt="" aria-hidden="true"/>'
-    emoji = ''.join(chr(127397 + ord(c)) for c in code.upper())
-    return f'<span class="{css}" aria-hidden="true">{emoji}</span>'
+        filename = 'caribbean.svg'
+    else:
+        code = FLAGS.get(country)
+        if not code:
+            raise ValueError(f'Country needs a flag mapping: {country}')
+        filename = f'{code}.png'
+    asset = Path(__file__).resolve().parents[1] / 'assets' / 'flags' / filename
+    if not asset.is_file():
+        raise ValueError(f'Country needs a local flag image: {country} ({filename})')
+    return (f'<img class="{css}" src="assets/flags/{filename}" alt="" aria-hidden="true" '
+            'width="24" height="16" decoding="async"/>')
 
 def validate_products(products):
     ids, slugs = set(), set()
@@ -43,12 +46,14 @@ def validate_products(products):
             raise ValueError(f'{p["id"]}: invalid availability label')
         if p.get('logoUrl') and not p['logoUrl'].startswith('https://cdn.caynetic.app/caribbeansaas/products/logos/'):
             raise ValueError(f'{p["id"]}: logo must use the project CDN')
+        if p.get('logoBackground') and not re.fullmatch(r'#[0-9A-Fa-f]{6}', p['logoBackground']):
+            raise ValueError(f'{p["id"]}: logo background must be a six-digit hex color')
 
 def card(p):
     name, pid, country, category = (e(p[k]) for k in ('name','id','country','category'))
     initials = e(''.join(w[0] for w in p['name'].split()[:2]).upper())
     if p.get('logoUrl'):
-        media = f'<img class="product-logo product-logo-image" src="assets/brand/caribbeansaas-icon-square.png" data-product-logo="{pid}" alt="{name} logo" width="{int(p.get("logoWidth") or 96)}" height="{int(p.get("logoHeight") or 96)}" loading="lazy"/>'
+        media = f'<div class="product-logo logo-sea" data-product-logo="{pid}" aria-hidden="true"><span>{initials}</span></div>'
     else:
         media = f'<div class="product-logo logo-sea" aria-hidden="true"><span>{initials}</span></div>'
     kind_label = {'saas':'SaaS','mobile_app':'Mobile app','digital_platform':'Platform','api_or_developer_tool':'Developer tool','marketplace':'Marketplace'}.get(p['productKind'],p['productKind'].replace('_',' '))
@@ -72,7 +77,7 @@ def card(p):
                 <div class="product-region">
                     <span class="product-region-label">Region</span>
                     <button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: {country}">
-                        <span class="product-region-value">{flag(p['country'])} {country}</span>
+                        <span class="product-region-value">{flag(p['country'])}<span class="product-region-name">{country}</span></span>
                     </button>
                 </div>
             </article>'''
