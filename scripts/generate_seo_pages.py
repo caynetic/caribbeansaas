@@ -56,16 +56,16 @@ def catalog_products() -> list[dict]:
     ]
 
 
-def listed_products(products: list[dict]) -> list[dict]:
-    return [product for product in products if product.get("visibility") == "listed"]
+def public_products(products: list[dict]) -> list[dict]:
+    return products
 
 
-def listed_products_by_country(products: list[dict]) -> dict[str, list[dict]]:
+def public_products_by_country(products: list[dict]) -> dict[str, list[dict]]:
     grouped: dict[str, list[dict]] = {}
     for product in products:
         country = product.get("country")
         if not isinstance(country, str) or not country.strip():
-            raise RuntimeError(f"Listed product is missing its primary country: {product.get('id')!r}")
+            raise RuntimeError(f"Product is missing its primary country: {product.get('id')!r}")
         country_route_slug(country)
         grouped.setdefault(country, []).append(product)
     return grouped
@@ -213,13 +213,13 @@ def ordered_homepage_structured_data(index_html: str, products: list[dict]) -> s
 
     for node in graph:
         node_id = node.get("@id")
-        if isinstance(node_id, str) and node_id.endswith("#listed-digital-products"):
+        if isinstance(node_id, str) and node_id.endswith("#digital-products"):
             entries = [item(product, position, SITE_URL) for position, product in enumerate(products, start=1)]
             node["numberOfItems"] = len(entries)
             node["itemListElement"] = entries
             break
     else:
-        raise RuntimeError("Homepage listed-product ItemList is missing")
+        raise RuntimeError("Homepage product ItemList is missing")
 
     return replace_structured_data(index_html, match, structured_data)
 
@@ -249,8 +249,8 @@ def country_structured_data(
             node["url"] = route_url
             node["name"] = f"{country} Software Directory"
             node["description"] = description
-            node["mainEntity"] = {"@id": f"{route_url}#listed-digital-products"}
-        elif isinstance(node_id, str) and node_id.endswith("#listed-digital-products"):
+            node["mainEntity"] = {"@id": f"{route_url}#digital-products"}
+        elif isinstance(node_id, str) and node_id.endswith("#digital-products"):
             entries = ordered_item_list_entries(
                 node,
                 product_ids,
@@ -262,8 +262,8 @@ def country_structured_data(
                     product_id = product_id_from_structured_item(entry)
                     item["@id"] = f"{route_url}#{product_id}"
 
-            node["@id"] = f"{route_url}#listed-digital-products"
-            node["name"] = f"Listed software from {country_route_display_name(country)}"
+            node["@id"] = f"{route_url}#digital-products"
+            node["name"] = f"Software from {country_route_display_name(country)}"
             node["description"] = description
             node["numberOfItems"] = len(entries)
             node["itemListElement"] = entries
@@ -403,11 +403,11 @@ def render_country_pages(
 
 
 def main() -> None:
-    products = listed_products(catalog_products())
+    products = catalog_products()
     if not products:
-        raise RuntimeError("Listed products are required for the root directory page")
+        raise RuntimeError("Public products are required for the root directory page")
 
-    grouped_products = listed_products_by_country(products)
+    grouped_products = public_products_by_country(products)
     index_html = without_legacy_index_blocks(INDEX.read_text())
     product_id_order = [product["id"] for product in products]
     index_html = render_directory(index_html, products)

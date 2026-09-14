@@ -32,16 +32,16 @@ EXCLUDED_ASSET_FILENAMES = (
 
 def generated_country_files() -> tuple[str, ...]:
     catalog = json.loads(PRODUCTS_JSON.read_text())
-    listed_countries = {
+    public_countries = {
         product.get("country")
         for product in catalog.get("products", [])
-        if isinstance(product, dict) and product.get("visibility") == "listed"
+        if isinstance(product, dict)
     }
-    if not listed_countries or None in listed_countries or "" in listed_countries:
-        raise RuntimeError("Every listed product needs a primary country")
+    if not public_countries or None in public_countries or "" in public_countries:
+        raise RuntimeError("Every product needs a primary country")
     return tuple(
         f"{country_route_slug(country)}.html"
-        for country in sorted(listed_countries, key=country_route_slug)
+        for country in sorted(public_countries, key=country_route_slug)
     )
 
 

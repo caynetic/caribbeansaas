@@ -32,7 +32,6 @@
       "founderNames": [],
       "caribbeanConnection": "An island guide for Saint Vincent and the Grenadines.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -65,7 +64,6 @@
       "founderNames": [],
       "caribbeanConnection": "Supports accounting and business operations in Puerto Rico.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -99,7 +97,6 @@
       "founderNames": [],
       "caribbeanConnection": "Agriculture Platform Suriname is presented for farmers and agribusiness participants in Suriname.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -133,7 +130,6 @@
       "founderNames": [],
       "caribbeanConnection": "Designed for AI adoption in Belizean classrooms.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -166,7 +162,6 @@
       "founderNames": [],
       "caribbeanConnection": "Condominium administration for properties in the Dominican Republic.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -199,7 +194,6 @@
       "founderNames": [],
       "caribbeanConnection": "Designed for businesses in Jamaica.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -236,7 +230,6 @@
       "founderNames": [],
       "caribbeanConnection": "Offered by Teragal, which operates teams in Jamaica, for Caribbean businesses.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -269,7 +262,6 @@
       "founderNames": [],
       "caribbeanConnection": "Operated from Santo Domingo, Dominican Republic.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -306,7 +298,6 @@
       "founderNames": [],
       "caribbeanConnection": "Serves Guadeloupe, Martinique and French Guiana.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -337,7 +328,6 @@
       "companyName": "BahamaCalc",
       "founderNames": [],
       "caribbeanConnection": "Built around Bahamian import costs, duties, VAT, and local business pricing needs.",
-      "visibility": "listed",
       "publishedAt": "2026-07-02",
       "updatedAt": "2026-09-07",
       "aliases": []
@@ -372,7 +362,6 @@
       "companyName": "Bahamas OpenData",
       "founderNames": [],
       "caribbeanConnection": "Built for Bahamian public-finance access, with development credited to Freeport-based KemisDigital.",
-      "visibility": "listed",
       "publishedAt": "2026-08-10",
       "updatedAt": "2026-09-07"
     },
@@ -405,7 +394,6 @@
       "founderNames": [],
       "caribbeanConnection": "Designed for Caribbean business teams.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -438,7 +426,6 @@
       "founderNames": [],
       "caribbeanConnection": "BCB Developers presents Bermuda banking API functionality.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -471,7 +458,6 @@
       "founderNames": [],
       "caribbeanConnection": "Belizing Payments is operated within the Belize-based Belizing.com marketplace ecosystem for Belize service providers.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -504,7 +490,6 @@
       "founderNames": [],
       "caribbeanConnection": "Connects small-business advertisers with bMedia’s Puerto Rico billboard network.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -538,7 +523,6 @@
       "founderNames": [],
       "caribbeanConnection": "Bimploy states that it is made in Barbados and built for Barbadian organizations.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -575,7 +559,6 @@
       "founderNames": [],
       "caribbeanConnection": "The application is presented for discovering Bonaire.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -608,7 +591,6 @@
       "founderNames": [],
       "caribbeanConnection": "BrightPath Ja is presented for Jamaican school workflows.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -640,7 +622,6 @@
       "companyName": "Bumblebee Creators",
       "founderNames": [],
       "caribbeanConnection": "Built for Bahamian creators and local companies seeking creator-led marketing work.",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "aliases": []
@@ -674,7 +655,6 @@
       "founderNames": [],
       "caribbeanConnection": "A payment platform serving Saint Kitts and Nevis.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -707,7 +687,6 @@
       "founderNames": [],
       "caribbeanConnection": "A marketplace for Caribbean merchants.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -743,7 +722,6 @@
       "companyName": "CaribTrends",
       "founderNames": [],
       "caribbeanConnection": "Built by Caynetic for Caribbean search, demand, and market-intelligence workflows.",
-      "visibility": "listed",
       "publishedAt": "2026-07-02",
       "updatedAt": "2026-09-07",
       "aliases": [],
@@ -780,7 +758,6 @@
       "founderNames": [],
       "caribbeanConnection": "Business software serving organizations across Curaçao, Aruba and Bonaire.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -814,7 +791,6 @@
       "founderNames": [],
       "caribbeanConnection": "Tools for Haitian creators and their payment needs.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -845,7 +821,6 @@
       "companyName": "Cay Solutions",
       "founderNames": [],
       "caribbeanConnection": "Built by a Bahamian software company for brokerage and Customs Click2Clear workflows in The Bahamas.",
-      "visibility": "listed",
       "publishedAt": "2026-07-10",
       "updatedAt": "2026-07-10",
       "aliases": []
@@ -879,7 +854,6 @@
       "founderNames": [],
       "caribbeanConnection": "Supports business accounting in the Cayman Islands.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -911,7 +885,6 @@
       "companyName": "Caynetic",
       "founderNames": [],
       "caribbeanConnection": "Built by Caynetic with a Bahamas and Caribbean technology focus.",
-      "visibility": "listed",
       "publishedAt": "2026-07-02",
       "updatedAt": "2026-07-02",
       "aliases": []
@@ -948,7 +921,6 @@
       "founderNames": [],
       "caribbeanConnection": "Offered by Haiti-registered software operator Chemotionplus.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -984,7 +956,6 @@
       "founderNames": [],
       "caribbeanConnection": "Chwazy states that it is built to support the Haitian professional community.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -1016,7 +987,6 @@
       "companyName": "ClearFile",
       "founderNames": [],
       "caribbeanConnection": "Made in The Bahamas for local VAT preparation and OTAS-ready exports.",
-      "visibility": "listed",
       "publishedAt": "2026-07-10",
       "updatedAt": "2026-07-10",
       "aliases": []
@@ -1050,7 +1020,6 @@
       "founderNames": [],
       "caribbeanConnection": "A mobile wallet available in Antigua and Barbuda.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1083,7 +1052,6 @@
       "founderNames": [],
       "caribbeanConnection": "Point-of-sale software serving entrepreneurs in Jamaica, Guyana, Barbados and Trinidad and Tobago.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1116,7 +1084,6 @@
       "founderNames": [],
       "caribbeanConnection": "Clinical management software for healthcare professionals in the Dominican Republic.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -1152,7 +1119,6 @@
       "founderNames": [],
       "caribbeanConnection": "Designed for Haitian Creole language users; the operator identifies its base in Florida.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -1188,7 +1154,6 @@
       "founderNames": [],
       "caribbeanConnection": "CRM Fidecoin describes Dominican electronic-invoicing and business workflows.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1223,7 +1188,6 @@
       "founderNames": [],
       "caribbeanConnection": "Cuba Travel is presented as an official Cuban tourism portal.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1258,7 +1222,6 @@
       "founderNames": [],
       "caribbeanConnection": "Curi Point Of Sale is presented for Saint Lucia hospitality and retail businesses.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1293,7 +1256,6 @@
       "founderNames": [],
       "caribbeanConnection": "A marketplace for Antigua and Barbuda.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1326,7 +1288,6 @@
       "founderNames": [],
       "caribbeanConnection": "Daria is presented for service businesses in the Dominican Republic.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1363,7 +1324,6 @@
       "founderNames": [],
       "caribbeanConnection": "DigiWallet BZ is described as a Belize mobile-wallet platform.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1395,7 +1355,6 @@
       "companyName": "Dilly",
       "founderNames": [],
       "caribbeanConnection": "Made in The Bahamas and designed around invoicing and payment workflows for Caribbean businesses.",
-      "visibility": "listed",
       "publishedAt": "2026-07-10",
       "updatedAt": "2026-07-13",
       "aliases": []
@@ -1429,7 +1388,6 @@
       "founderNames": [],
       "caribbeanConnection": "Doc4 is presented for healthcare providers, patients, and clinics in Jamaica.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -1463,7 +1421,6 @@
       "founderNames": [],
       "caribbeanConnection": "An education platform for Dominican institutions.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -1499,7 +1456,6 @@
       "founderNames": [],
       "caribbeanConnection": "School management software tailored to Dominican Republic processes.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -1533,7 +1489,6 @@
       "founderNames": [],
       "caribbeanConnection": "EezyTeach AI is presented for Caribbean curriculum lesson and quiz creation.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1569,7 +1524,6 @@
       "founderNames": [],
       "caribbeanConnection": "Public Puerto Rico reporting identifies eXpress as developed in Puerto Rico.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1602,7 +1556,6 @@
       "founderNames": [],
       "caribbeanConnection": "Designed for Caribbean-focused student practice and assessment workflows.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1635,7 +1588,6 @@
       "founderNames": [],
       "caribbeanConnection": "Its official site describes a Bahamas origin and an initial Bahamian launch.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "availability": "early_access"
@@ -1669,7 +1621,6 @@
       "founderNames": [],
       "caribbeanConnection": "GoYana is presented for delivery and rides use in Guyana.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1702,7 +1653,6 @@
       "founderNames": [],
       "caribbeanConnection": "Gradelogics is presented for Jamaican schools.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1735,7 +1685,6 @@
       "founderNames": [],
       "caribbeanConnection": "Supports Guyana payroll and statutory calculations.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1768,7 +1717,6 @@
       "founderNames": [],
       "caribbeanConnection": "Business software for Saint Lucia.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -1802,7 +1750,6 @@
       "founderNames": [],
       "caribbeanConnection": "Heddle officially identifies itself as built in Trinidad and Tobago for Trinidad and Tobago and the Caribbean.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "availability": "early_access"
@@ -1839,7 +1786,6 @@
       "founderNames": [],
       "caribbeanConnection": "Agricultural intelligence for Jamaica and the Caribbean.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1872,7 +1818,6 @@
       "founderNames": [],
       "caribbeanConnection": "Payroll software with a Cayman Islands operator address and Caribbean payroll support.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -1906,7 +1851,6 @@
       "founderNames": [],
       "caribbeanConnection": "Inifye Technologies identifies itself as founded in Trinidad and Tobago and identifies Inifye Logistics as one of its software products.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -1940,7 +1884,6 @@
       "founderNames": [],
       "caribbeanConnection": "Designed for Bahamian VAT, duty, bonded-sales, and NIB payroll workflows.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -1973,7 +1916,6 @@
       "founderNames": [],
       "caribbeanConnection": "IslandHop is presented for on-demand services in Trinidad and Tobago.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -2006,7 +1948,6 @@
       "founderNames": [],
       "caribbeanConnection": "Rental management software for Caribbean property markets.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -2037,9 +1978,8 @@
       "companyName": "Kanect Bahamas",
       "founderNames": [],
       "caribbeanConnection": "Built around finding and booking trusted local service providers across The Bahamas.",
-      "visibility": "unlisted",
       "publishedAt": "2026-07-02",
-      "updatedAt": "2026-07-06",
+      "updatedAt": "2026-09-14",
       "aliases": []
     },
     {
@@ -2073,7 +2013,6 @@
       "founderNames": [],
       "caribbeanConnection": "Kanoo is presented for digital-wallet use in The Bahamas.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -2107,7 +2046,6 @@
       "founderNames": [],
       "caribbeanConnection": "A mobile money product preparing to launch in Grenada.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "availability": "preview"
@@ -2139,7 +2077,6 @@
       "companyName": "KemisPay",
       "founderNames": [],
       "caribbeanConnection": "Built in The Bahamas to connect merchants with Cash N Go, SunCash, and Kanoo payment services.",
-      "visibility": "listed",
       "publishedAt": "2026-07-10",
       "updatedAt": "2026-07-10",
       "aliases": []
@@ -2173,7 +2110,6 @@
       "founderNames": [],
       "caribbeanConnection": "Kesbiz is presented for Haiti commerce workflows.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -2204,7 +2140,6 @@
       "companyName": "KeyRide",
       "founderNames": [],
       "caribbeanConnection": "Its official website presents a vehicle-rental marketplace for The Bahamas.",
-      "visibility": "listed",
       "publishedAt": "2026-07-02",
       "updatedAt": "2026-09-07",
       "aliases": [],
@@ -2241,7 +2176,6 @@
       "founderNames": [],
       "caribbeanConnection": "Kmarkets is presented as a Haiti-focused marketplace and social-commerce platform.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -2274,7 +2208,6 @@
       "founderNames": [],
       "caribbeanConnection": "Konekte is presented as a Haiti digital community-commerce platform.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -2307,7 +2240,6 @@
       "founderNames": [],
       "caribbeanConnection": "Supports accounting for businesses in Saint Lucia.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -2338,7 +2270,6 @@
       "companyName": "LawBey",
       "founderNames": [],
       "caribbeanConnection": "Focused on Bahamian law and legal research.",
-      "visibility": "listed",
       "publishedAt": "2026-07-02",
       "updatedAt": "2026-07-06",
       "aliases": []
@@ -2372,7 +2303,6 @@
       "founderNames": [],
       "caribbeanConnection": "A marketplace serving the Turks and Caicos Islands.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -2409,7 +2339,6 @@
       "companyName": "Lokademy",
       "founderNames": [],
       "caribbeanConnection": "Built in Guyana for CSEC science learners.",
-      "visibility": "listed",
       "publishedAt": "2026-08-20",
       "updatedAt": "2026-08-20"
     },
@@ -2445,7 +2374,6 @@
       "founderNames": [],
       "caribbeanConnection": "Language learning for Papiamentu, spoken in Curaçao and Bonaire.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -2478,7 +2406,6 @@
       "founderNames": [],
       "caribbeanConnection": "Lypso is presented for Barbados payroll workflows.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "availability": "beta",
@@ -2513,7 +2440,6 @@
       "founderNames": [],
       "caribbeanConnection": "Supports Haitian Creole among its target language communities.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "availability": "preview",
@@ -2548,7 +2474,6 @@
       "founderNames": [],
       "caribbeanConnection": "Supports payroll and statutory calculations in Guyana.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -2582,7 +2507,6 @@
       "founderNames": [],
       "caribbeanConnection": "Its official FAQ identifies Barbados origins and service within Barbados.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -2618,7 +2542,6 @@
       "founderNames": [],
       "caribbeanConnection": "Used as Grenada’s national learning-support platform.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -2651,7 +2574,6 @@
       "founderNames": [],
       "caribbeanConnection": "MyAruba is presented by Aruba's tourism authority for island exploration.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -2684,7 +2606,6 @@
       "founderNames": [],
       "caribbeanConnection": "Designed for Dominican Republic small-business and invoicing workflows.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -2720,7 +2641,6 @@
       "founderNames": [],
       "caribbeanConnection": "Business operations software for energy services in Trinidad and Tobago.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -2756,7 +2676,6 @@
       "companyName": "Nexulon LLC",
       "founderNames": [],
       "caribbeanConnection": "Built by Puerto Rico-based Nexulon LLC.",
-      "visibility": "listed",
       "publishedAt": "2026-08-20",
       "updatedAt": "2026-08-20"
     },
@@ -2791,7 +2710,6 @@
       "founderNames": [],
       "caribbeanConnection": "NOU is presented as a marketplace for Haitian sellers and customers.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -2827,7 +2745,6 @@
       "founderNames": [],
       "caribbeanConnection": "Designed for Caribbean payment rails, merchant payments, and government collections.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -2861,7 +2778,6 @@
       "founderNames": [],
       "caribbeanConnection": "ODeliver is a Trinidad and Tobago-founded logistics platform operated by Agora Technologies Ltd.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -2897,7 +2813,6 @@
       "founderNames": [],
       "caribbeanConnection": "Business software tailored to Suriname.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -2930,7 +2845,6 @@
       "founderNames": [],
       "caribbeanConnection": "PAISR is presented as a payment solution for individuals and businesses across the Caribbean.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -2963,7 +2877,6 @@
       "founderNames": [],
       "caribbeanConnection": "Business intelligence tools for Cuban organizations.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -2996,7 +2909,6 @@
       "founderNames": [],
       "caribbeanConnection": "Pay2Commerce is presented for business-management and digital-invoicing workflows in the Dominican Republic.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -3032,7 +2944,6 @@
       "founderNames": [],
       "caribbeanConnection": "PayPak Professional supports statutory payroll workflows across Caribbean jurisdictions.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -3066,7 +2977,6 @@
       "founderNames": [],
       "caribbeanConnection": "Posneto is presented as a platform designed for Dominican businesses and DGII electronic invoicing.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -3102,7 +3012,6 @@
       "founderNames": [],
       "caribbeanConnection": "Created by Puerto Rican entrepreneurs, according to public Puerto Rico reporting.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -3141,7 +3050,6 @@
       "founderNames": [],
       "caribbeanConnection": "Designed for Bermuda merchant payment and business-management workflows.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -3177,7 +3085,6 @@
       "founderNames": [],
       "caribbeanConnection": "RentIQ is described as built by Inifye Technologies for Caribbean car-rental operators.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -3210,7 +3117,6 @@
       "companyName": "RezBS",
       "founderNames": [],
       "caribbeanConnection": "Created in The Bahamas and designed for Caribbean tour operators and regional payment connections.",
-      "visibility": "listed",
       "publishedAt": "2026-07-10",
       "updatedAt": "2026-07-10",
       "aliases": []
@@ -3244,7 +3150,6 @@
       "founderNames": [],
       "caribbeanConnection": "Independent reporting identifies RhysList as a locally developed Guyanese marketplace.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -3277,7 +3182,6 @@
       "founderNames": [],
       "caribbeanConnection": "Its official site identifies the software as made in the Dominican Republic by Upgrade.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -3314,7 +3218,6 @@
       "companyName": "Global Motion LLC",
       "founderNames": [],
       "caribbeanConnection": "Operated by Global Motion LLC in The Bahamas and built for drivers across the Bahamian islands.",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -3350,7 +3253,6 @@
       "founderNames": [],
       "caribbeanConnection": "SandDollar is the Central Bank of The Bahamas digital Bahamian-dollar wallet.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -3384,7 +3286,6 @@
       "founderNames": [],
       "caribbeanConnection": "A digital learning platform for students in Suriname.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -3416,7 +3317,6 @@
       "companyName": "SchoolMate",
       "founderNames": [],
       "caribbeanConnection": "Built for Bahamian and Caribbean K-12 schools with region-specific school operations in mind.",
-      "visibility": "listed",
       "publishedAt": "2026-07-02",
       "updatedAt": "2026-07-06",
       "aliases": []
@@ -3450,7 +3350,6 @@
       "founderNames": [],
       "caribbeanConnection": "Its official site describes the platform as founded in Martinique.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -3484,7 +3383,6 @@
       "founderNames": [],
       "caribbeanConnection": "SMARTSANTE is presented for healthcare administration in Haiti.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -3517,7 +3415,6 @@
       "founderNames": [],
       "caribbeanConnection": "Sovoli is presented for schools in Jamaica, Guyana, and the wider Caribbean.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -3551,7 +3448,6 @@
       "founderNames": [],
       "caribbeanConnection": "Nexulon identifies itself as Puerto Rico-based and identifies SpineFrame as a product it owns and operates.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -3584,7 +3480,6 @@
       "founderNames": [],
       "caribbeanConnection": "StudySmart is presented for Jamaica's PEP curriculum.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -3617,7 +3512,6 @@
       "founderNames": [],
       "caribbeanConnection": "The operator identifies its headquarters in The Bahamas.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -3650,7 +3544,6 @@
       "founderNames": [],
       "caribbeanConnection": "The official SURI site identifies its operator in Port of Spain, Trinidad, and describes software built for Caribbean business operations.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -3683,7 +3576,6 @@
       "founderNames": [],
       "caribbeanConnection": "A wallet and merchant platform with a published Antigua and Barbuda contact address.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -3721,7 +3613,6 @@
       "founderNames": [],
       "caribbeanConnection": "A driver app for ride sharing in Antigua.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -3756,7 +3647,6 @@
       "founderNames": [],
       "caribbeanConnection": "The platform is presented for Jamaican creator and brand campaign partnerships.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -3789,7 +3679,6 @@
       "founderNames": [],
       "caribbeanConnection": "Time and payroll software for Saint Lucia and the Caribbean.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -3825,7 +3714,6 @@
       "founderNames": [],
       "caribbeanConnection": "Developed with property operators in the Turks and Caicos Islands.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -3861,7 +3749,6 @@
       "companyName": "TriblockHR",
       "founderNames": [],
       "caribbeanConnection": "Designed in Nassau and built for HR and payroll compliance across Caribbean territories.",
-      "visibility": "listed",
       "publishedAt": "2026-07-02",
       "updatedAt": "2026-07-06",
       "aliases": []
@@ -3895,7 +3782,6 @@
       "founderNames": [],
       "caribbeanConnection": "TriFi is presented for Bermuda-focused transfer activity.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -3928,7 +3814,6 @@
       "founderNames": [],
       "caribbeanConnection": "A marketplace serving seven Caribbean islands.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "logoBackground": "#F4F7F8"
@@ -3962,7 +3847,6 @@
       "founderNames": [],
       "caribbeanConnection": "TropiSuite is presented for payroll and HR workflows in Jamaica, Trinidad and Tobago, Barbados, and Guyana.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -3995,7 +3879,6 @@
       "founderNames": [],
       "caribbeanConnection": "Vantex is presented for commerce operations in Haiti.",
       "connectionType": "market",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -4030,7 +3913,6 @@
       "founderNames": [],
       "caribbeanConnection": "VENDA publishes a Montego Bay, Jamaica address and describes its platform as designed for Caribbean sellers.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -4063,7 +3945,6 @@
       "founderNames": [],
       "caribbeanConnection": "Its official site identifies the product as built in The Bahamas.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07",
       "availability": "early_access"
@@ -4097,7 +3978,6 @@
       "companyName": "Vertilla",
       "founderNames": [],
       "caribbeanConnection": "Based in Jamaica and built for rental businesses across the Caribbean.",
-      "visibility": "listed",
       "publishedAt": "2026-08-20",
       "updatedAt": "2026-08-20"
     },
@@ -4130,7 +4010,6 @@
       "founderNames": [],
       "caribbeanConnection": "A Trinidadian-born mobile wallet.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
     },
@@ -4166,9 +4045,149 @@
       "founderNames": [],
       "caribbeanConnection": "The WiPay Group says WiPay Payment Services Limited was founded in Trinidad and Tobago and operates across named Caribbean countries.",
       "connectionType": "origin",
-      "visibility": "listed",
       "publishedAt": "2026-09-07",
       "updatedAt": "2026-09-07"
+    },
+    {
+      "id": "shorivo",
+      "slug": "shorivo",
+      "name": "Shorivo",
+      "tagline": "Booking software and a marketplace for Caribbean service businesses.",
+      "description": "Shorivo is a Barbados-built booking marketplace by Shori Solutions for Caribbean service businesses, currently onboarding founding businesses in early access.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://www.shorivo.com/about",
+      "country": "Barbados",
+      "countries": [
+        "Barbados"
+      ],
+      "category": "Commerce",
+      "industry": "Creator economy",
+      "tags": [
+        "Bookings",
+        "Marketplace",
+        "Service businesses"
+      ],
+      "aliases": [
+        "Shori"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Shori Solutions",
+      "founderNames": [],
+      "caribbeanConnection": "Built in Barbados by Shori Solutions for Caribbean service businesses.",
+      "connectionType": "origin",
+      "availability": "early_access",
+      "publishedAt": "2026-09-14",
+      "updatedAt": "2026-09-14"
+    },
+    {
+      "id": "infinity-bites",
+      "slug": "infinity-bites",
+      "name": "Infinity Bites",
+      "tagline": "Cloud restaurant and hospitality POS software for Belize.",
+      "description": "Infinity Bites is restaurant and hospitality POS SaaS built in Belize by Infinity Business Technologies Ltd for orders, menus, tables, kitchen, inventory, staff, online ordering, payments, and reporting.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.infinity-bites.com/",
+      "country": "Belize",
+      "countries": [
+        "Belize"
+      ],
+      "category": "Commerce",
+      "industry": "Hospitality and restaurants",
+      "tags": [
+        "Restaurant technology",
+        "Point of sale",
+        "Inventory"
+      ],
+      "aliases": [
+        "Infinity Bites POS"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Infinity Business Technologies Ltd",
+      "founderNames": [],
+      "caribbeanConnection": "Built in Belize by Infinity Business Technologies Ltd for Belize's restaurant and hospitality market.",
+      "connectionType": "origin",
+      "publishedAt": "2026-09-14",
+      "updatedAt": "2026-09-14"
+    },
+    {
+      "id": "hr-plus",
+      "slug": "hr-plus",
+      "name": "HR PLUS",
+      "tagline": "Human-resources and payroll software for Surinamese companies.",
+      "description": "HR PLUS is HR and payroll SaaS built in Suriname by tad for Surinamese companies, covering personnel, payroll, payslips, leave, time, contracts, analytics, and an AI assistant.",
+      "productKind": "saas",
+      "websiteUrl": "https://hrplus.tad.sr/",
+      "country": "Suriname",
+      "countries": [
+        "Suriname"
+      ],
+      "category": "Productivity",
+      "industry": "Human resources",
+      "tags": [
+        "Human resources",
+        "Payroll",
+        "Personnel"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "tad",
+      "founderNames": [],
+      "caribbeanConnection": "HR PLUS is made in Paramaribo, Suriname by tad for Surinamese companies.",
+      "connectionType": "origin",
+      "publishedAt": "2026-09-14",
+      "updatedAt": "2026-09-14"
+    },
+    {
+      "id": "voxxil-his",
+      "slug": "voxxil-his",
+      "name": "Voxxil-HIS",
+      "tagline": "A web-based health information system from Guyana.",
+      "description": "Voxxil-HIS is a web-based health information system from Guyana-based Voxxil Technologies Ltd. for patient management, laboratory and radiology workflows, billing, scheduling, referrals, analytics, and multi-branch administration.",
+      "productKind": "saas",
+      "websiteUrl": "https://voxxil.gy/",
+      "country": "Guyana",
+      "countries": [
+        "Guyana"
+      ],
+      "category": "Healthcare",
+      "industry": "Healthcare administration",
+      "tags": [
+        "Healthcare",
+        "Health information system",
+        "SaaS"
+      ],
+      "aliases": [
+        "Voxxil",
+        "Voxxil-RIS",
+        "Voxxil-LIS"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Voxxil Technologies Ltd.",
+      "founderNames": [],
+      "caribbeanConnection": "Voxxil-HIS is developed by Guyana-based Voxxil Technologies Ltd. for Caribbean healthcare institutions.",
+      "connectionType": "origin",
+      "publishedAt": "2026-09-14",
+      "updatedAt": "2026-09-14"
     }
   ]
 }

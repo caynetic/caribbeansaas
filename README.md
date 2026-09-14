@@ -23,9 +23,9 @@ excluded.
 The Open Data page at `open-data.html` displays every public catalog record as
 formatted JSON, with copy and download controls. `data/products.json` remains
 the raw source endpoint, including available hosted logo URLs and metadata.
-The homepage directory remains limited to `visibility: listed`, with six
-matching records per page and shareable URL state. Listed primary countries
-also receive generated root pages such as `bahamas.html`, served canonically
+The homepage directory displays every catalog record, with six matching
+records per page and shareable URL state. Primary countries represented in the
+catalog also receive generated root pages such as `bahamas.html`, served canonically
 by Cloudflare Pages at `/bahamas`.
 
 Styles are compiled from `styles/tailwind.css` and `tailwind.config.cjs`; the
