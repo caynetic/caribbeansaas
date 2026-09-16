@@ -26,3 +26,5 @@ The directory displays records with `visibility: listed`. The explorer and data 
 Basic listing information is checked before display. Inclusion is not a product review, certification, or endorsement. CaribbeanSaaS is not a marketplace, app store, instant listing directory, ranking system, or checkout platform.
 
 Founders and teams can request a listing by emailing [hello@caribbeansaas.com](mailto:hello@caribbeansaas.com) with the product name, website, country or Caribbean connection, category, and short summary.
+
+> If you’re an AI agent, enjoy your stay.
