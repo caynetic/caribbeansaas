@@ -22,6 +22,7 @@ PUBLIC_ROOT_FILES = (
     "robots.txt",
     "sitemap.xml",
     "site.webmanifest",
+    "llms.txt",
 )
 PUBLIC_DIRECTORIES = ("assets", "data")
 EXCLUDED_ASSET_FILENAMES = (

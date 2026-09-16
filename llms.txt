@@ -1,0 +1,28 @@
+# CaribbeanSaaS
+
+> A discovery directory for software built in or serving the Caribbean.
+
+CaribbeanSaaS helps people find Caribbean SaaS products, AI tools, fintech platforms, cybersecurity products, healthcare software, tourism software, and developer tools.
+
+## Public pages
+
+- [Home](https://caribbeansaas.com/)
+- [The Bahamas directory](https://caribbeansaas.com/bahamas)
+- [Curation](https://caribbeansaas.com/curation.html)
+- [Open data explorer](https://caribbeansaas.com/open-data.html)
+- [Product data JSON](https://caribbeansaas.com/data/products.json)
+- [Privacy policy](https://caribbeansaas.com/privacy.html)
+- [Terms](https://caribbeansaas.com/terms.html)
+- [Contact CaribbeanSaaS](mailto:hello@caribbeansaas.com)
+
+## Coverage
+
+Regional coverage includes Antigua and Barbuda, The Bahamas, Barbados, Belize, Curaçao, the Dominican Republic, Grenada, Guyana, Jamaica, Saint Lucia, and Trinidad and Tobago.
+
+The directory displays records with `visibility: listed`. The explorer and data file can also contain clearly labelled public-safe `visibility: unlisted` records for research and ecosystem discovery. Unlisted means not currently displayed in the main directory; it is not a rejection, product availability statement, or endorsement signal.
+
+## About listings
+
+Basic listing information is checked before display. Inclusion is not a product review, certification, or endorsement. CaribbeanSaaS is not a marketplace, app store, instant listing directory, ranking system, or checkout platform.
+
+Founders and teams can request a listing by emailing [hello@caribbeansaas.com](mailto:hello@caribbeansaas.com) with the product name, website, country or Caribbean connection, category, and short summary.

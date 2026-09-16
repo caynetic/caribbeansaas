@@ -26,7 +26,6 @@
 /HOSTING.md
 /stitch_caribbeansaas_software_directory.zip
 /scripts/send_outreach_email.py
-/llms.txt
 
 # Retained locally for possible future design work; never deploy these assets.
 /assets/caribbean-map.png
