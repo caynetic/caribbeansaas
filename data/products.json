@@ -4188,6 +4188,355 @@
       "connectionType": "origin",
       "publishedAt": "2026-09-14",
       "updatedAt": "2026-09-14"
+    },
+    {
+      "id": "kobmwen",
+      "slug": "kobmwen",
+      "name": "KobMwen",
+      "tagline": "A Haitian digital platform for tontine and community-savings workflows.",
+      "description": "A Haitian digital platform for tontine and community-savings workflows.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://kobmwen.impactisgroup.org",
+      "country": "Haiti",
+      "countries": [
+        "Haiti"
+      ],
+      "category": "Finance",
+      "industry": "Community finance",
+      "tags": [
+        "Savings groups"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": "IMPACTIS Group",
+      "founderNames": [],
+      "caribbeanConnection": "For Haitian tontine and community-savings workflows.",
+      "publishedAt": null,
+      "updatedAt": "2026-09-21"
+    },
+    {
+      "id": "arueka",
+      "slug": "arueka",
+      "name": "Arueka",
+      "tagline": "A Bahamian marketplace for local products and services.",
+      "description": "A Bahamian marketplace for local products and services.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://arueka.com",
+      "country": "Bahamas",
+      "countries": [
+        "Bahamas"
+      ],
+      "category": "Commerce",
+      "industry": "Marketplace",
+      "tags": [
+        "Marketplace"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": "Arueka Ltd.",
+      "founderNames": [],
+      "caribbeanConnection": "A marketplace serving The Bahamas.",
+      "publishedAt": null,
+      "updatedAt": "2026-09-21"
+    },
+    {
+      "id": "infinipay",
+      "slug": "infinipay",
+      "name": "InfiniPay",
+      "tagline": "An Aruba-operated API-first payment gateway presented for Caribbean markets.",
+      "description": "An Aruba-operated API-first payment gateway presented for Caribbean markets.",
+      "productKind": "api_or_developer_tool",
+      "websiteUrl": "https://infinisoftwaregroup.com/products/infini-pay",
+      "country": "Aruba",
+      "countries": [
+        "Aruba",
+        "Caribbean"
+      ],
+      "category": "Finance",
+      "industry": "Payments",
+      "tags": [
+        "Gateway"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": "Infini Software Group B.V.",
+      "founderNames": [],
+      "caribbeanConnection": "Presented for Caribbean markets.",
+      "publishedAt": null,
+      "updatedAt": "2026-09-21"
+    },
+    {
+      "id": "neopeople",
+      "slug": "neopeople",
+      "name": "NeoPeople",
+      "tagline": "An HR and payroll platform for Caribbean organizations.",
+      "description": "An HR and payroll platform for Caribbean organizations.",
+      "productKind": "saas",
+      "websiteUrl": "https://neopeople.com",
+      "country": "Caribbean",
+      "countries": [
+        "Caribbean",
+        "Belize",
+        "Barbados",
+        "Grenada",
+        "Antigua and Barbuda"
+      ],
+      "category": "Business operations",
+      "industry": "Human resources",
+      "tags": [
+        "Payroll"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Designed for named Caribbean markets.",
+      "publishedAt": null,
+      "updatedAt": "2026-09-21"
+    },
+    {
+      "id": "stolenwatchtt",
+      "slug": "stolenwatchtt",
+      "name": "StolenWatchTT",
+      "tagline": "A Trinidad and Tobago community platform for stolen-vehicle alerts and recovery information.",
+      "description": "A Trinidad and Tobago community platform for stolen-vehicle alerts and recovery information.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://stolenwatchtt.app",
+      "country": "Trinidad and Tobago",
+      "countries": [
+        "Trinidad and Tobago"
+      ],
+      "category": "Civic technology",
+      "industry": "Vehicle information",
+      "tags": [
+        "Vehicle alerts"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": "Rosetech AI Solutions Ltd.",
+      "founderNames": [],
+      "caribbeanConnection": "For Trinidad and Tobago vehicle-alert workflows.",
+      "publishedAt": null,
+      "updatedAt": "2026-09-21"
+    },
+    {
+      "id": "aptico",
+      "slug": "aptico",
+      "name": "Aptico",
+      "tagline": "A Dominican occupational-health workflow platform.",
+      "description": "A Dominican occupational-health workflow platform.",
+      "productKind": "saas",
+      "websiteUrl": "https://aptico.app",
+      "country": "Dominican Republic",
+      "countries": [
+        "Dominican Republic"
+      ],
+      "category": "Healthcare",
+      "industry": "Occupational health",
+      "tags": [
+        "Occupational health"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Presented for Dominican Republic occupational-health workflows.",
+      "publishedAt": null,
+      "updatedAt": "2026-09-21"
+    },
+    {
+      "id": "solmed",
+      "slug": "solmed",
+      "name": "SolMed",
+      "tagline": "A medical-practice and clinic-management platform for Dominican workflows.",
+      "description": "A medical-practice and clinic-management platform for Dominican workflows.",
+      "productKind": "saas",
+      "websiteUrl": "https://solmed.app",
+      "country": "Dominican Republic",
+      "countries": [
+        "Dominican Republic"
+      ],
+      "category": "Healthcare",
+      "industry": "Practice management",
+      "tags": [
+        "Billing"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": "SAHAS, S.R.L.",
+      "founderNames": [],
+      "caribbeanConnection": "For Dominican medical workflows.",
+      "publishedAt": null,
+      "updatedAt": "2026-09-21"
+    },
+    {
+      "id": "eva-edu",
+      "slug": "eva-edu",
+      "name": "EVA Edu",
+      "tagline": "A bilingual education platform aligned to Puerto Rico curriculum workflows.",
+      "description": "A bilingual education platform aligned to Puerto Rico curriculum workflows.",
+      "productKind": "saas",
+      "websiteUrl": "https://evaeducation.com/es",
+      "country": "Puerto Rico",
+      "countries": [
+        "Puerto Rico"
+      ],
+      "category": "Education",
+      "industry": "School software",
+      "tags": [
+        "Assessment"
+      ],
+      "aliases": [
+        "EVA"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": "Enalca y GFS Crew",
+      "founderNames": [],
+      "caribbeanConnection": "Aligned to Puerto Rico curriculum workflows.",
+      "publishedAt": null,
+      "updatedAt": "2026-09-21"
+    },
+    {
+      "id": "peyi-me",
+      "slug": "peyi-me",
+      "name": "Péyi.me",
+      "tagline": "A QR ordering and payment platform serving hospitality businesses in Guadeloupe and Martinique.",
+      "description": "A QR ordering and payment platform serving hospitality businesses in Guadeloupe and Martinique.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://peyi.me",
+      "country": "Guadeloupe",
+      "countries": [
+        "Guadeloupe",
+        "Martinique"
+      ],
+      "category": "Business operations",
+      "industry": "Hospitality",
+      "tags": [
+        "QR ordering"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "For Guadeloupe and Martinique hospitality markets.",
+      "publishedAt": null,
+      "updatedAt": "2026-09-21"
+    },
+    {
+      "id": "bimflow",
+      "slug": "bimflow",
+      "name": "BimFlow",
+      "tagline": "A self-serve booking and deposit-proof platform with Barbados workflow support.",
+      "description": "A self-serve booking and deposit-proof platform with Barbados workflow support.",
+      "productKind": "saas",
+      "websiteUrl": "https://trybimflow.com",
+      "country": "Barbados",
+      "countries": [
+        "Barbados"
+      ],
+      "category": "Business operations",
+      "industry": "Appointments",
+      "tags": [
+        "Bookings"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Supports BBD and BiMPay workflows for Barbados service businesses.",
+      "publishedAt": null,
+      "updatedAt": "2026-09-21"
+    },
+    {
+      "id": "onavan",
+      "slug": "onavan",
+      "name": "Onavan",
+      "tagline": "A POS and online-ordering platform configured for Curaçao.",
+      "description": "A POS and online-ordering platform configured for Curaçao.",
+      "productKind": "saas",
+      "websiteUrl": "https://onavan.com/en/oplossingen/curacao",
+      "country": "Curacao",
+      "countries": [
+        "Curacao"
+      ],
+      "category": "Business operations",
+      "industry": "Hospitality",
+      "tags": [
+        "POS"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Configured for Curaçao.",
+      "publishedAt": null,
+      "updatedAt": "2026-09-21"
     }
   ]
 }
