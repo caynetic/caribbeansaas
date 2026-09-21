@@ -19,7 +19,7 @@ CaribbeanSaaS helps people find Caribbean SaaS products, AI tools, fintech platf
 
 Regional coverage includes Antigua and Barbuda, The Bahamas, Barbados, Belize, Curaçao, the Dominican Republic, Grenada, Guyana, Jamaica, Saint Lucia, and Trinidad and Tobago.
 
-The directory displays records with `visibility: listed`. The explorer and data file can also contain clearly labelled public-safe `visibility: unlisted` records for research and ecosystem discovery. Unlisted means not currently displayed in the main directory; it is not a rejection, product availability statement, or endorsement signal.
+The directory, explorer, and downloadable data file share the complete public catalog. Every record in the catalog is published in the directory; the data file contains public-safe product information for discovery and reuse.
 
 ## About listings
 

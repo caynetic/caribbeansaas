@@ -56,10 +56,6 @@ def catalog_products() -> list[dict]:
     ]
 
 
-def public_products(products: list[dict]) -> list[dict]:
-    return [product for product in products if product.get("publishedAt")]
-
-
 def public_products_by_country(products: list[dict]) -> dict[str, list[dict]]:
     grouped: dict[str, list[dict]] = {}
     for product in products:
@@ -403,7 +399,7 @@ def render_country_pages(
 
 
 def main() -> None:
-    products = public_products(catalog_products())
+    products = catalog_products()
     if not products:
         raise RuntimeError("Public products are required for the root directory page")
 
