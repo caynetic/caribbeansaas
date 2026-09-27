@@ -4538,6 +4538,47 @@
       "caribbeanConnection": "Configured for Curaçao.",
       "publishedAt": "2026-09-21",
       "updatedAt": "2026-09-21"
+    },
+    {
+      "id": "caribbean-erp",
+      "slug": "caribbean-erp",
+      "name": "Caribbean ERP",
+      "tagline": "Modular business-management software with Caribbean payroll, finance, HR, CRM, inventory, and operations tools.",
+      "description": "Modular ERP software from SystemAid Caribbean Ltd. for payroll, HR, finance, CRM, inventory, projects, field service, and other business operations.",
+      "productKind": "saas",
+      "websiteUrl": "https://caribbeanerp.com/",
+      "country": "Caribbean",
+      "countries": [
+        "Trinidad and Tobago",
+        "Jamaica",
+        "Barbados",
+        "Guyana",
+        "Antigua and Barbuda",
+        "Saint Lucia",
+        "Saint Vincent and the Grenadines",
+        "Grenada",
+        "Dominica"
+      ],
+      "category": "Business operations",
+      "industry": "Enterprise resource planning",
+      "tags": [
+        "ERP",
+        "Payroll",
+        "Human resources"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": "SystemAid Caribbean Ltd.",
+      "founderNames": [],
+      "caribbeanConnection": "Its official statutory matrix names support for Trinidad and Tobago, Jamaica, Barbados, Guyana, Antigua and Barbuda, Saint Lucia, Saint Vincent and the Grenadines, Grenada, and Dominica.",
+      "publishedAt": "2026-09-27",
+      "updatedAt": "2026-09-27"
     }
   ]
 }
