@@ -4579,6 +4579,710 @@
       "caribbeanConnection": "Its official statutory matrix names support for Trinidad and Tobago, Jamaica, Barbados, Guyana, Antigua and Barbuda, Saint Lucia, Saint Vincent and the Grenadines, Grenada, and Dominica.",
       "publishedAt": "2026-09-27",
       "updatedAt": "2026-09-27"
+    },
+    {
+      "id": "karuk-ia-solution-pharmacie",
+      "slug": "karuk-ia-solution-pharmacie",
+      "name": "KARUK IA Solution Pharmacie",
+      "tagline": "Closed-beta pharmacy software made in Guadeloupe for prescription intake and renewal workflows.",
+      "description": "Closed-beta pharmacy software made in Guadeloupe for prescription intake and renewal workflows.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.karukia.com/",
+      "country": "Guadeloupe",
+      "countries": [
+        "Guadeloupe"
+      ],
+      "category": "Healthcare",
+      "industry": "Pharmacy software",
+      "tags": [
+        "Pharmacy",
+        "Prescription workflow"
+      ],
+      "aliases": [
+        "KARUK IA Pharmacy Solution"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "origin",
+      "availability": "beta",
+      "companyName": "KARUK IA",
+      "founderNames": [],
+      "caribbeanConnection": "Official material identifies the pharmacy solution as made and piloted in Guadeloupe.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "valiora-cloud",
+      "slug": "valiora-cloud",
+      "name": "Valiora Cloud",
+      "tagline": "Business-management software designed around Dominican Republic operational and regulatory workflows.",
+      "description": "Business-management software for Dominican Republic real-estate, legal, finance, tax, payroll, and HR workflows.",
+      "productKind": "saas",
+      "websiteUrl": "https://valioracloud.com/",
+      "country": "Dominican Republic",
+      "countries": [
+        "Dominican Republic"
+      ],
+      "category": "Business operations",
+      "industry": "Business management",
+      "tags": [
+        "Tax",
+        "Finance",
+        "HR"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Official material documents Dominican Republic-specific business and regulatory workflows.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "uno-dominican-republic",
+      "slug": "uno-dominican-republic",
+      "name": "UNO",
+      "tagline": "A Dominican-created app for ordering, delivery, shopping, gifts, and other everyday services.",
+      "description": "A Dominican-created app for ordering, delivery, shopping, gifts, and other everyday services.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://www.unoapp.do/",
+      "country": "Dominican Republic",
+      "countries": [
+        "Dominican Republic"
+      ],
+      "category": "Commerce",
+      "industry": "Delivery and commerce",
+      "tags": [
+        "Super app",
+        "Delivery"
+      ],
+      "aliases": [
+        "UNO Super App"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "origin",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Official material identifies UNO as Dominican-created.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "farmersconnectgy",
+      "slug": "farmersconnectgy",
+      "name": "FarmersConnectGY",
+      "tagline": "A Guyana agriculture app for weather, advisories, market prices, and extension information.",
+      "description": "A Guyana Ministry of Agriculture app for weather, advisories, market prices, and agricultural extension information.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://play.google.com/store/apps/details?hl=en_GB&id=gy.gov.ndma.farmersconnect",
+      "country": "Guyana",
+      "countries": [
+        "Guyana"
+      ],
+      "category": "Civic technology",
+      "industry": "Agricultural information",
+      "tags": [
+        "Agriculture",
+        "Market prices"
+      ],
+      "aliases": [
+        "Farmers Connect"
+      ],
+      "officialAppStoreIds": [
+        "google:gy.gov.ndma.farmersconnect"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": "Guyana Ministry of Agriculture",
+      "founderNames": [],
+      "caribbeanConnection": "Official government and app-store material documents agriculture workflows for Guyana.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "marketplace-jamaica",
+      "slug": "marketplace-jamaica",
+      "name": "Marketplace Jamaica",
+      "tagline": "An online marketplace and classifieds platform for buying, selling, renting, jobs, and services in Jamaica.",
+      "description": "An online marketplace and classifieds platform for buying, selling, renting, jobs, and services in Jamaica.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://www.marketplacejamaica.com/",
+      "country": "Jamaica",
+      "countries": [
+        "Jamaica"
+      ],
+      "category": "Commerce",
+      "industry": "Marketplace",
+      "tags": [
+        "Classifieds",
+        "Marketplace"
+      ],
+      "aliases": [
+        "Jamaica Marketplace"
+      ],
+      "officialAppStoreIds": [
+        "apple:6740202739",
+        "google:com.marketplace.classified"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": "Wepree",
+      "founderNames": [],
+      "caribbeanConnection": "Official material identifies a Jamaica-focused marketplace operated for local commerce across the island.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "cellebo",
+      "slug": "cellebo",
+      "name": "Cellebo",
+      "tagline": "A creator platform designed for Caribbean subscriptions, paid content, tips, and messaging.",
+      "description": "A creator platform designed for Caribbean subscriptions, paid content, tips, and messaging.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://cellebo.com/",
+      "country": "Caribbean",
+      "countries": [
+        "Caribbean"
+      ],
+      "category": "Creator economy",
+      "industry": "Creator monetization",
+      "tags": [
+        "Creators",
+        "Monetization"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Official material describes Cellebo as a platform for Caribbean creators.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "jagavision",
+      "slug": "jagavision",
+      "name": "JagaVision",
+      "tagline": "A creative platform for Caribbean and diaspora creators, combining community, commerce, publishing, and streaming.",
+      "description": "A creative platform for Caribbean and diaspora creators, combining workspaces, community, commerce, publishing, and streaming.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://jagavision.com/",
+      "country": "Caribbean",
+      "countries": [
+        "Caribbean"
+      ],
+      "category": "Creator economy",
+      "industry": "Creative platform",
+      "tags": [
+        "Creators",
+        "Marketplace"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Official material describes JagaVision as serving Caribbean and diaspora creative workflows; it does not establish Caribbean origin.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "kwonik-ayiti",
+      "slug": "kwonik-ayiti",
+      "name": "Kwonik Ayiti",
+      "tagline": "An interactive platform for exploring Haitian history through maps, timelines, and multilingual content.",
+      "description": "An interactive platform for exploring Haitian history through maps, timelines, multilingual content, and an AI-assisted guide.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://kwonikayiti.com/",
+      "country": "Haiti",
+      "countries": [
+        "Haiti"
+      ],
+      "category": "Education",
+      "industry": "History education",
+      "tags": [
+        "History",
+        "Multilingual"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Official material documents a Haiti-specific history and multilingual-content platform.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "payit-pr",
+      "slug": "payit-pr",
+      "name": "PayIt",
+      "tagline": "A point-of-sale and payments platform for small businesses in Puerto Rico.",
+      "description": "A point-of-sale and payments platform for small businesses in Puerto Rico.",
+      "productKind": "digital_platform",
+      "websiteUrl": "https://payitpr.com/",
+      "country": "Puerto Rico",
+      "countries": [
+        "Puerto Rico"
+      ],
+      "category": "Finance",
+      "industry": "POS and payments",
+      "tags": [
+        "POS",
+        "Payments"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Official material identifies small-business point-of-sale and payment workflows in Puerto Rico.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "smarthub-suite",
+      "slug": "smarthub-suite",
+      "name": "SmartHub",
+      "tagline": "Modular software for appointments, queues, signage, visitors, tasks, and forms in Puerto Rico businesses.",
+      "description": "Modular software for appointments, queues, signage, visitor management, tasks, and forms in Puerto Rico businesses.",
+      "productKind": "saas",
+      "websiteUrl": "https://smarthubsuite.com/",
+      "country": "Puerto Rico",
+      "countries": [
+        "Puerto Rico"
+      ],
+      "category": "Business operations",
+      "industry": "Workflow management",
+      "tags": [
+        "Appointments",
+        "Queues"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Official material identifies SmartHub software for Puerto Rico business workflows.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "islabooks",
+      "slug": "islabooks",
+      "name": "IslaBooks",
+      "tagline": "Accounting, payroll, billing, and employee-management software made for Puerto Rico businesses.",
+      "description": "Accounting, payroll, billing, employee-management, and tax-preparation software for Puerto Rico businesses and professionals.",
+      "productKind": "saas",
+      "websiteUrl": "https://islabooks.app/",
+      "country": "Puerto Rico",
+      "countries": [
+        "Puerto Rico"
+      ],
+      "category": "Business operations",
+      "industry": "Accounting and payroll",
+      "tags": [
+        "Accounting",
+        "Payroll"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "origin",
+      "companyName": "IslaBooks LLC",
+      "founderNames": [],
+      "caribbeanConnection": "Official product and legal pages identify IslaBooks as made in Puerto Rico for Puerto Rico accounting and payroll workflows.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "global-suite-pr",
+      "slug": "global-suite-pr",
+      "name": "GlobalSuite PR",
+      "tagline": "Business operations and CRM software with Puerto Rico workflows and local payment integrations.",
+      "description": "Business operations and CRM software for Puerto Rico and United States businesses, including Puerto Rico payment integrations.",
+      "productKind": "saas",
+      "websiteUrl": "https://globalsuitepr.com/",
+      "country": "Puerto Rico",
+      "countries": [
+        "Puerto Rico"
+      ],
+      "category": "Business operations",
+      "industry": "CRM and operations",
+      "tags": [
+        "CRM",
+        "Operations"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Official material identifies Puerto Rico operations, CRM, and local-payment workflows.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "tuordenpr",
+      "slug": "tuordenpr",
+      "name": "TuOrdenPR",
+      "tagline": "A QR menu, ordering, and payment web tool for restaurants in Puerto Rico.",
+      "description": "A QR menu, ordering, and payment web tool for restaurants in Puerto Rico.",
+      "productKind": "web_tool",
+      "websiteUrl": "https://www.tuordenpr.com/",
+      "country": "Puerto Rico",
+      "countries": [
+        "Puerto Rico"
+      ],
+      "category": "Commerce",
+      "industry": "Restaurant ordering",
+      "tags": [
+        "QR ordering",
+        "Restaurants"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Official material identifies restaurant ordering workflows for Puerto Rico.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "cfse-mobile",
+      "slug": "cfse-mobile",
+      "name": "CFSE Mobile",
+      "tagline": "A Puerto Rico State Insurance Fund mobile app for employer-service workflows.",
+      "description": "A Puerto Rico State Insurance Fund mobile app for employer-service workflows.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://play.google.com/store/apps/details?id=com.truenorth.cfse.mobileapp",
+      "country": "Puerto Rico",
+      "countries": [
+        "Puerto Rico"
+      ],
+      "category": "Civic technology",
+      "industry": "Employer services",
+      "tags": [
+        "Employer services",
+        "Insurance"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [
+        "google:com.truenorth.cfse.mobileapp"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": "Puerto Rico State Insurance Fund",
+      "founderNames": [],
+      "caribbeanConnection": "Official app-store material identifies employer-service workflows for Puerto Rico.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "chef-skn",
+      "slug": "chef-skn",
+      "name": "CheF SKN",
+      "tagline": "A delivery and shopping marketplace app serving St. Kitts and Nevis.",
+      "description": "A delivery and shopping marketplace app serving St. Kitts and Nevis.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://apps.apple.com/us/app/chef-skn/id6740967096",
+      "country": "Saint Kitts and Nevis",
+      "countries": [
+        "Saint Kitts and Nevis"
+      ],
+      "category": "Commerce",
+      "industry": "Delivery marketplace",
+      "tags": [
+        "Delivery",
+        "Shopping"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [
+        "apple:6740967096"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Official App Store material identifies local delivery and shopping workflows in St. Kitts and Nevis.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "letmehelpapp",
+      "slug": "letmehelpapp",
+      "name": "LetMeHelpApp",
+      "tagline": "A housing marketplace app for rentals and landlord-tenant connections in St. Kitts and Nevis.",
+      "description": "A housing marketplace app for rentals and landlord-tenant connections in St. Kitts and Nevis.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://apps.apple.com/us/app/letmehelpapp/id6758965034",
+      "country": "Saint Kitts and Nevis",
+      "countries": [
+        "Saint Kitts and Nevis"
+      ],
+      "category": "Commerce",
+      "industry": "Housing marketplace",
+      "tags": [
+        "Housing",
+        "Rentals"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [
+        "apple:6758965034"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Official App Store material identifies housing-marketplace workflows in St. Kitts and Nevis.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "mope-wholesale",
+      "slug": "mope-wholesale",
+      "name": "Mopé Wholesale",
+      "tagline": "A mobile wholesale-ordering and wallet-checkout app for Suriname.",
+      "description": "A mobile wholesale-ordering and wallet-checkout app for Suriname.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://play.google.com/store/apps/details?id=sr.mope.wholesale",
+      "country": "Suriname",
+      "countries": [
+        "Suriname"
+      ],
+      "category": "Commerce",
+      "industry": "Wholesale commerce",
+      "tags": [
+        "Wholesale",
+        "Ordering"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [
+        "google:sr.mope.wholesale"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Official app-store material identifies wholesale-ordering and checkout workflows for Suriname.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "marketplace-tci",
+      "slug": "marketplace-tci",
+      "name": "Marketplace TCI",
+      "tagline": "A mobile marketplace for local buying, selling, messaging, and property listings in Turks and Caicos.",
+      "description": "A mobile marketplace for local buying, selling, messaging, and property listings in Turks and Caicos.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://apps.apple.com/us/app/marketplace-tci/id6808173345",
+      "country": "Turks and Caicos Islands",
+      "countries": [
+        "Turks and Caicos Islands"
+      ],
+      "category": "Commerce",
+      "industry": "Marketplace",
+      "tags": [
+        "Marketplace",
+        "Property listings"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [
+        "apple:6808173345"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Official App Store material identifies marketplace activity in Turks and Caicos Islands.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "menvo-tci",
+      "slug": "menvo-tci",
+      "name": "MENVO TCI",
+      "tagline": "A mobile marketplace for products, vehicles, property, services, jobs, and local businesses in Turks and Caicos.",
+      "description": "A mobile marketplace for products, vehicles, property, services, jobs, and local businesses in Turks and Caicos.",
+      "productKind": "marketplace",
+      "websiteUrl": "https://play.google.com/store/apps/details?id=com.menvo.tci",
+      "country": "Turks and Caicos Islands",
+      "countries": [
+        "Turks and Caicos Islands"
+      ],
+      "category": "Commerce",
+      "industry": "Marketplace",
+      "tags": [
+        "Marketplace",
+        "Local businesses"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [
+        "google:com.menvo.tci"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Official Google Play material identifies marketplace activity in Turks and Caicos Islands.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "my-virgin-islands",
+      "slug": "my-virgin-islands",
+      "name": "My Virgin Islands",
+      "tagline": "A travel and local-information mobile app for the United States Virgin Islands.",
+      "description": "A travel and local-information mobile app for the United States Virgin Islands.",
+      "productKind": "mobile_app",
+      "websiteUrl": "https://apps.apple.com/us/app/my-virgin-islands/id345832106",
+      "country": "United States Virgin Islands",
+      "countries": [
+        "United States Virgin Islands"
+      ],
+      "category": "Tourism",
+      "industry": "Travel information",
+      "tags": [
+        "Travel",
+        "Local information"
+      ],
+      "aliases": [
+        "MyVI"
+      ],
+      "officialAppStoreIds": [
+        "apple:345832106"
+      ],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "market",
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Official App Store material identifies travel and local-information workflows for the United States Virgin Islands.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "islandbook",
+      "slug": "islandbook",
+      "name": "IslandBook",
+      "tagline": "Booking and operations software developed in the Virgin Islands for tourism businesses.",
+      "description": "Booking and operations software for Virgin Islands rentals, charters, tours, and other tourism businesses.",
+      "productKind": "saas",
+      "websiteUrl": "https://antilles.software/islandbook",
+      "country": "United States Virgin Islands",
+      "countries": [
+        "United States Virgin Islands",
+        "British Virgin Islands"
+      ],
+      "category": "Tourism",
+      "industry": "Booking and operations",
+      "tags": [
+        "Bookings",
+        "Tourism operations"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "connectionType": "origin",
+      "companyName": "Antilles Software Company",
+      "founderNames": [],
+      "caribbeanConnection": "Official material identifies IslandBook as developed in the Virgin Islands for U.S. and British Virgin Islands tourism operators.",
+      "publishedAt": "2026-09-28",
+      "updatedAt": "2026-09-28"
     }
   ]
 }

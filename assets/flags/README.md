@@ -5,7 +5,8 @@ without cropping at up to 24 by 16 CSS pixels. Visible region names accompany
 every image, so the images are decorative for screen readers.
 
 The additional images downloaded on 2026-09-07 are `aw`, `bm`, `bq`, `cu`, `gp`,
-`ht`, `kn`, `ky`, `mq`, `sr`, `tc`, and `vc`. They come from
+`ht`, `kn`, `ky`, `mq`, `sr`, `tc`, and `vc`. The `vi` image was added on
+2026-09-28. They come from
 `https://flagcdn.com/w80/{code}.png`, using the same format as the existing assets.
 [Flagpedia's image API](https://flagpedia.net/download/api) documents the download
 format. [Its terms](https://flagpedia.net/terms) place the flag images in the
