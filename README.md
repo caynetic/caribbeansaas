@@ -11,9 +11,9 @@ for a product, and follow its official website.
 [Listing policy](https://caribbeansaas.com/curation.html) ·
 [Get listed](https://caribbeansaas.com/#submit) · [Run locally](#run-it-locally)
 
-[![CaribbeanSaaS homepage with its island technology mark and Discover Caribbean Software introduction](readme-assets/caribbeansaas-website.jpg)](https://caribbeansaas.com/)
+[![CaribbeanSaaS illustration of software search, category and region filters, and product discovery](readme-assets/caribbeansaas-illustration.webp)](https://caribbeansaas.com/)
 
-*The public [CaribbeanSaaS website](https://caribbeansaas.com/), captured October 19, 2026.*
+*Project illustration from [Caynetic.com](https://caynetic.com/#products).*
 
 ## Explore the directory
 
@@ -69,8 +69,8 @@ responsive WebP variants of the existing brand artwork.
 Cloudflare Pages deploys **`dist/`, not the repository root**. The public bundle
 contains only website pages, public assets, and catalog data. Operating
 records, research, audits, agent configuration, optional discovery material,
-and credentials stay outside it. README screenshots under `readme-assets/` are
-repository documentation and are excluded from the website bundle.
+and credentials stay outside it. The README illustrations in `readme-assets/`
+are excluded from the website bundle.
 
 ## Suggest a product or correction
 
