@@ -5307,15 +5307,18 @@
         "CPMS"
       ],
       "officialAppStoreIds": [],
-      "logoUrl": null,
-      "logoAlt": null,
+      "logoUrl": "https://cdn.caynetic.app/caribbeansaas/products/logos/central-plumbing-management-software-d356a02a53f6.webp",
+      "logoAlt": "Central Plumbing Management Software logo",
       "screenshotUrls": [],
       "companyName": null,
       "founderNames": [],
       "caribbeanConnection": "Supports plumbing business operations in Jamaica.",
       "connectionType": "market",
       "publishedAt": "2026-10-22",
-      "updatedAt": "2026-10-22"
+      "updatedAt": "2026-10-22",
+      "logoWidth": 300,
+      "logoHeight": 300,
+      "logoBackground": "#FFFFFF"
     }
   ]
 }
