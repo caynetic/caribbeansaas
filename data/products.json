@@ -5283,6 +5283,39 @@
       "caribbeanConnection": "Official material identifies IslandBook as developed in the Virgin Islands for U.S. and British Virgin Islands tourism operators.",
       "publishedAt": "2026-09-28",
       "updatedAt": "2026-09-28"
+    },
+    {
+      "id": "central-plumbing-management-software",
+      "slug": "central-plumbing-management-software",
+      "name": "Central Plumbing Management Software",
+      "tagline": "Business management software for plumbing companies.",
+      "description": "CPMS helps plumbing businesses manage jobs, branded estimates and invoices, GPS tracking, a client portal, and AI-assisted bookkeeping.",
+      "productKind": "saas",
+      "websiteUrl": "https://cpms.live/",
+      "country": "Jamaica",
+      "countries": [
+        "Jamaica"
+      ],
+      "category": "Business operations",
+      "industry": "Plumbing and field services",
+      "tags": [
+        "Plumbing",
+        "Business management",
+        "Field services"
+      ],
+      "aliases": [
+        "CPMS"
+      ],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "screenshotUrls": [],
+      "companyName": null,
+      "founderNames": [],
+      "caribbeanConnection": "Supports plumbing business operations in Jamaica.",
+      "connectionType": "market",
+      "publishedAt": "2026-10-22",
+      "updatedAt": "2026-10-22"
     }
   ]
 }
