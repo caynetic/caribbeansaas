@@ -7392,7 +7392,7 @@
         syncActiveRegions();
         regionMenu.open = false;
         currentPage = 1;
-        updateResults();
+        updateResults({ focusResults: true });
     }
 
     function updateClearButton() {
@@ -7684,7 +7684,8 @@
 
     regionStatLinks.forEach((link) => {
         link.addEventListener("click", (event) => {
-            if (ROUTE_REGION) {
+            if (ROUTE_REGION || event.defaultPrevented || event.button !== 0 ||
+                event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
                 return;
             }
 
