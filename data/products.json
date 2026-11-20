@@ -5319,6 +5319,39 @@
       "logoWidth": 300,
       "logoHeight": 300,
       "logoBackground": "#FFFFFF"
+    },
+    {
+      "id": "workzoom",
+      "slug": "workzoom",
+      "name": "Workzoom",
+      "tagline": "HR, timekeeping, and payroll software for Bahamian employers.",
+      "description": "Workzoom combines employee records, scheduling, time and attendance, and payroll. Its Bahamas payroll tools calculate National Insurance Board (NIB) contributions, generate C10 reports, and prepare configured bank payment files.",
+      "productKind": "saas",
+      "websiteUrl": "https://www.workzoom.com/country/bahamas/",
+      "country": "Bahamas",
+      "countries": [
+        "Bahamas"
+      ],
+      "category": "Business operations",
+      "industry": "Human resources",
+      "tags": [
+        "Human resources",
+        "Payroll",
+        "Time and attendance"
+      ],
+      "aliases": [],
+      "officialAppStoreIds": [],
+      "logoUrl": null,
+      "logoAlt": null,
+      "logoWidth": null,
+      "logoHeight": null,
+      "screenshotUrls": [],
+      "companyName": "Nortek Solutions Inc.",
+      "founderNames": [],
+      "caribbeanConnection": "Canadian software serving the Bahamas market. Workzoom documents Bahamian payroll workflows and use by Cable Bahamas.",
+      "connectionType": "market",
+      "publishedAt": "2026-11-20",
+      "updatedAt": "2026-11-20"
     }
   ]
 }
