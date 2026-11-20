@@ -285,7 +285,7 @@ def country_page_html(country: str, products: list[dict], index_html: str) -> st
     page = filtered_product_cards(index_html, product_id_order)
     page = replace_once(
         page,
-        "<title>CaribbeanSaaS | Caribbean SaaS &amp; Software Directory</title>",
+        "<title>Caribbean Software Directory | CaribbeanSaaS</title>",
         f"<title>{title}</title>",
         "homepage title",
     )
@@ -303,7 +303,7 @@ def country_page_html(country: str, products: list[dict], index_html: str) -> st
     )
     page = replace_once(
         page,
-        '<meta property="og:title" content="CaribbeanSaaS | Caribbean SaaS &amp; Software Directory"/>',
+        '<meta property="og:title" content="Caribbean Software Directory | CaribbeanSaaS"/>',
         f'<meta property="og:title" content="{title}"/>',
         "Open Graph title",
     )
@@ -321,7 +321,7 @@ def country_page_html(country: str, products: list[dict], index_html: str) -> st
     )
     page = replace_once(
         page,
-        '<meta name="twitter:title" content="CaribbeanSaaS | Caribbean SaaS &amp; Software Directory"/>',
+        '<meta name="twitter:title" content="Caribbean Software Directory | CaribbeanSaaS"/>',
         f'<meta name="twitter:title" content="{title}"/>',
         "Twitter title",
     )
