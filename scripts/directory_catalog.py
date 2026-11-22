@@ -52,6 +52,28 @@ def attach_market_availability(products, config):
         for product in products
     ]
 
+def attach_listing_cta_overrides(products, overrides):
+    """Allow query-only CTA overrides without changing canonical product URLs."""
+    if not isinstance(overrides, dict):
+        raise ValueError('CTA overrides must be keyed by catalog product ID')
+    unknown = set(overrides) - {product['id'] for product in products}
+    if unknown:
+        raise ValueError(f'CTA override refers to unknown products: {sorted(unknown)}')
+    result = []
+    for product in products:
+        if product['id'] not in overrides:
+            result.append(product)
+            continue
+        url = overrides[product['id']]
+        if not isinstance(url, str):
+            raise ValueError(f'{product["id"]}: CTA override must be a URL')
+        canonical, cta = urlsplit(product['websiteUrl']), urlsplit(url)
+        if (cta.scheme != 'https' or not cta.query or cta.fragment
+                or cta._replace(query='') != canonical._replace(query='')):
+            raise ValueError(f'{product["id"]}: CTA override must preserve the canonical HTTPS destination')
+        result.append({**product, 'listingCtaUrl': url})
+    return result
+
 def listing_regions(product):
     """Only explicit verified marketAvailability opts into secondary browse regions."""
     primary = product['country']
@@ -150,7 +172,7 @@ def card(p, *, route_region=None):
                     <span class="product-tag">{e(tags[1])}</span>
                 </div>
                 <p class="product-connection"{' hidden' if market_summary else ''}>{e(connection)}</p>
-                <a class="focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="{e(p['websiteUrl'])}" target="_blank" rel="noopener noreferrer">Visit website</a>
+                <a class="focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="{e(p.get('listingCtaUrl', p['websiteUrl']))}" target="_blank" rel="noopener noreferrer">Visit website</a>
                 <div class="product-region">
                     <span class="product-region-label">Region</span>
                     <button class="product-region-filter focus-ring" type="button" aria-label="Filter by region: {country}">

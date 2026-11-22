@@ -8,7 +8,14 @@ from datetime import date
 from pathlib import Path
 from typing import Iterable
 
-from directory_catalog import attach_market_availability, card, item, listing_regions, render_directory
+from directory_catalog import (
+    attach_listing_cta_overrides,
+    attach_market_availability,
+    card,
+    item,
+    listing_regions,
+    render_directory,
+)
 
 from site_config import (
     COUNTRY_ROUTE_SLUGS,
@@ -21,6 +28,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE_URL = "https://caribbeansaas.com"
 PRODUCTS_JSON = ROOT / "data" / "products.json"
 MARKET_AVAILABILITY_JSON = ROOT / "data" / "market-availability.json"
+LISTING_CTA_OVERRIDES_JSON = ROOT / "scripts" / "listing-cta-overrides.json"
 INDEX = ROOT / "index.html"
 SITEMAP = ROOT / "sitemap.xml"
 LASTMOD = date.today().isoformat()
@@ -52,7 +60,9 @@ def catalog_products() -> list[dict]:
     data = json.loads(PRODUCTS_JSON.read_text())
     products = [product for product in data.get("products", []) if isinstance(product, dict)]
     availability = json.loads(MARKET_AVAILABILITY_JSON.read_text())
-    return attach_market_availability(products, availability)
+    products = attach_market_availability(products, availability)
+    cta_overrides = json.loads(LISTING_CTA_OVERRIDES_JSON.read_text())
+    return attach_listing_cta_overrides(products, cta_overrides)
 
 
 def public_products_by_country(products: list[dict]) -> dict[str, list[dict]]:
