@@ -1,17 +1,16 @@
 from __future__ import annotations
 
-import json
 import shutil
 import subprocess
 from pathlib import Path
 
-from generate_seo_pages import main as generate_public_pages
+from generate_seo_pages import catalog_products, main as generate_public_pages
+from directory_catalog import listing_regions
 from site_config import country_route_slug
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
-PRODUCTS_JSON = ROOT / "data" / "products.json"
 PUBLIC_ROOT_FILES = (
     "index.html",
     "404.html",
@@ -32,14 +31,9 @@ EXCLUDED_ASSET_FILENAMES = (
 
 
 def generated_country_files() -> tuple[str, ...]:
-    catalog = json.loads(PRODUCTS_JSON.read_text())
-    public_countries = {
-        product.get("country")
-        for product in catalog.get("products", [])
-        if isinstance(product, dict)
-    }
-    if not public_countries or None in public_countries or "" in public_countries:
-        raise RuntimeError("Every product needs a primary country")
+    public_countries = {region for product in catalog_products() for region in listing_regions(product)}
+    if not public_countries:
+        raise RuntimeError("At least one browse region is required")
     return tuple(
         f"{country_route_slug(country)}.html"
         for country in sorted(public_countries, key=country_route_slug)

@@ -8,7 +8,7 @@ from datetime import date
 from pathlib import Path
 from typing import Iterable
 
-from directory_catalog import render_directory, item
+from directory_catalog import attach_market_availability, card, item, listing_regions, render_directory
 
 from site_config import (
     COUNTRY_ROUTE_SLUGS,
@@ -20,6 +20,7 @@ from site_config import (
 ROOT = Path(__file__).resolve().parents[1]
 SITE_URL = "https://caribbeansaas.com"
 PRODUCTS_JSON = ROOT / "data" / "products.json"
+MARKET_AVAILABILITY_JSON = ROOT / "data" / "market-availability.json"
 INDEX = ROOT / "index.html"
 SITEMAP = ROOT / "sitemap.xml"
 LASTMOD = date.today().isoformat()
@@ -49,21 +50,16 @@ STRUCTURED_DATA_PATTERN = re.compile(
 
 def catalog_products() -> list[dict]:
     data = json.loads(PRODUCTS_JSON.read_text())
-    return [
-        product
-        for product in data.get("products", [])
-        if isinstance(product, dict)
-    ]
+    products = [product for product in data.get("products", []) if isinstance(product, dict)]
+    availability = json.loads(MARKET_AVAILABILITY_JSON.read_text())
+    return attach_market_availability(products, availability)
 
 
 def public_products_by_country(products: list[dict]) -> dict[str, list[dict]]:
     grouped: dict[str, list[dict]] = {}
     for product in products:
-        country = product.get("country")
-        if not isinstance(country, str) or not country.strip():
-            raise RuntimeError(f"Product is missing its primary country: {product.get('id')!r}")
-        country_route_slug(country)
-        grouped.setdefault(country, []).append(product)
+        for country in listing_regions(product):
+            grouped.setdefault(country, []).append(product)
     return grouped
 
 
@@ -128,7 +124,7 @@ def replace_once(page: str, old: str, new: str, description: str) -> str:
     return page.replace(old, new, 1)
 
 
-def filtered_product_cards(index_html: str, product_ids: list[str]) -> str:
+def filtered_product_cards(index_html: str, product_ids: list[str], scoped_cards: dict[str, str]) -> str:
     if PRODUCT_CARDS_START not in index_html or PRODUCT_CARDS_END not in index_html:
         raise RuntimeError("Homepage product-card generation markers are missing")
 
@@ -147,7 +143,7 @@ def filtered_product_cards(index_html: str, product_ids: list[str]) -> str:
     if missing_ids:
         raise RuntimeError(f"Country route cannot find homepage cards: {missing_ids!r}")
 
-    selected_cards = [card_by_id[product_id] for product_id in product_ids]
+    selected_cards = [scoped_cards.get(product_id, card_by_id[product_id]) for product_id in product_ids]
     card_block = "\n            ".join(selected_cards)
     return (
         f"{before_cards}{PRODUCT_CARDS_START}\n"
@@ -227,6 +223,7 @@ def country_structured_data(
     route_url: str,
     description: str,
     product_ids: list[str],
+    shared_application_ids: set[str],
 ) -> str:
     match = STRUCTURED_DATA_PATTERN.search(index_html)
     if match is None:
@@ -256,10 +253,15 @@ def country_structured_data(
                 item = entry.get("item")
                 if isinstance(item, dict):
                     product_id = product_id_from_structured_item(entry)
-                    item["@id"] = f"{route_url}#{product_id}"
+                    if product_id not in shared_application_ids:
+                        item["@id"] = f"{route_url}#{product_id}"
 
             node["@id"] = f"{route_url}#digital-products"
-            node["name"] = f"Software from {country_route_display_name(country)}"
+            display_name = country_route_display_name(country)
+            node["name"] = (
+                f"Software built in or serving {display_name}"
+                if shared_application_ids else f"Software from {display_name}"
+            )
             node["description"] = description
             node["numberOfItems"] = len(entries)
             node["itemListElement"] = entries
@@ -282,7 +284,12 @@ def country_page_html(country: str, products: list[dict], index_html: str) -> st
     )
     product_id_order = [product["id"] for product in products]
 
-    page = filtered_product_cards(index_html, product_id_order)
+    shared_application_ids = {product["id"] for product in products if product.get("marketAvailability")}
+    scoped_cards = {
+        product["id"]: re.sub(r"[ \t]+\n", "\n", card(product, route_region=country))
+        for product in products if country in product.get("marketAvailability", {})
+    }
+    page = filtered_product_cards(index_html, product_id_order, scoped_cards)
     page = replace_once(
         page,
         "<title>Caribbean Software Directory | CaribbeanSaaS</title>",
@@ -381,6 +388,7 @@ def country_page_html(country: str, products: list[dict], index_html: str) -> st
         route_url=route_url,
         description=description,
         product_ids=product_id_order,
+        shared_application_ids=shared_application_ids,
     )
     return page
 

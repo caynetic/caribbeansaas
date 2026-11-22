@@ -7567,11 +7567,29 @@
         revealElements.forEach((element) => revealObserver.observe(element));
     }
 
+    // Only explicitly confirmed market availability extends the primary region.
+    const marketSummaries = new Map(productCards
+        .filter((card) => card.dataset.marketAvailability)
+        .map((card) => [card, JSON.parse(card.dataset.marketAvailability)]));
+
+    function updateMarketCopy(card, summaries, selectedRegion) {
+        const scoped = selectedRegion && summaries[selectedRegion];
+        const description = card.querySelector("[data-market-description]");
+        const connection = card.querySelector(".product-connection");
+        description.textContent = scoped || card.dataset.directoryDescription;
+        connection.textContent = scoped ? "" : card.dataset.directoryConnection;
+        connection.hidden = Boolean(scoped);
+    }
+
     function updateResults({ historyMode = "replace", focusResults = false } = {}) {
         const query = normalize(searchInput.value);
+        const selectedRegion = ROUTE_REGION || (activeRegions.size === 1 ? activeRegions.values().next().value : "");
         const matchingCards = productCards.filter((card) => {
             const matchesCategory = activeCategories.size === 0 || activeCategories.has(card.dataset.category);
-            const matchesRegion = activeRegions.size === 0 || activeRegions.has(card.dataset.country);
+            const markets = marketSummaries.get(card);
+            const matchesRegion = activeRegions.size === 0 || activeRegions.has(card.dataset.country)
+                || (markets && Object.keys(markets).some((region) => activeRegions.has(region)));
+            if (markets) updateMarketCopy(card, markets, selectedRegion);
             const searchableText = normalize(`${card.dataset.search} ${card.textContent}`);
             const matchesSearch = query === "" || searchableText.includes(query);
             return matchesCategory && matchesRegion && matchesSearch;

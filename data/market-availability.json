@@ -1,0 +1,37 @@
+{
+  "marketAvailability": {
+    "workzoom": {
+      "Bahamas": [
+        "hr",
+        "workforceManagement",
+        "talentManagement",
+        "localPayroll"
+      ],
+      "Jamaica": [
+        "hr",
+        "workforceManagement",
+        "talentManagement"
+      ],
+      "Trinidad and Tobago": [
+        "hr",
+        "workforceManagement",
+        "talentManagement"
+      ],
+      "Barbados": [
+        "hr",
+        "workforceManagement",
+        "talentManagement"
+      ],
+      "Antigua and Barbuda": [
+        "hr",
+        "workforceManagement",
+        "talentManagement"
+      ],
+      "Cayman Islands": [
+        "hr",
+        "workforceManagement",
+        "talentManagement"
+      ]
+    }
+  }
+}

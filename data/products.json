@@ -5336,7 +5336,7 @@
       "tagline": "HR, workforce management, and talent software for Caribbean employers.",
       "description": "Workzoom combines employee records, scheduling, time and attendance, and talent management. Within the Caribbean, full native payroll is available only in The Bahamas, including NIB calculations, C10 reporting, and configured bank payment files.",
       "productKind": "saas",
-      "websiteUrl": "https://www.workzoom.com/country/bahamas/",
+      "websiteUrl": "https://www.workzoom.com/caribbean/",
       "country": "Caribbean",
       "countries": [
         "Caribbean",
@@ -5352,8 +5352,8 @@
       "industry": "Human resources",
       "tags": [
         "Human resources",
-        "Payroll",
-        "Time and attendance"
+        "Workforce management",
+        "Talent management"
       ],
       "aliases": [],
       "officialAppStoreIds": [],
@@ -5367,7 +5367,7 @@
       "caribbeanConnection": "Canadian-built software serving the Caribbean. HR, workforce management, and talent tools are available in The Bahamas, Jamaica, Trinidad and Tobago, Antigua and Barbuda, Barbados, Anguilla, and the Cayman Islands. Workzoom documents Bahamas payroll use by Cable Bahamas.",
       "connectionType": "market",
       "publishedAt": "2026-11-20",
-      "updatedAt": "2026-11-20",
+      "updatedAt": "2026-11-22",
       "logoBackground": "#FFFFFF"
     }
   ]

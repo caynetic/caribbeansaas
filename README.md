@@ -52,6 +52,7 @@ generated bundle.
 | Path | Purpose |
 | --- | --- |
 | [`data/products.json`](data/products.json) | Public catalog records, metadata, and available hosted logo URLs |
+| [`data/market-availability.json`](data/market-availability.json) | Optional verified market capabilities, keyed by listing ID |
 | [`index.html`](index.html) | Searchable directory with six matching records per page |
 | [`open-data.html`](open-data.html) | Complete catalog as formatted JSON, with copy and download controls |
 | [`scripts/build_public_site.py`](scripts/build_public_site.py) | Generate pages, compile CSS, and assemble `dist/` |
@@ -59,8 +60,10 @@ generated bundle.
 | [`styles/tailwind.css`](styles/tailwind.css) | Source for the compiled utility stylesheet |
 | [`assets/`](assets/) | Public artwork, scripts, styles, and locally served fonts |
 
-Primary countries represented in the catalog receive root files such as
-`bahamas.html`, served canonically by Cloudflare Pages at `/bahamas`. Fonts are
+Primary countries and explicitly verified secondary availability markets receive
+root files such as `bahamas.html`, served canonically by Cloudflare Pages at
+`/bahamas`. An opt-in `marketAvailability` record adds browse regions without
+creating duplicate listings or changing the primary region. Fonts are
 served locally with their OFL licenses in `assets/fonts/`; the hero uses
 responsive WebP variants of the existing brand artwork.
 
