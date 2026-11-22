@@ -1799,7 +1799,10 @@
       "websiteUrl": "https://www.hrhubpro.com/",
       "country": "Cayman Islands",
       "countries": [
-        "Cayman Islands"
+        "Cayman Islands",
+        "Jamaica",
+        "Barbados",
+        "Bahamas"
       ],
       "category": "Productivity",
       "industry": "Business operations",
@@ -1816,10 +1819,10 @@
       "screenshotUrls": [],
       "companyName": "HR HUB",
       "founderNames": [],
-      "caribbeanConnection": "Payroll software with a Cayman Islands operator address and Caribbean payroll support.",
+      "caribbeanConnection": "Cayman Islands operator. The vendor lists full payroll compliance rules for the Cayman Islands, Jamaica, and Barbados, and partial rules for The Bahamas. Partial rules are not full local payroll support.",
       "connectionType": "origin",
       "publishedAt": "2026-09-07",
-      "updatedAt": "2026-09-07",
+      "updatedAt": "2026-11-22",
       "logoBackground": "#F4F7F8"
     },
     {
@@ -3732,7 +3735,8 @@
         "Jamaica",
         "Barbados",
         "Trinidad and Tobago",
-        "Turks and Caicos Islands"
+        "Turks and Caicos Islands",
+        "Saint Lucia"
       ],
       "category": "Productivity",
       "industry": "Human resources",
@@ -3748,9 +3752,9 @@
       "screenshotUrls": [],
       "companyName": "TriblockHR",
       "founderNames": [],
-      "caribbeanConnection": "Designed in Nassau and built for HR and payroll compliance across Caribbean territories.",
+      "caribbeanConnection": "Designed in Nassau. TriblockHR documents separate statutory payroll engines and filings for The Bahamas, Jamaica, Barbados, Trinidad and Tobago, Turks and Caicos Islands, and Saint Lucia. Saint Lucia filings include Form C3 and P30.",
       "publishedAt": "2026-07-02",
-      "updatedAt": "2026-07-06",
+      "updatedAt": "2026-11-22",
       "aliases": []
     },
     {
@@ -4316,9 +4320,9 @@
       "connectionType": "market",
       "companyName": null,
       "founderNames": [],
-      "caribbeanConnection": "Designed for named Caribbean markets.",
+      "caribbeanConnection": "NeoPeople documents local PAYE, social insurance reporting, and bank payment files for Belize and Barbados. It lists Antigua and Barbuda and Grenada as markets it serves, but does not specify the same local payroll features for them.",
       "publishedAt": "2026-09-21",
-      "updatedAt": "2026-09-21"
+      "updatedAt": "2026-11-22"
     },
     {
       "id": "stolenwatchtt",
@@ -4579,9 +4583,9 @@
       "connectionType": "market",
       "companyName": "SystemAid Caribbean Ltd.",
       "founderNames": [],
-      "caribbeanConnection": "Its official statutory matrix names support for Trinidad and Tobago, Jamaica, Barbados, Guyana, Antigua and Barbuda, Saint Lucia, Saint Vincent and the Grenadines, Grenada, and Dominica.",
+      "caribbeanConnection": "SystemAid documents country-specific statutory payroll modules for Trinidad and Tobago, Jamaica, Barbados, Guyana, Antigua and Barbuda, Saint Lucia, Saint Vincent and the Grenadines, Grenada, and Dominica.",
       "publishedAt": "2026-09-27",
-      "updatedAt": "2026-09-27"
+      "updatedAt": "2026-11-22"
     },
     {
       "id": "karuk-ia-solution-pharmacie",

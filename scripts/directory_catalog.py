@@ -33,7 +33,12 @@ MARKET_CAPABILITIES = {
     'hr': 'HR',
     'workforceManagement': 'workforce management',
     'talentManagement': 'talent management',
-    'localPayroll': 'local payroll',
+}
+PAYROLL_SUMMARIES = {
+    'localPayroll': 'Local payroll is available in {place}.',
+    'statutoryPayroll': 'The vendor documents local statutory payroll and filing workflows for {place}.',
+    'vendorFullPayrollRules': 'The vendor lists full payroll compliance rules for {place}.',
+    'vendorPartialPayrollRules': 'The vendor lists partial payroll compliance rules for {place}, not full local payroll support.',
 }
 
 def attach_market_availability(products, config):
@@ -86,23 +91,28 @@ def listing_regions(product):
         if region == 'Caribbean' or region not in (product.get('countries') or []):
             raise ValueError(f'{product["id"]}: market is not a specific catalog country: {region}')
         if (not isinstance(capabilities, list) or not capabilities
-                or any(not isinstance(value, str) or value not in MARKET_CAPABILITIES for value in capabilities)
-                or len(set(capabilities)) != len(capabilities)):
+                or any(not isinstance(value, str) or value not in MARKET_CAPABILITIES and value not in PAYROLL_SUMMARIES for value in capabilities)
+                or len(set(capabilities)) != len(capabilities)
+                or len(set(capabilities) & PAYROLL_SUMMARIES.keys()) > 1):
             raise ValueError(f'{product["id"]}: invalid market capabilities for {region}')
     return tuple(dict.fromkeys((primary, *markets)))
 
 def market_summaries(product):
     summaries = {}
     for region, capabilities in product.get('marketAvailability', {}).items():
-        names = [MARKET_CAPABILITIES[key] for key in capabilities if key != 'localPayroll']
+        names = [MARKET_CAPABILITIES[key] for key in capabilities if key in MARKET_CAPABILITIES]
         place = country_route_display_name(region)
         if len(names) > 2:
             names = [', '.join(names[:-1]) + ', and ' + names[-1]]
         labels = ' and '.join(names)
         labels = labels[:1].upper() + labels[1:]
         summary = f'{labels} tools are available in {place}.' if labels else ''
-        if 'localPayroll' in capabilities:
-            summary += f' Local payroll is also available in {place}.' if labels else f'Local payroll is available in {place}.'
+        payroll = next((key for key in capabilities if key in PAYROLL_SUMMARIES), None)
+        if payroll:
+            payroll_text = PAYROLL_SUMMARIES[payroll].format(place=place)
+            if payroll == 'localPayroll' and summary:
+                payroll_text = f'Local payroll is also available in {place}.'
+            summary = f'{summary} {payroll_text}'.strip()
         summaries[region] = summary
     return summaries
 

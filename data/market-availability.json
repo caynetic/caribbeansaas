@@ -32,6 +32,93 @@
         "workforceManagement",
         "talentManagement"
       ]
+    },
+    "triblockhr": {
+      "Bahamas": [
+        "hr",
+        "workforceManagement",
+        "statutoryPayroll"
+      ],
+      "Jamaica": [
+        "hr",
+        "workforceManagement",
+        "statutoryPayroll"
+      ],
+      "Barbados": [
+        "hr",
+        "workforceManagement",
+        "statutoryPayroll"
+      ],
+      "Trinidad and Tobago": [
+        "hr",
+        "workforceManagement",
+        "statutoryPayroll"
+      ],
+      "Turks and Caicos Islands": [
+        "hr",
+        "workforceManagement",
+        "statutoryPayroll"
+      ],
+      "Saint Lucia": [
+        "hr",
+        "workforceManagement",
+        "statutoryPayroll"
+      ]
+    },
+    "hr-hub-pro": {
+      "Cayman Islands": [
+        "vendorFullPayrollRules"
+      ],
+      "Jamaica": [
+        "vendorFullPayrollRules"
+      ],
+      "Barbados": [
+        "vendorFullPayrollRules"
+      ],
+      "Bahamas": [
+        "vendorPartialPayrollRules"
+      ]
+    },
+    "caribbean-erp": {
+      "Trinidad and Tobago": [
+          "statutoryPayroll"
+      ],
+      "Jamaica": [
+          "statutoryPayroll"
+      ],
+      "Barbados": [
+          "statutoryPayroll"
+      ],
+      "Guyana": [
+          "statutoryPayroll"
+      ],
+      "Antigua and Barbuda": [
+          "statutoryPayroll"
+      ],
+      "Saint Lucia": [
+          "statutoryPayroll"
+      ],
+      "Saint Vincent and the Grenadines": [
+          "statutoryPayroll"
+      ],
+      "Grenada": [
+          "statutoryPayroll"
+      ],
+      "Dominica": [
+          "statutoryPayroll"
+      ]
+    },
+    "neopeople": {
+      "Belize": [
+        "hr",
+        "workforceManagement",
+        "statutoryPayroll"
+      ],
+      "Barbados": [
+        "hr",
+        "workforceManagement",
+        "statutoryPayroll"
+      ]
     }
   }
 }
