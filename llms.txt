@@ -7,6 +7,7 @@ CaribbeanSaaS helps people find Caribbean SaaS products, AI tools, fintech platf
 ## Public pages
 
 - [Home](https://caribbeansaas.com/)
+- [Caribbean-made games](https://caribbeansaas.com/games)
 - [The Bahamas directory](https://caribbeansaas.com/bahamas)
 - [Curation](https://caribbeansaas.com/curation.html)
 - [Open data explorer](https://caribbeansaas.com/open-data.html)

@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "games": [
+    {
+      "id": "duppy-detective-tashia",
+      "name": "Duppy Detective Tashia",
+      "developer": "Spritewrench",
+      "origin": "Jamaica",
+      "originSource": "https://store.steampowered.com/publisher/Spritewrench?v1=1",
+      "status": "released",
+      "description": "Investigate a supernatural mystery in a point-and-click adventure inspired by Jamaican folklore.",
+      "links": [
+        {
+          "platform": "Steam",
+          "label": "View on Steam",
+          "url": "https://store.steampowered.com/app/1958800/"
+        }
+      ]
+    },
+    {
+      "id": "sunken-stones",
+      "name": "Sunken Stones",
+      "developer": "Spritewrench",
+      "origin": "Jamaica",
+      "originSource": "https://store.steampowered.com/publisher/Spritewrench?v1=1",
+      "status": "released",
+      "description": "A turn-based strategy puzzler where you maneuver a pirate crew around a compact grid and plan each move.",
+      "links": [
+        {
+          "platform": "Steam",
+          "label": "View on Steam",
+          "url": "https://store.steampowered.com/app/2601810/Sunken_Stones/"
+        }
+      ]
+    },
+    {
+      "id": "socks",
+      "name": "Socks!",
+      "developer": "Twindie Games (published by Accent Game Studios)",
+      "origin": "Trinidad and Tobago",
+      "originSource": "https://www.accentgamestudios.com/",
+      "status": "released",
+      "description": "Pair socks and combine bundles before your basket fills in this physics-based puzzle game.",
+      "links": [
+        {
+          "platform": "Steam",
+          "label": "View on Steam",
+          "url": "https://store.steampowered.com/app/4299760/"
+        }
+      ]
+    },
+    {
+      "id": "the-bunny-graveyard",
+      "name": "The Bunny Graveyard",
+      "developer": "Pichon Games",
+      "origin": "Puerto Rico",
+      "originSource": "https://www.pichongames.com/about",
+      "status": "released",
+      "description": "A pixel-art horror adventure about a bunny searching for the truth behind her world.",
+      "links": [
+        {
+          "platform": "Steam",
+          "label": "View on Steam",
+          "url": "https://store.steampowered.com/app/1892420/"
+        }
+      ]
+    },
+    {
+      "id": "the-beaver-hero",
+      "name": "The Beaver Hero Full Edition",
+      "developer": "Platano Team",
+      "origin": "Puerto Rico",
+      "originSource": "https://www.platanoteam.com/",
+      "status": "released",
+      "description": "Repair a dam across 36 arcade levels. The itch.io page offers Android and labels its Windows version Early Access.",
+      "links": [
+        {
+          "platform": "itch.io",
+          "label": "View on itch.io",
+          "url": "https://platanoteam.itch.io/the-beaver-hero-full-edition"
+        }
+      ]
+    },
+    {
+      "id": "ramajay-riddim-rabbit",
+      "name": "Ramajay! Riddim Rabbit",
+      "developer": "Accent Game Studios",
+      "origin": "Trinidad and Tobago",
+      "originSource": "https://www.accentgamestudios.com/",
+      "status": "early-access",
+      "description": "Lead a rabbit band and play original steelpan tracks in a rhythm game inspired by Caribbean music.",
+      "links": [
+        {
+          "platform": "Steam",
+          "label": "View Early Access on Steam",
+          "url": "https://store.steampowered.com/app/4676580/"
+        }
+      ]
+    },
+    {
+      "id": "aliens-in-paradise",
+      "name": "Aliens In Paradise",
+      "developer": "CyberFOX Game Studio",
+      "origin": "The Bahamas",
+      "originSource": "https://cyberfoxgamestudio.com/",
+      "status": "coming-soon",
+      "description": "An arcade-style shoot ’em up about an alien invasion of The Bahamas. A public release isn’t available yet.",
+      "links": [
+        {
+          "platform": "Steam",
+          "label": "View wishlist page on Steam",
+          "url": "https://store.steampowered.com/app/1510250/Aliens_In_Paradise/"
+        }
+      ]
+    }
+  ]
+}

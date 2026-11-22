@@ -34,6 +34,7 @@ SITEMAP = ROOT / "sitemap.xml"
 LASTMOD = date.today().isoformat()
 GENERATED_ROUTE_DIRS = ("category", "products", "software")
 PUBLIC_SUPPORT_PAGES = (
+    ("games", "0.7"),
     ("curation.html", "0.6"),
     ("open-data.html", "0.5"),
     ("privacy.html", "0.3"),

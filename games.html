@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Caribbean-Made Games | CaribbeanSaaS</title>
+<meta name="description" content="Discover video games made by Caribbean developers. Browse independent studios, documented origins, and official places to play or buy."/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="CaribbeanSaaS"/>
+<meta property="og:title" content="Caribbean-Made Games | CaribbeanSaaS"/>
+<meta property="og:description" content="Discover video games made by Caribbean developers and find official places to play or buy."/>
+<meta property="og:url" content="https://caribbeansaas.com/games"/>
+<link rel="canonical" href="https://caribbeansaas.com/games"/>
+<link rel="icon" href="/assets/brand/favicon-centered.ico" sizes="any"/>
+<link rel="manifest" href="/site.webmanifest"/>
+<link rel="stylesheet" href="/assets/styles/utilities.css"/>
+<style>
+    :root { color-scheme: dark; --base: #0B0F12; --surface: #11191D; --primary: #F4F7F8; --muted: #B4C1C7; --sea: #00C2D7; --reef: #2ED6A3; --sunset: #FF7A59; --line: #2B3A41; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--base); color: var(--primary); font-family: Geist, ui-sans-serif, system-ui, sans-serif; }
+    a:focus-visible { outline: 2px solid var(--sea); outline-offset: 4px; }
+    .games-wrap { max-width: 1120px; width: 100%; margin: 0 auto; padding-inline: clamp(16px, 5vw, 40px); }
+    .games-header { border-bottom: 1px solid var(--line); }
+    .games-header .games-wrap { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 8px 24px; flex-wrap: wrap; padding-block: 10px; }
+    .games-brand { font-size: .9rem; text-transform: uppercase; letter-spacing: .15em; font-weight: 800; }
+    .games-brand span { color: var(--sunset); }
+    .games-nav { display: flex; align-items: center; gap: 4px 18px; flex-wrap: wrap; }
+    .games-nav a { min-height: 44px; display: inline-flex; align-items: center; }
+    .games-nav a:hover { color: var(--sea); }
+    .games-nav a[aria-current="page"] { color: var(--sea); text-decoration: underline; text-underline-offset: .4em; }
+    .games-main { padding-bottom: 72px; }
+    .games-hero { margin-top: clamp(24px, 5vw, 58px); padding: clamp(24px, 6vw, 62px); display: grid; gap: 20px; border: 1px solid var(--line); background: radial-gradient(ellipse at top right, #12313A 0%, transparent 64%), var(--surface); }
+    .games-eyebrow { color: var(--reef); font-weight: 750; font-size: .7rem; line-height: 1.4; letter-spacing: .23em; text-transform: uppercase; }
+    .games-hero h1 { margin: 0; max-width: 12ch; font-family: "Space Grotesk", Geist, ui-sans-serif, system-ui, sans-serif; font-size: clamp(2rem, 7vw, 4.5rem); line-height: .98; font-weight: 750; letter-spacing: -.048em; }
+    .games-hero p:not(.games-eyebrow) { margin: 0; color: var(--muted); line-height: 1.6; max-width: 55ch; }
+    .games-catalog { margin-top: 42px; }
+    .games-catalog h2 { font-size: 1.25rem; font-weight: 700; }
+    .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)); align-items: stretch; gap: 14px; margin-top: 16px; }
+    .game-card { display: flex; flex-direction: column; min-width: 0; gap: 12px; padding: clamp(18px, 2.5vw, 25px); border-top: 2px solid var(--sea); background: var(--surface); outline: 1px solid var(--line); outline-offset: -1px; }
+    .game-card:nth-child(3n+2) { border-top-color: var(--reef); }
+    .game-card:nth-child(3n+3) { border-top-color: var(--sunset); }
+    .game-card h3 { margin: 0; font-size: 1.22rem; font-weight: 720; overflow-wrap: anywhere; }
+    .game-badges { display: flex; flex-wrap: wrap; gap: 7px; }
+    .game-badge { color: var(--reef); background: #15302A; border: 1px solid #29594E; border-radius: 3px; padding: 3px 7px; font-size: .68rem; letter-spacing: .06em; font-weight: 700; }
+    .game-badge.platform { color: var(--muted); background: #152127; border-color: var(--line); }
+    .game-byline, .game-description { margin: 0; color: var(--muted); line-height: 1.55; }
+    .game-byline { font-size: .82rem; }
+    .game-description { font-size: .91rem; margin-bottom: 4px; }
+    .game-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+    .game-action { min-height: 44px; padding: 8px 12px; display: inline-flex; align-items: center; border: 1px solid #3A6870; color: var(--sea); font-weight: 700; font-size: .8rem; }
+    .game-action:hover { border-color: var(--sea); color: var(--primary); }
+    .games-note { margin-top: 40px; max-width: 70ch; font-size: .87rem; color: var(--muted); line-height: 1.65; }
+    .games-note a { display: inline-flex; align-items: center; min-height: 44px; color: var(--sea); text-decoration: underline; text-underline-offset: .24em; }
+    .games-footer { border-top: 1px solid var(--line); padding-block: 18px 24px; color: var(--muted); font-size: .83rem; }
+    .games-skip { position: absolute; left: 16px; top: -90px; background: var(--base); color: var(--primary); padding: 12px; z-index: 1; }
+    .games-skip:focus { top: 12px; }
+    @media (max-width: 420px) { .games-header .games-wrap { column-gap: 38px; } }
+</style>
+</head>
+<body>
+<a class="games-skip" href="#games-heading">Skip to games</a>
+<header class="games-header">
+    <div class="games-wrap">
+        <a class="games-brand" href="/" aria-label="CaribbeanSaaS home">Caribbean<span>SaaS</span></a>
+        <nav class="games-nav" aria-label="Primary navigation">
+            <a href="/#directory">Software directory</a>
+            <a href="/games" aria-current="page">Games</a>
+        </nav>
+    </div>
+</header>
+<main class="games-wrap games-main">
+    <section class="games-hero" aria-labelledby="games-title">
+        <p class="games-eyebrow">Caribbean creators · video games</p>
+        <h1 id="games-title">Caribbean-made games</h1>
+        <p>Discover games made by Caribbean developers. Find the people behind each game, where it was made, and the official places to play.</p>
+    </section>
+    <section class="games-catalog" aria-labelledby="games-heading">
+        <h2 id="games-heading" tabindex="-1">Browse games</h2>
+        <div class="games-grid">
+            <!-- GAME_CARDS_START -->
+            <article class="game-card" id="duppy-detective-tashia" aria-labelledby="game-duppy-detective-tashia">
+                <div class="game-badges"><span class="game-badge">Released</span><span class="game-badge platform">Steam</span></div>
+                <h3 id="game-duppy-detective-tashia">Duppy Detective Tashia</h3>
+                <p class="game-byline">Spritewrench · Jamaica</p>
+                <p class="game-description">Investigate a supernatural mystery in a point-and-click adventure inspired by Jamaican folklore.</p>
+                <div class="game-actions"><a class="game-action" href="https://store.steampowered.com/app/1958800/" aria-label="View on Steam: Duppy Detective Tashia">View on Steam</a></div>
+            </article>
+            <article class="game-card" id="sunken-stones" aria-labelledby="game-sunken-stones">
+                <div class="game-badges"><span class="game-badge">Released</span><span class="game-badge platform">Steam</span></div>
+                <h3 id="game-sunken-stones">Sunken Stones</h3>
+                <p class="game-byline">Spritewrench · Jamaica</p>
+                <p class="game-description">A turn-based strategy puzzler where you maneuver a pirate crew around a compact grid and plan each move.</p>
+                <div class="game-actions"><a class="game-action" href="https://store.steampowered.com/app/2601810/Sunken_Stones/" aria-label="View on Steam: Sunken Stones">View on Steam</a></div>
+            </article>
+            <article class="game-card" id="socks" aria-labelledby="game-socks">
+                <div class="game-badges"><span class="game-badge">Released</span><span class="game-badge platform">Steam</span></div>
+                <h3 id="game-socks">Socks!</h3>
+                <p class="game-byline">Twindie Games (published by Accent Game Studios) · Trinidad and Tobago</p>
+                <p class="game-description">Pair socks and combine bundles before your basket fills in this physics-based puzzle game.</p>
+                <div class="game-actions"><a class="game-action" href="https://store.steampowered.com/app/4299760/" aria-label="View on Steam: Socks!">View on Steam</a></div>
+            </article>
+            <article class="game-card" id="the-bunny-graveyard" aria-labelledby="game-the-bunny-graveyard">
+                <div class="game-badges"><span class="game-badge">Released</span><span class="game-badge platform">Steam</span></div>
+                <h3 id="game-the-bunny-graveyard">The Bunny Graveyard</h3>
+                <p class="game-byline">Pichon Games · Puerto Rico</p>
+                <p class="game-description">A pixel-art horror adventure about a bunny searching for the truth behind her world.</p>
+                <div class="game-actions"><a class="game-action" href="https://store.steampowered.com/app/1892420/" aria-label="View on Steam: The Bunny Graveyard">View on Steam</a></div>
+            </article>
+            <article class="game-card" id="the-beaver-hero" aria-labelledby="game-the-beaver-hero">
+                <div class="game-badges"><span class="game-badge">Released</span><span class="game-badge platform">itch.io</span></div>
+                <h3 id="game-the-beaver-hero">The Beaver Hero Full Edition</h3>
+                <p class="game-byline">Platano Team · Puerto Rico</p>
+                <p class="game-description">Repair a dam across 36 arcade levels. The itch.io page offers Android and labels its Windows version Early Access.</p>
+                <div class="game-actions"><a class="game-action" href="https://platanoteam.itch.io/the-beaver-hero-full-edition" aria-label="View on itch.io: The Beaver Hero Full Edition">View on itch.io</a></div>
+            </article>
+            <article class="game-card" id="ramajay-riddim-rabbit" aria-labelledby="game-ramajay-riddim-rabbit">
+                <div class="game-badges"><span class="game-badge">Early access</span><span class="game-badge platform">Steam</span></div>
+                <h3 id="game-ramajay-riddim-rabbit">Ramajay! Riddim Rabbit</h3>
+                <p class="game-byline">Accent Game Studios · Trinidad and Tobago</p>
+                <p class="game-description">Lead a rabbit band and play original steelpan tracks in a rhythm game inspired by Caribbean music.</p>
+                <div class="game-actions"><a class="game-action" href="https://store.steampowered.com/app/4676580/" aria-label="View Early Access on Steam: Ramajay! Riddim Rabbit">View Early Access on Steam</a></div>
+            </article>
+            <article class="game-card" id="aliens-in-paradise" aria-labelledby="game-aliens-in-paradise">
+                <div class="game-badges"><span class="game-badge">Coming soon</span><span class="game-badge platform">Steam</span></div>
+                <h3 id="game-aliens-in-paradise">Aliens In Paradise</h3>
+                <p class="game-byline">CyberFOX Game Studio · The Bahamas</p>
+                <p class="game-description">An arcade-style shoot ’em up about an alien invasion of The Bahamas. A public release isn’t available yet.</p>
+                <div class="game-actions"><a class="game-action" href="https://store.steampowered.com/app/1510250/Aliens_In_Paradise/" aria-label="View wishlist page on Steam: Aliens In Paradise">View wishlist page on Steam</a></div>
+            </article>
+            <!-- GAME_CARDS_END -->
+        </div>
+        <p class="games-note">This is a curated list for discovery, not a ranking or marketplace. A game’s Caribbean setting alone does not qualify it for this section.<br/><a href="mailto:hello@caribbeansaas.com?subject=Caribbean-made%20game%20suggestion">Suggest a game</a></p>
+    </section>
+</main>
+<footer class="games-footer">
+    <div class="games-wrap">Part of <a class="games-brand" href="/">Caribbean<span>SaaS</span></a>. Games are listed separately from business software.</div>
+</footer>
+</body>
+</html>

@@ -4,6 +4,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
+from generate_games_page import render_games_page
 from generate_seo_pages import catalog_products, main as generate_public_pages
 from directory_catalog import listing_regions
 from site_config import country_route_slug
@@ -13,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
 PUBLIC_ROOT_FILES = (
     "index.html",
+    "games.html",
     "404.html",
     "curation.html",
     "open-data.html",
@@ -55,6 +57,7 @@ def require_directory(relative_path: str) -> Path:
 
 
 def main() -> None:
+    render_games_page()
     generate_public_pages()
     subprocess.run(["npm", "run", "build:css"], cwd=ROOT, check=True)
 
