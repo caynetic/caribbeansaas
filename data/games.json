@@ -15,7 +15,14 @@
           "label": "View on Steam",
           "url": "https://store.steampowered.com/app/1958800/"
         }
-      ]
+      ],
+      "icon": {
+        "kind": "logo",
+        "width": 192,
+        "height": 83,
+        "sourcePage": "https://spritewrench.com/DDT/presskit/",
+        "sourceAsset": "https://spritewrench.com/DDT/presskit/images/logo.png"
+      }
     },
     {
       "id": "sunken-stones",
@@ -31,7 +38,14 @@
           "label": "View on Steam",
           "url": "https://store.steampowered.com/app/2601810/Sunken_Stones/"
         }
-      ]
+      ],
+      "icon": {
+        "kind": "logo",
+        "width": 192,
+        "height": 108,
+        "sourcePage": "https://spritewrench.com/SunkenStones/presskit/",
+        "sourceAsset": "https://spritewrench.com/SunkenStones/presskit/images/logo.png"
+      }
     },
     {
       "id": "socks",
@@ -47,7 +61,14 @@
           "label": "View on Steam",
           "url": "https://store.steampowered.com/app/4299760/"
         }
-      ]
+      ],
+      "icon": {
+        "kind": "logo",
+        "width": 192,
+        "height": 77,
+        "sourcePage": "https://www.accentgamestudios.com/",
+        "sourceAsset": "https://www.accentgamestudios.com/socks%20logo.png"
+      }
     },
     {
       "id": "the-bunny-graveyard",
@@ -63,7 +84,14 @@
           "label": "View on Steam",
           "url": "https://store.steampowered.com/app/1892420/"
         }
-      ]
+      ],
+      "icon": {
+        "kind": "logo",
+        "width": 192,
+        "height": 163,
+        "sourcePage": "https://www.pichongames.com/tbg-presskit",
+        "sourceAsset": "https://static.wixstatic.com/media/ade7a8_59c180d5a2144755a5e5d636e8b6ac1a~mv2.png"
+      }
     },
     {
       "id": "the-beaver-hero",
@@ -79,7 +107,14 @@
           "label": "View on itch.io",
           "url": "https://platanoteam.itch.io/the-beaver-hero-full-edition"
         }
-      ]
+      ],
+      "icon": {
+        "kind": "cover-art",
+        "width": 192,
+        "height": 153,
+        "sourcePage": "https://platanoteam.itch.io/the-beaver-hero-full-edition",
+        "sourceAsset": "https://img.itch.zone/aW1nLzU4MzI2MDUucG5n/original/9K1aVa.png"
+      }
     },
     {
       "id": "ramajay-riddim-rabbit",
@@ -95,7 +130,14 @@
           "label": "View Early Access on Steam",
           "url": "https://store.steampowered.com/app/4676580/"
         }
-      ]
+      ],
+      "icon": {
+        "kind": "logo",
+        "width": 192,
+        "height": 76,
+        "sourcePage": "https://www.accentgamestudios.com/",
+        "sourceAsset": "https://www.accentgamestudios.com/riddim-rabbit-logo.png"
+      }
     },
     {
       "id": "aliens-in-paradise",
@@ -111,7 +153,36 @@
           "label": "View wishlist page on Steam",
           "url": "https://store.steampowered.com/app/1510250/Aliens_In_Paradise/"
         }
-      ]
+      ],
+      "icon": {
+        "kind": "cover-art",
+        "width": 192,
+        "height": 192,
+        "sourcePage": "https://cyberfoxgamestudio.com/uncategorized/aliens-paradise/",
+        "sourceAsset": "https://cyberfoxgamestudio.com/wp-content/uploads/2025/01/aip-300x300.png"
+      }
+    },
+    {
+      "id": "hold-ya-man",
+      "name": "Hold Ya Man",
+      "developer": "Caynetic Ltd.",
+      "origin": "The Bahamas",
+      "originSource": "https://testflight.apple.com/join/fCUA3ZHA",
+      "status": "testflight-beta",
+      "description": "A Bahamian dominoes game. The iOS preview is available through Apple TestFlight, not the App Store.",
+      "links": [
+        {
+          "platform": "iOS",
+          "label": "View beta in TestFlight",
+          "url": "https://testflight.apple.com/join/fCUA3ZHA"
+        }
+      ],
+      "icon": {
+        "kind": "app-icon",
+        "width": 192,
+        "height": 192,
+        "sourcePage": "https://testflight.apple.com/join/fCUA3ZHA"
+      }
     }
   ]
 }

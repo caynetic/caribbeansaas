@@ -75,6 +75,16 @@ records, research, audits, agent configuration, optional discovery material,
 and credentials stay outside it. The README illustrations in `readme-assets/`
 are excluded from the website bundle.
 
+## Game artwork
+
+The [Games directory](https://caribbeansaas.com/games) has a separate catalog in
+[data/games.json](data/games.json). Game thumbnails identify the listed titles and
+are sourced from developer press kits, official studio promotions, or the
+developer’s storefront listing. The catalog records the source and whether a tile
+is a game logo, promotional cover, or app icon. Hold Ya Man’s thumbnail uses
+Caynetic’s original iOS app icon. No unofficial artwork or studio marks are used as
+substitutes. Where a suitable title image is not verified, the listing uses initials.
+
 ## Suggest a product or correction
 
 Use the [Get listed section](https://caribbeansaas.com/#submit) for the current

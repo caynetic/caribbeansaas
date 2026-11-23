@@ -8,7 +8,7 @@ from urllib.parse import urlsplit
 from directory_catalog import flag, replace_between
 
 ROOT = Path(__file__).resolve().parents[1]
-STATUSES = {"released": "Released", "early-access": "Early access", "demo": "Playable demo", "coming-soon": "Coming soon"}
+STATUSES = {"released": "Released", "early-access": "Early access", "demo": "Playable demo", "coming-soon": "Coming soon", "testflight-beta": "TestFlight Beta"}
 RECORD_FIELDS = {"id", "name", "developer", "origin", "originSource", "status", "description", "links"}
 FIELD_LENGTHS = {"name": 100, "developer": 110, "origin": 65, "description": 320}
 
@@ -27,7 +27,7 @@ def load_games():
         raise ValueError("At least one verified game is required")
     ids = set()
     for game in games:
-        if set(game) != RECORD_FIELDS:
+        if set(game) - {"icon"} != RECORD_FIELDS:
             raise ValueError("Incomplete or unknown games record fields")
         game_id = game["id"]
         if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", game_id) or game_id in ids:
@@ -49,12 +49,33 @@ def load_games():
             if set(link) != {"platform", "label", "url"} or any(not isinstance(v, str) or not v.strip() for v in link.values()):
                 raise ValueError(f"{game_id}: bad official listing metadata")
             https(link["url"])
+        if "icon" in game:
+            icon = game["icon"]
+            keys = {"kind", "width", "height", "sourcePage"}
+            if not isinstance(icon, dict) or set(icon) - {"sourceAsset"} != keys:
+                raise ValueError(f"{game_id}: bad icon metadata")
+            if icon["kind"] not in {"logo", "cover-art", "app-icon"} or any(
+                type(icon[side]) is not int or not 1 <= icon[side] <= 512 for side in ("width", "height")
+            ):
+                raise ValueError(f"{game_id}: bad icon type or dimensions")
+            https(icon["sourcePage"])
+            if "sourceAsset" in icon:
+                https(icon["sourceAsset"])
+            image = ROOT / f"assets/games/icons/{game_id}.webp"
+            if not image.is_file():
+                raise ValueError(f"{game_id}: missing local WebP artwork")
     return games
 
 
 def card(game):
     title = escape(game["name"])
     initials = escape("".join(word[0] for word in game["name"].split()[:2]).upper())
+    media = f'<div class="product-logo logo-sea" aria-hidden="true"><span>{initials}</span></div>'
+    if (icon := game.get("icon")) is not None:
+        media = (
+            f'<img class="product-logo game-logo-image" src="/assets/games/icons/{game["id"]}.webp"'
+            f' alt="" width="{icon["width"]}" height="{icon["height"]}" loading="lazy" decoding="async"/>'
+        )
     links = game["links"]
     platforms = list(dict.fromkeys(link["platform"] for link in links))
     tags = "".join(f'<span class="product-tag">{escape(platform)}</span>' for platform in platforms)
@@ -65,7 +86,7 @@ def card(game):
     origin = game["origin"]
     origin_flag = flag("Bahamas" if origin == "The Bahamas" else origin)
     return f'''            <article class="game-card product-card spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" id="{game["id"]}" aria-labelledby="game-{game["id"]}">
-                <div class="product-media"><div class="product-logo logo-sea" aria-hidden="true"><span>{initials}</span></div></div>
+                <div class="product-media">{media}</div>
                 <h3 id="game-{game["id"]}" class="mt-4 text-base font-bold uppercase tracking-[0.16em] text-white">{title}</h3>
                 <p class="mt-4 text-xs italic leading-6 text-white/60">{escape(game["description"])}</p>
                 <div class="product-tags"><span class="directory-stage">{STATUSES[game["status"]]}</span>{tags}</div>
