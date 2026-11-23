@@ -13,127 +13,372 @@
 <link rel="canonical" href="https://caribbeansaas.com/games"/>
 <link rel="icon" href="/assets/brand/favicon-centered.ico" sizes="any"/>
 <link rel="manifest" href="/site.webmanifest"/>
+<link rel="preload" href="/assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin=""/>
+<link rel="preload" href="/assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin=""/>
 <link rel="stylesheet" href="/assets/styles/utilities.css"/>
 <style>
-    :root { color-scheme: dark; --base: #0B0F12; --surface: #11191D; --primary: #F4F7F8; --muted: #B4C1C7; --sea: #00C2D7; --reef: #2ED6A3; --sunset: #FF7A59; --line: #2B3A41; }
-    *, *::before, *::after { box-sizing: border-box; }
-    body { margin: 0; background: var(--base); color: var(--primary); font-family: Geist, ui-sans-serif, system-ui, sans-serif; }
-    a:focus-visible { outline: 2px solid var(--sea); outline-offset: 4px; }
-    .games-wrap { max-width: 1120px; width: 100%; margin: 0 auto; padding-inline: clamp(16px, 5vw, 40px); }
-    .games-header { border-bottom: 1px solid var(--line); }
-    .games-header .games-wrap { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 8px 24px; flex-wrap: wrap; padding-block: 10px; }
-    .games-brand { font-size: .9rem; text-transform: uppercase; letter-spacing: .15em; font-weight: 800; }
-    .games-brand span { color: var(--sunset); }
-    .games-nav { display: flex; align-items: center; gap: 4px 18px; flex-wrap: wrap; }
+    /* Match the software directory’s card palette, typography and layout tokens. */
+    * {
+        box-sizing: border-box;
+    }
+
+    :root {
+        --caribbean-gradient: linear-gradient(135deg, #00C2D7 0%, #2ED6A3 58%, #7FE7F2 100%);
+        --caribbean-surface-gradient: linear-gradient(135deg, rgba(18, 24, 29, 0.82), rgba(11, 15, 18, 0.86));
+        --caribbean-glow: rgba(0, 194, 215, 0.16);
+        --marketplace-orange: #FF7A59;
+        --marketplace-orange-glow: rgba(255, 122, 89, 0.16);
+    }
+
+    [class*="tracking-"] {
+        letter-spacing: 0 !important;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+    }
+
+    body {
+        position: relative;
+        isolation: isolate;
+        min-height: 100vh;
+        background:
+            radial-gradient(circle at 50% 0%, rgba(244, 247, 248, 0.045) 0%, transparent 44rem),
+            radial-gradient(circle at 18% 22%, rgba(0, 194, 215, 0.08) 0%, transparent 22rem),
+            radial-gradient(circle at 82% 14%, rgba(46, 214, 163, 0.06) 0%, transparent 18rem),
+            #0B0F12;
+        color: #F4F7F8;
+        font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
+        overflow-x: hidden;
+    }
+
+    body::before {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image:
+            radial-gradient(circle at 50% 18%, rgba(0, 194, 215, 0.12), transparent 32rem),
+            url("/assets/brand/caribbean-network-bg.svg");
+        background-position: center top, center top;
+        background-repeat: no-repeat, repeat-y;
+        background-size: 100% 100%, min(88rem, 180vw) auto;
+        content: "";
+        opacity: 0.2;
+    }
+
+    .spectral-overlay {
+        background: rgba(18, 24, 29, 0.72);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(143, 161, 170, 0.16);
+    }
+
+    .brand-wordmark {
+        display: inline-flex;
+        font-family: "Space Grotesk", "Geist", ui-sans-serif, system-ui, sans-serif;
+        font-weight: 700;
+    }
+
+    .brand-wordmark-primary {
+        color: #00C2D7;
+    }
+
+    .brand-wordmark-accent {
+        color: #FF7A59;
+    }
+
+    .product-media {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.25rem;
+        min-height: 4.75rem;
+    }
+
+    .product-card {
+        min-width: 0;
+        overflow-wrap: anywhere;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid transparent !important;
+        background: var(--caribbean-surface-gradient) padding-box, var(--caribbean-gradient) border-box;
+        box-shadow: 0 18px 54px rgba(0, 0, 0, 0.26);
+        min-height: 26.75rem;
+    }
+
+    .product-card:hover {
+        background: var(--caribbean-surface-gradient) padding-box, linear-gradient(135deg, #FF7A59 0%, #FFB085 100%) border-box;
+        box-shadow: 0 22px 70px var(--marketplace-orange-glow);
+    }
+
+    .product-card h3 {
+        display: flex;
+        min-height: 2.25rem;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product-card > p {
+        display: flex;
+        min-height: 4.5rem;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product-connection { font-size: 11px; line-height: 1.6; color: rgba(244,247,248,.58); margin: 0 0 1rem; }
+
+    .directory-stage { display: inline-flex; align-self: center; margin-top: .7rem; padding: .25rem .6rem; border: 1px solid rgba(46,214,163,.3); color: #2ED6A3; font-size: 10px; text-transform: uppercase; letter-spacing: .1em; }
+
+    .product-logo {
+        display: inline-flex;
+        width: 4.25rem;
+        height: 4.25rem;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(244, 247, 248, 0.16);
+        border-radius: 14px;
+        box-shadow: inset 0 1px 0 rgba(244, 247, 248, 0.14), 0 16px 34px rgba(0, 0, 0, 0.26);
+    }
+
+    .product-logo span {
+        font-size: 0.95rem;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .product-tags {
+        display: flex;
+        margin-top: 1.2rem;
+        margin-bottom: 1.35rem;
+        min-height: 3rem;
+        align-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.45rem;
+    }
+
+    .product-tag {
+        max-width: 100%;
+        flex-wrap: wrap;
+        display: inline-flex;
+        min-height: 1.45rem;
+        align-items: center;
+        justify-content: center;
+        appearance: none;
+        border: 1px solid rgba(0, 194, 215, 0.28);
+        background: rgba(0, 194, 215, 0.06);
+        color: rgba(244, 247, 248, 0.76);
+        font-family: inherit;
+        font-size: 0.5rem;
+        font-weight: 800;
+        line-height: 1;
+        padding: 0.34rem 0.52rem;
+        text-decoration: none;
+        text-transform: uppercase;
+        white-space: normal;
+        line-height: 1.4;
+        text-align: center;
+    }
+
+    .logo-sea {
+        background: linear-gradient(135deg, rgba(0, 194, 215, 0.26), rgba(0, 194, 215, 0.07)), #101A20;
+        color: #B9F8FF;
+    }
+
+    .product-region {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        width: 100%;
+        margin-top: auto;
+        padding-top: 1.1rem;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        border-top: 1px solid rgba(143, 161, 170, 0.15);
+        text-align: left;
+    }
+
+    .product-region-value {
+        color: rgba(244, 247, 248, 0.76);
+        text-align: right;
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.45rem;
+        width: 100%;
+        white-space: normal;
+        line-height: 1.5;
+    }
+
+    .product-region-name {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .product-region-label {
+        color: rgba(143, 161, 170, 0.72);
+    }
+
+    .region-flag {
+        display: block;
+        width: 1.5rem;
+        height: 1rem;
+        flex: 0 0 1.5rem;
+        object-fit: contain;
+    }
+
+    .focus-ring:focus-visible {
+        outline: 3px solid rgba(0, 212, 255, 0.45);
+        outline-offset: 4px;
+    }
+    :root { color-scheme: dark; }
+    .product-region-label, .product-region-value { font-size: .56rem; font-weight: 700; text-transform: uppercase; }
+    .product-tags .directory-stage { margin-top: 0; }
+    .game-actions { display: grid; gap: .5rem; }
+    .game-action { width: 100%; min-height: 2.9rem; }
+    .game-card .product-region-value { min-height: 2.75rem; }
     .games-nav a { min-height: 44px; display: inline-flex; align-items: center; }
-    .games-nav a:hover { color: var(--sea); }
-    .games-nav a[aria-current="page"] { color: var(--sea); text-decoration: underline; text-underline-offset: .4em; }
-    .games-main { padding-bottom: 72px; }
-    .games-hero { margin-top: clamp(24px, 5vw, 58px); padding: clamp(24px, 6vw, 62px); display: grid; gap: 20px; border: 1px solid var(--line); background: radial-gradient(ellipse at top right, #12313A 0%, transparent 64%), var(--surface); }
-    .games-eyebrow { color: var(--reef); font-weight: 750; font-size: .7rem; line-height: 1.4; letter-spacing: .23em; text-transform: uppercase; }
-    .games-hero h1 { margin: 0; max-width: 12ch; font-family: "Space Grotesk", Geist, ui-sans-serif, system-ui, sans-serif; font-size: clamp(2rem, 7vw, 4.5rem); line-height: .98; font-weight: 750; letter-spacing: -.048em; }
-    .games-hero p:not(.games-eyebrow) { margin: 0; color: var(--muted); line-height: 1.6; max-width: 55ch; }
-    .games-catalog { margin-top: 42px; }
-    .games-catalog h2 { font-size: 1.25rem; font-weight: 700; }
-    .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)); align-items: stretch; gap: 14px; margin-top: 16px; }
-    .game-card { display: flex; flex-direction: column; min-width: 0; gap: 12px; padding: clamp(18px, 2.5vw, 25px); border-top: 2px solid var(--sea); background: var(--surface); outline: 1px solid var(--line); outline-offset: -1px; }
-    .game-card:nth-child(3n+2) { border-top-color: var(--reef); }
-    .game-card:nth-child(3n+3) { border-top-color: var(--sunset); }
-    .game-card h3 { margin: 0; font-size: 1.22rem; font-weight: 720; overflow-wrap: anywhere; }
-    .game-badges { display: flex; flex-wrap: wrap; gap: 7px; }
-    .game-badge { color: var(--reef); background: #15302A; border: 1px solid #29594E; border-radius: 3px; padding: 3px 7px; font-size: .68rem; letter-spacing: .06em; font-weight: 700; }
-    .game-badge.platform { color: var(--muted); background: #152127; border-color: var(--line); }
-    .game-byline, .game-description { margin: 0; color: var(--muted); line-height: 1.55; }
-    .game-byline { font-size: .82rem; }
-    .game-description { font-size: .91rem; margin-bottom: 4px; }
-    .game-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
-    .game-action { min-height: 44px; padding: 8px 12px; display: inline-flex; align-items: center; border: 1px solid #3A6870; color: var(--sea); font-weight: 700; font-size: .8rem; }
-    .game-action:hover { border-color: var(--sea); color: var(--primary); }
-    .games-note { margin-top: 40px; max-width: 70ch; font-size: .87rem; color: var(--muted); line-height: 1.65; }
-    .games-note a { display: inline-flex; align-items: center; min-height: 44px; color: var(--sea); text-decoration: underline; text-underline-offset: .24em; }
-    .games-footer { border-top: 1px solid var(--line); padding-block: 18px 24px; color: var(--muted); font-size: .83rem; }
-    .games-skip { position: absolute; left: 16px; top: -90px; background: var(--base); color: var(--primary); padding: 12px; z-index: 1; }
-    .games-skip:focus { top: 12px; }
-    @media (max-width: 420px) { .games-header .games-wrap { column-gap: 38px; } }
+    .games-nav a[aria-current="page"] { color: #00C2D7; text-decoration: underline; text-underline-offset: .4em; }
+    .games-skip { position: absolute; left: 1rem; top: -6rem; z-index: 100; background: #0B0F12; color: #F4F7F8; padding: .75rem; }
+    .games-skip:focus { top: .75rem; }
+    .games-note a { min-height: 44px; }
+    @media (max-width: 639px) {
+        .games-hero h1 { width: 100%; min-width: 0; font-size: clamp(2rem, 11vw, 2.75rem); }
+        .product-card, .product-card > p, .product-tags { min-height: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .product-card, .game-action { transition: none; }
+    }
 </style>
 </head>
 <body>
-<a class="games-skip" href="#games-heading">Skip to games</a>
-<header class="games-header">
-    <div class="games-wrap">
-        <a class="games-brand" href="/" aria-label="CaribbeanSaaS home">Caribbean<span>SaaS</span></a>
-        <nav class="games-nav" aria-label="Primary navigation">
-            <a href="/#directory">Software directory</a>
-            <a href="/games" aria-current="page">Games</a>
+<a class="games-skip focus-ring" href="#games-heading">Skip to games</a>
+<header class="relative z-50 w-full border-b border-white/5 px-4 py-4 sm:px-6">
+    <div class="mx-auto flex max-w-6xl flex-col gap-3">
+        <div class="flex flex-wrap items-center justify-center gap-x-7 gap-y-2 text-center text-[10px] font-semibold uppercase text-white/50 sm:justify-between sm:text-left">
+            <a class="brand-wordmark focus-ring rounded-md" href="/" aria-label="CaribbeanSaaS home">
+                <span class="brand-wordmark-primary">Caribbean</span><span class="brand-wordmark-accent">SaaS</span>
+            </a>
+            <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+                <span class="text-sea/80">Maintained by <a class="focus-ring rounded-sm hover:text-white" href="https://caynetic.ltd" target="_blank" rel="noopener noreferrer">Caynetic Ltd.</a></span>
+                <span class="text-reef/80">For discovery</span>
+                <span class="text-sunset/85">Not a marketplace</span>
+            </div>
+        </div>
+        <nav class="games-nav flex flex-wrap items-center justify-center gap-x-7 gap-y-2 text-[10px] font-semibold uppercase text-white/50" aria-label="Primary navigation">
+            <a class="focus-ring rounded-sm hover:text-white" href="/#directory">Software directory</a>
+            <a class="focus-ring rounded-sm hover:text-white" href="/games" aria-current="page">Games</a>
         </nav>
     </div>
 </header>
-<main class="games-wrap games-main">
-    <section class="games-hero" aria-labelledby="games-title">
-        <p class="games-eyebrow">Caribbean creators · video games</p>
-        <h1 id="games-title">Caribbean-made games</h1>
-        <p>Discover games made by Caribbean developers. Find the people behind each game, where it was made, and the official places to play.</p>
+<main class="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-14 px-4 py-14 sm:gap-20 sm:px-6 sm:py-20 lg:py-24">
+    <section class="games-hero flex w-full max-w-5xl flex-col items-center px-3 text-center" aria-labelledby="games-title">
+        <img class="mb-6 h-20 w-20 object-contain sm:h-24 sm:w-24" src="/assets/brand/caribbeansaas-mark-224.webp" alt="" width="224" height="224" decoding="async"/>
+        <p class="mb-6 text-xs font-bold uppercase text-reef">Caribbean creators · video games</p>
+        <h1 id="games-title" class="max-w-3xl text-[2.75rem] font-semibold uppercase leading-[0.95] text-white sm:text-6xl md:text-7xl">Caribbean-made games</h1>
+        <p class="mt-6 max-w-xl text-sm leading-7 text-white/55">Discover games made by Caribbean developers. Find the people behind each game, where it was made, and the official places to play.</p>
     </section>
-    <section class="games-catalog" aria-labelledby="games-heading">
-        <h2 id="games-heading" tabindex="-1">Browse games</h2>
-        <div class="games-grid">
+    <section class="games-catalog flex w-full scroll-mt-24 flex-col gap-10" aria-labelledby="games-heading">
+        <div class="spectral-overlay w-full p-4 sm:p-6">
+            <h2 id="games-heading" class="focus-ring text-base font-bold uppercase text-white" tabindex="-1">Browse games</h2>
+        </div>
+        <div class="games-grid grid w-full max-w-none grid-cols-1 gap-5 self-center sm:grid-cols-2 lg:grid-cols-3">
             <!-- GAME_CARDS_START -->
-            <article class="game-card" id="duppy-detective-tashia" aria-labelledby="game-duppy-detective-tashia">
-                <div class="game-badges"><span class="game-badge">Released</span><span class="game-badge platform">Steam</span></div>
-                <h3 id="game-duppy-detective-tashia">Duppy Detective Tashia</h3>
-                <p class="game-byline">Spritewrench · Jamaica</p>
-                <p class="game-description">Investigate a supernatural mystery in a point-and-click adventure inspired by Jamaican folklore.</p>
-                <div class="game-actions"><a class="game-action" href="https://store.steampowered.com/app/1958800/" aria-label="View on Steam: Duppy Detective Tashia">View on Steam</a></div>
+            <article class="game-card product-card spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" id="duppy-detective-tashia" aria-labelledby="game-duppy-detective-tashia">
+                <div class="product-media"><div class="product-logo logo-sea" aria-hidden="true"><span>DD</span></div></div>
+                <h3 id="game-duppy-detective-tashia" class="mt-4 text-base font-bold uppercase tracking-[0.16em] text-white">Duppy Detective Tashia</h3>
+                <p class="mt-4 text-xs italic leading-6 text-white/60">Investigate a supernatural mystery in a point-and-click adventure inspired by Jamaican folklore.</p>
+                <div class="product-tags"><span class="directory-stage">Released</span><span class="product-tag">Steam</span></div>
+                <p class="product-connection">Spritewrench</p>
+                <div class="game-actions"><a class="game-action focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="https://store.steampowered.com/app/1958800/" aria-label="View on Steam: Duppy Detective Tashia">View on Steam</a></div>
+                <div class="product-region">
+                    <span class="product-region-label">Region</span>
+                    <span class="product-region-value"><img class="region-flag" src="assets/flags/jm.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="product-region-name">Jamaica</span></span>
+                </div>
             </article>
-            <article class="game-card" id="sunken-stones" aria-labelledby="game-sunken-stones">
-                <div class="game-badges"><span class="game-badge">Released</span><span class="game-badge platform">Steam</span></div>
-                <h3 id="game-sunken-stones">Sunken Stones</h3>
-                <p class="game-byline">Spritewrench · Jamaica</p>
-                <p class="game-description">A turn-based strategy puzzler where you maneuver a pirate crew around a compact grid and plan each move.</p>
-                <div class="game-actions"><a class="game-action" href="https://store.steampowered.com/app/2601810/Sunken_Stones/" aria-label="View on Steam: Sunken Stones">View on Steam</a></div>
+            <article class="game-card product-card spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" id="sunken-stones" aria-labelledby="game-sunken-stones">
+                <div class="product-media"><div class="product-logo logo-sea" aria-hidden="true"><span>SS</span></div></div>
+                <h3 id="game-sunken-stones" class="mt-4 text-base font-bold uppercase tracking-[0.16em] text-white">Sunken Stones</h3>
+                <p class="mt-4 text-xs italic leading-6 text-white/60">A turn-based strategy puzzler where you maneuver a pirate crew around a compact grid and plan each move.</p>
+                <div class="product-tags"><span class="directory-stage">Released</span><span class="product-tag">Steam</span></div>
+                <p class="product-connection">Spritewrench</p>
+                <div class="game-actions"><a class="game-action focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="https://store.steampowered.com/app/2601810/Sunken_Stones/" aria-label="View on Steam: Sunken Stones">View on Steam</a></div>
+                <div class="product-region">
+                    <span class="product-region-label">Region</span>
+                    <span class="product-region-value"><img class="region-flag" src="assets/flags/jm.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="product-region-name">Jamaica</span></span>
+                </div>
             </article>
-            <article class="game-card" id="socks" aria-labelledby="game-socks">
-                <div class="game-badges"><span class="game-badge">Released</span><span class="game-badge platform">Steam</span></div>
-                <h3 id="game-socks">Socks!</h3>
-                <p class="game-byline">Twindie Games (published by Accent Game Studios) · Trinidad and Tobago</p>
-                <p class="game-description">Pair socks and combine bundles before your basket fills in this physics-based puzzle game.</p>
-                <div class="game-actions"><a class="game-action" href="https://store.steampowered.com/app/4299760/" aria-label="View on Steam: Socks!">View on Steam</a></div>
+            <article class="game-card product-card spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" id="socks" aria-labelledby="game-socks">
+                <div class="product-media"><div class="product-logo logo-sea" aria-hidden="true"><span>S</span></div></div>
+                <h3 id="game-socks" class="mt-4 text-base font-bold uppercase tracking-[0.16em] text-white">Socks!</h3>
+                <p class="mt-4 text-xs italic leading-6 text-white/60">Pair socks and combine bundles before your basket fills in this physics-based puzzle game.</p>
+                <div class="product-tags"><span class="directory-stage">Released</span><span class="product-tag">Steam</span></div>
+                <p class="product-connection">Twindie Games (published by Accent Game Studios)</p>
+                <div class="game-actions"><a class="game-action focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="https://store.steampowered.com/app/4299760/" aria-label="View on Steam: Socks!">View on Steam</a></div>
+                <div class="product-region">
+                    <span class="product-region-label">Region</span>
+                    <span class="product-region-value"><img class="region-flag" src="assets/flags/tt.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="product-region-name">Trinidad and Tobago</span></span>
+                </div>
             </article>
-            <article class="game-card" id="the-bunny-graveyard" aria-labelledby="game-the-bunny-graveyard">
-                <div class="game-badges"><span class="game-badge">Released</span><span class="game-badge platform">Steam</span></div>
-                <h3 id="game-the-bunny-graveyard">The Bunny Graveyard</h3>
-                <p class="game-byline">Pichon Games · Puerto Rico</p>
-                <p class="game-description">A pixel-art horror adventure about a bunny searching for the truth behind her world.</p>
-                <div class="game-actions"><a class="game-action" href="https://store.steampowered.com/app/1892420/" aria-label="View on Steam: The Bunny Graveyard">View on Steam</a></div>
+            <article class="game-card product-card spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" id="the-bunny-graveyard" aria-labelledby="game-the-bunny-graveyard">
+                <div class="product-media"><div class="product-logo logo-sea" aria-hidden="true"><span>TB</span></div></div>
+                <h3 id="game-the-bunny-graveyard" class="mt-4 text-base font-bold uppercase tracking-[0.16em] text-white">The Bunny Graveyard</h3>
+                <p class="mt-4 text-xs italic leading-6 text-white/60">A pixel-art horror adventure about a bunny searching for the truth behind her world.</p>
+                <div class="product-tags"><span class="directory-stage">Released</span><span class="product-tag">Steam</span></div>
+                <p class="product-connection">Pichon Games</p>
+                <div class="game-actions"><a class="game-action focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="https://store.steampowered.com/app/1892420/" aria-label="View on Steam: The Bunny Graveyard">View on Steam</a></div>
+                <div class="product-region">
+                    <span class="product-region-label">Region</span>
+                    <span class="product-region-value"><img class="region-flag" src="assets/flags/pr.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="product-region-name">Puerto Rico</span></span>
+                </div>
             </article>
-            <article class="game-card" id="the-beaver-hero" aria-labelledby="game-the-beaver-hero">
-                <div class="game-badges"><span class="game-badge">Released</span><span class="game-badge platform">itch.io</span></div>
-                <h3 id="game-the-beaver-hero">The Beaver Hero Full Edition</h3>
-                <p class="game-byline">Platano Team · Puerto Rico</p>
-                <p class="game-description">Repair a dam across 36 arcade levels. The itch.io page offers Android and labels its Windows version Early Access.</p>
-                <div class="game-actions"><a class="game-action" href="https://platanoteam.itch.io/the-beaver-hero-full-edition" aria-label="View on itch.io: The Beaver Hero Full Edition">View on itch.io</a></div>
+            <article class="game-card product-card spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" id="the-beaver-hero" aria-labelledby="game-the-beaver-hero">
+                <div class="product-media"><div class="product-logo logo-sea" aria-hidden="true"><span>TB</span></div></div>
+                <h3 id="game-the-beaver-hero" class="mt-4 text-base font-bold uppercase tracking-[0.16em] text-white">The Beaver Hero Full Edition</h3>
+                <p class="mt-4 text-xs italic leading-6 text-white/60">Repair a dam across 36 arcade levels. The itch.io page offers Android and labels its Windows version Early Access.</p>
+                <div class="product-tags"><span class="directory-stage">Released</span><span class="product-tag">itch.io</span></div>
+                <p class="product-connection">Platano Team</p>
+                <div class="game-actions"><a class="game-action focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="https://platanoteam.itch.io/the-beaver-hero-full-edition" aria-label="View on itch.io: The Beaver Hero Full Edition">View on itch.io</a></div>
+                <div class="product-region">
+                    <span class="product-region-label">Region</span>
+                    <span class="product-region-value"><img class="region-flag" src="assets/flags/pr.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="product-region-name">Puerto Rico</span></span>
+                </div>
             </article>
-            <article class="game-card" id="ramajay-riddim-rabbit" aria-labelledby="game-ramajay-riddim-rabbit">
-                <div class="game-badges"><span class="game-badge">Early access</span><span class="game-badge platform">Steam</span></div>
-                <h3 id="game-ramajay-riddim-rabbit">Ramajay! Riddim Rabbit</h3>
-                <p class="game-byline">Accent Game Studios · Trinidad and Tobago</p>
-                <p class="game-description">Lead a rabbit band and play original steelpan tracks in a rhythm game inspired by Caribbean music.</p>
-                <div class="game-actions"><a class="game-action" href="https://store.steampowered.com/app/4676580/" aria-label="View Early Access on Steam: Ramajay! Riddim Rabbit">View Early Access on Steam</a></div>
+            <article class="game-card product-card spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" id="ramajay-riddim-rabbit" aria-labelledby="game-ramajay-riddim-rabbit">
+                <div class="product-media"><div class="product-logo logo-sea" aria-hidden="true"><span>RR</span></div></div>
+                <h3 id="game-ramajay-riddim-rabbit" class="mt-4 text-base font-bold uppercase tracking-[0.16em] text-white">Ramajay! Riddim Rabbit</h3>
+                <p class="mt-4 text-xs italic leading-6 text-white/60">Lead a rabbit band and play original steelpan tracks in a rhythm game inspired by Caribbean music.</p>
+                <div class="product-tags"><span class="directory-stage">Early access</span><span class="product-tag">Steam</span></div>
+                <p class="product-connection">Accent Game Studios</p>
+                <div class="game-actions"><a class="game-action focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="https://store.steampowered.com/app/4676580/" aria-label="View Early Access on Steam: Ramajay! Riddim Rabbit">View Early Access on Steam</a></div>
+                <div class="product-region">
+                    <span class="product-region-label">Region</span>
+                    <span class="product-region-value"><img class="region-flag" src="assets/flags/tt.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="product-region-name">Trinidad and Tobago</span></span>
+                </div>
             </article>
-            <article class="game-card" id="aliens-in-paradise" aria-labelledby="game-aliens-in-paradise">
-                <div class="game-badges"><span class="game-badge">Coming soon</span><span class="game-badge platform">Steam</span></div>
-                <h3 id="game-aliens-in-paradise">Aliens In Paradise</h3>
-                <p class="game-byline">CyberFOX Game Studio · The Bahamas</p>
-                <p class="game-description">An arcade-style shoot ’em up about an alien invasion of The Bahamas. A public release isn’t available yet.</p>
-                <div class="game-actions"><a class="game-action" href="https://store.steampowered.com/app/1510250/Aliens_In_Paradise/" aria-label="View wishlist page on Steam: Aliens In Paradise">View wishlist page on Steam</a></div>
+            <article class="game-card product-card spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" id="aliens-in-paradise" aria-labelledby="game-aliens-in-paradise">
+                <div class="product-media"><div class="product-logo logo-sea" aria-hidden="true"><span>AI</span></div></div>
+                <h3 id="game-aliens-in-paradise" class="mt-4 text-base font-bold uppercase tracking-[0.16em] text-white">Aliens In Paradise</h3>
+                <p class="mt-4 text-xs italic leading-6 text-white/60">An arcade-style shoot ’em up about an alien invasion of The Bahamas. A public release isn’t available yet.</p>
+                <div class="product-tags"><span class="directory-stage">Coming soon</span><span class="product-tag">Steam</span></div>
+                <p class="product-connection">CyberFOX Game Studio</p>
+                <div class="game-actions"><a class="game-action focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="https://store.steampowered.com/app/1510250/Aliens_In_Paradise/" aria-label="View wishlist page on Steam: Aliens In Paradise">View wishlist page on Steam</a></div>
+                <div class="product-region">
+                    <span class="product-region-label">Region</span>
+                    <span class="product-region-value"><img class="region-flag" src="assets/flags/bs.png" alt="" aria-hidden="true" width="24" height="16" decoding="async"/><span class="product-region-name">The Bahamas</span></span>
+                </div>
             </article>
             <!-- GAME_CARDS_END -->
         </div>
-        <p class="games-note">This is a curated list for discovery, not a ranking or marketplace. A game’s Caribbean setting alone does not qualify it for this section.<br/><a href="mailto:hello@caribbeansaas.com?subject=Caribbean-made%20game%20suggestion">Suggest a game</a></p>
+        <p class="games-note mx-auto max-w-2xl text-center text-xs leading-6 text-white/50">This is a curated list for discovery, not a ranking or marketplace. A game’s Caribbean setting alone does not qualify it for this section.<br/><a class="focus-ring inline-flex items-center text-sea hover:text-white" href="mailto:hello@caribbeansaas.com?subject=Caribbean-made%20game%20suggestion">Suggest a game</a></p>
     </section>
+    <footer class="flex w-full max-w-3xl flex-col items-center gap-3 border-t border-white/10 pb-12 pt-10 text-center">
+        <a class="brand-wordmark focus-ring text-[11px] font-bold uppercase" href="/" aria-label="CaribbeanSaaS home"><span class="brand-wordmark-primary">Caribbean</span><span class="brand-wordmark-accent">SaaS</span></a>
+        <p class="text-xs leading-6 text-white/45">Part of CaribbeanSaaS. Games are listed separately from business software.</p>
+    </footer>
 </main>
-<footer class="games-footer">
-    <div class="games-wrap">Part of <a class="games-brand" href="/">Caribbean<span>SaaS</span></a>. Games are listed separately from business software.</div>
-</footer>
 </body>
 </html>

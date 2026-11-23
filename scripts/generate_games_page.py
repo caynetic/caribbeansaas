@@ -5,7 +5,7 @@ from pathlib import Path
 import re
 from urllib.parse import urlsplit
 
-from directory_catalog import replace_between
+from directory_catalog import flag, replace_between
 
 ROOT = Path(__file__).resolve().parents[1]
 STATUSES = {"released": "Released", "early-access": "Early access", "demo": "Playable demo", "coming-soon": "Coming soon"}
@@ -54,19 +54,27 @@ def load_games():
 
 def card(game):
     title = escape(game["name"])
+    initials = escape("".join(word[0] for word in game["name"].split()[:2]).upper())
     links = game["links"]
     platforms = list(dict.fromkeys(link["platform"] for link in links))
-    badges = "".join(f'<span class="game-badge platform">{escape(platform)}</span>' for platform in platforms)
+    tags = "".join(f'<span class="product-tag">{escape(platform)}</span>' for platform in platforms)
     actions = "".join(
-        f'<a class="game-action" href="{escape(link["url"], quote=True)}" aria-label="{escape(link["label"], quote=True)}: {title}">{escape(link["label"])}</a>'
+        f'<a class="game-action focus-ring mt-1 inline-flex items-center justify-center border border-outline px-6 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-all duration-300 hover:border-sea hover:text-sea" href="{escape(link["url"], quote=True)}" aria-label="{escape(link["label"], quote=True)}: {title}">{escape(link["label"])}</a>'
         for link in links
     )
-    return f'''            <article class="game-card" id="{game["id"]}" aria-labelledby="game-{game["id"]}">
-                <div class="game-badges"><span class="game-badge">{STATUSES[game["status"]]}</span>{badges}</div>
-                <h3 id="game-{game["id"]}">{title}</h3>
-                <p class="game-byline">{escape(game["developer"])} · {escape(game["origin"])}</p>
-                <p class="game-description">{escape(game["description"])}</p>
+    origin = game["origin"]
+    origin_flag = flag("Bahamas" if origin == "The Bahamas" else origin)
+    return f'''            <article class="game-card product-card spectral-overlay p-6 text-center transition-all duration-500 hover:border-sea/40" id="{game["id"]}" aria-labelledby="game-{game["id"]}">
+                <div class="product-media"><div class="product-logo logo-sea" aria-hidden="true"><span>{initials}</span></div></div>
+                <h3 id="game-{game["id"]}" class="mt-4 text-base font-bold uppercase tracking-[0.16em] text-white">{title}</h3>
+                <p class="mt-4 text-xs italic leading-6 text-white/60">{escape(game["description"])}</p>
+                <div class="product-tags"><span class="directory-stage">{STATUSES[game["status"]]}</span>{tags}</div>
+                <p class="product-connection">{escape(game["developer"])}</p>
                 <div class="game-actions">{actions}</div>
+                <div class="product-region">
+                    <span class="product-region-label">Region</span>
+                    <span class="product-region-value">{origin_flag}<span class="product-region-name">{escape(origin)}</span></span>
+                </div>
             </article>'''
 
 
