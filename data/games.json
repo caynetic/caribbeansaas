@@ -167,21 +167,21 @@
       "name": "Hold Ya Man",
       "developer": "Caynetic Ltd.",
       "origin": "The Bahamas",
-      "originSource": "https://testflight.apple.com/join/fCUA3ZHA",
-      "status": "testflight-beta",
-      "description": "A Bahamian dominoes game. The iOS preview is available through Apple TestFlight, not the App Store.",
+      "originSource": "https://caynetic.com/#products",
+      "status": "playable-web",
+      "description": "Play Bahamian dominoes in your browser.",
       "links": [
         {
-          "platform": "iOS",
-          "label": "View beta in TestFlight",
-          "url": "https://testflight.apple.com/join/fCUA3ZHA"
+          "platform": "Web",
+          "label": "Play in browser",
+          "url": "https://holdyaman.com/"
         }
       ],
       "icon": {
         "kind": "app-icon",
         "width": 192,
         "height": 192,
-        "sourcePage": "https://testflight.apple.com/join/fCUA3ZHA"
+        "sourcePage": "https://holdyaman.com/"
       }
     }
   ]

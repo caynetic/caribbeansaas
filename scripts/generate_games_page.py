@@ -8,7 +8,7 @@ from urllib.parse import urlsplit
 from directory_catalog import flag, replace_between
 
 ROOT = Path(__file__).resolve().parents[1]
-STATUSES = {"released": "Released", "early-access": "Early access", "demo": "Playable demo", "coming-soon": "Coming soon", "testflight-beta": "TestFlight Beta"}
+STATUSES = {"released": "Released", "early-access": "Early access", "demo": "Playable demo", "coming-soon": "Coming soon", "playable-web": "Playable on web"}
 RECORD_FIELDS = {"id", "name", "developer", "origin", "originSource", "status", "description", "links"}
 FIELD_LENGTHS = {"name": 100, "developer": 110, "origin": 65, "description": 320}
 
